@@ -2,7 +2,6 @@ package Controllers;
 
 import Models.Login;
 import Session.Session;
-import Views.loginview.Loginview;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
