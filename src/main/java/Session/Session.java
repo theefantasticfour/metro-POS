@@ -1,23 +1,31 @@
 package Session;
 
 import Controllers.Logincontroller;
+import Views.MetroIntroPage;
 
 public class Session {
 
     public Session() {
         System.out.println("Session initialized");
-        // welcome screen to be initiated from here
-        // showWelcomeScreen();
-        showLogin();
+        showWelcomeScreen();
+    }
+
+    private void showWelcomeScreen() {
+        new MetroIntroPage(this);
     }
 
     public void showLogin() {
-        Logincontroller logincontroller = new Logincontroller(this);
-        logincontroller.start();
+        // Switch to login screen
+        Logincontroller loginController = new Logincontroller(this);
+        loginController.start();
     }
 
     public void showSuperAdmin() {
-        // call superadmin controller
-        System.out.println("Super admin controller called");
+        System.out.println("Super Admin Controller called.");
+    }
+
+    public void showGeneralLoginPage() {
+        // Switch to general login page
+        System.out.println("Navigating to General Login Page.");
     }
 }
