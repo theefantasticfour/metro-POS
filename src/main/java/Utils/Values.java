@@ -21,9 +21,9 @@ public class Values {
     public static final int LABEL_FONT_SIZE = 36;
 
     // Images
-    public static final String LOGO_ICON = "C:\\Users\\minal\\OneDrive\\Desktop\\metro-POS\\src\\imgs\\metro_logo.png";
-    public static final String WELCOME_ICON = "C:\\Users\\minal\\OneDrive\\Desktop\\metro-POS\\src\\imgs\\welcome.png";
-    public static final String BACKGROUND_ICON = "C:\\Users\\minal\\OneDrive\\Desktop\\metro-POS\\src\\imgs\\bg.png";
+    public static final String LOGO_ICON = "src/imgs/metro_logo.png";
+    public static final String WELCOME_ICON = "src/imgs/welcome.png";
+    public static final String BACKGROUND_ICON = "src/imgs/bg.png";
     public static final String LEFT_GLOGIN_ICON = "imgs/left_image.png";
     public static final String LEFT_ULOGIN_ICON = "imgs/left_background.png";
     public static final String CASHIER_ICON = "imgs/left_image.png";
