@@ -1,7 +1,5 @@
 package Utils;
 
-import java.awt.*;
-
 public class Values {
     // Button Styles
     public static final String BUTTON_COLOR = "#613DE4";
