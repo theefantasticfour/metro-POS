@@ -6,7 +6,7 @@ public class Values {
     // Button Styles
     public static final String BUTTON_COLOR = "#613DE4";
     public static final String BUTTON_HOVER_COLOR = "#5B32D0";
-    public static final String BUTTON_TEXT_COLOR = "white";
+    public static final String BUTTON_TEXT_COLOR = "#FFFFFF";
     public static final String BUTTON_FONT = "Arial";
     public static final int BUTTON_FONT_SIZE = 16;
 
