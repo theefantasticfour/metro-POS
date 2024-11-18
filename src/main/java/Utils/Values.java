@@ -4,6 +4,7 @@ public class Values {
     // Button Styles
     public static final String BUTTON_COLOR = "#613DE4";
     public static final String BUTTON_HOVER_COLOR = "#5B32D0";
+    public static final String BUTTON_BORDER_COLOR = "#D3D3D3.";
     public static final String BUTTON_TEXT_COLOR = "#FFFFFF";
     public static final String BUTTON_FONT = "Arial";
     public static final int BUTTON_FONT_SIZE = 16;
@@ -24,12 +25,12 @@ public class Values {
     public static final String LOGO_ICON = "src/imgs/metro_logo.png";
     public static final String WELCOME_ICON = "src/imgs/welcome.png";
     public static final String BACKGROUND_ICON = "src/imgs/bg.png";
-    public static final String LEFT_GLOGIN_ICON = "imgs/left_image.png";
-    public static final String LEFT_ULOGIN_ICON = "imgs/left_background.png";
-    public static final String CASHIER_ICON = "imgs/left_image.png";
-    public static final String SUPER_ADMIN_ICON = "imgs/left_image.png";
-    public static final String DATA_ENTRY_ICON = "imgs/left_image.png";
-    public static final String BRANCH_MANAGER_ICON = "imgs/left_image.png";
+    public static final String LEFT_GLOGIN_ICON = "src/imgs/left_image.png";
+    public static final String LEFT_ULOGIN_ICON = "src/imgs/left_background.png";
+    public static final String CASHIER_ICON = "src/imgs/cashier.png";
+    public static final String SUPER_ADMIN_ICON = "src/imgs/super_admin.png";
+    public static final String DATA_ENTRY_ICON = "src/imgs/data_entry.png";
+    public static final String BRANCH_MANAGER_ICON = "src/imgs/branch_manager.png";
 
     public static final int LOGO_WIDTH = 100;
     public static final int LOGO_HEIGHT = 70;
