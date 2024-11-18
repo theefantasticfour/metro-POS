@@ -20,8 +20,8 @@ public class Logincontroller {
 
     public void start() {
         ActionListener loginListener = setActionListeners();
-        loginview = new Loginview(loginListener);
-        loginmodel = new Login();
+        loginview = new Loginview(loginListener); // gui
+        loginmodel = new Login(); // db
     }
 
     public ActionListener setActionListeners() {
