@@ -25,13 +25,13 @@ public class Loginview extends JFrame {
 
     public void inIt() {
         this.setTitle("Login");
-        this.setSize(300, 200);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH); // Make the JFrame fill the screen
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        cl = new CardLayout();
-        this.setLayout(cl);
-        this.showGeneralPanel();
+        this.setLayout(new CardLayout()); // Initialize the CardLayout
+        this.showGeneralPanel(); // Show the general panel
         this.setVisible(true);
     }
+
 
 
     // ------- Navigation usage --------
