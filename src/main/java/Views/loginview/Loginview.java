@@ -18,6 +18,7 @@ public class Loginview extends JFrame {
     private String typeOfUser;
 
     public Loginview(ActionListener loginListener) {
+        dispose();
         this.loginListener = loginListener;
         inIt(); // set the frame in the init method
     }

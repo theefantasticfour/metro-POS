@@ -1,7 +1,8 @@
 package Session;
 
 import Controllers.Logincontroller;
-import Views.MetroIntroPage;
+import Controllers.Welcomecontroller;
+import Views.Welcomeview.Welcomeview;
 
 public class Session {
 
@@ -11,7 +12,8 @@ public class Session {
     }
 
     private void showWelcomeScreen() {
-        new MetroIntroPage(this);
+        Welcomecontroller welcomecontroller = new Welcomecontroller(this);
+        welcomecontroller.start();
     }
 
     public void showLogin() {
@@ -23,9 +25,9 @@ public class Session {
     public void showSuperAdmin() {
         System.out.println("Super Admin Controller called.");
     }
-
-    public void showGeneralLoginPage() {
-        // Switch to general login page
-        System.out.println("Navigating to General Login Page.");
-    }
+//    show login has been implemented
+//    public void showGeneralLoginPage() {
+//        // Switch to general login page
+//        System.out.println("Navigating to General Login Page.");
+//    }
 }

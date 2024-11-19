@@ -41,7 +41,10 @@ public class GeneralLoginPanel extends JPanel {
 
     // Action listener for the 4 buttons
     public ActionListener getGeneralLoginListener() {
-        ActionListener generalLoginListener = new ActionListener() {
+        // show the login template panel for teacher
+        // show the login template panel for admin
+        // show the login template panel for parent
+        return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String type = "";
@@ -61,7 +64,6 @@ public class GeneralLoginPanel extends JPanel {
 
             }
         };
-        return generalLoginListener;
     }
 }
 
