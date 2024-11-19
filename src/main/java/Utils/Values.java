@@ -3,6 +3,7 @@ package Utils;
 public class Values {
     // Button Styles
     public static final String BUTTON_COLOR = "#613DE4";
+    public static final String BUTTON_GCOLOR = "#A3A5EB";
     public static final String BUTTON_HOVER_COLOR = "#5B32D0";
     public static final String BUTTON_BORDER_COLOR = "#D3D3D3.";
     public static final String BUTTON_TEXT_COLOR = "#FFFFFF";
