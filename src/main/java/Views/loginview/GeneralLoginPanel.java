@@ -32,31 +32,7 @@ public class GeneralLoginPanel extends JPanel {
     }
 
     // Action listener for the 4 buttons
-    public ActionListener getGeneralLoginListener() {
-        // show the login template panel for teacher
-        // show the login template panel for admin
-        // show the login template panel for parent
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String type = "";
-                if (e.getSource() == student) {
-                    type = "Student";
-                } else if (e.getSource() == teacher) {
-                    // show the login template panel for teacher
-                    type = "Teacher";
-                } else if (e.getSource() == admin) {
-                    // show the login template panel for admin
-                    type = "Admin";
-                } else if (e.getSource() == parent) {
-                    // show the login template panel for parent
-                    type = "Parent";
-                }
-                loginview.ShowTemplatePanel(type);
 
-            }
-        };
-    }
 }
 
 
