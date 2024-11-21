@@ -73,7 +73,7 @@ public class GeneralLoginPage {
     private void addUserButton(JPanel panel, String userType, String iconPath, Loginview parentView) {
         // Using CustomButtonWithImg
         CustomButtonWithImg button = new CustomButtonWithImg(userType, iconPath);
-        button.addActionListener(e -> parentView.ShowTemplatePanel(userType));
+        button.addActionListener(e -> parentView.ShowTemplatePanel(userType, iconPath));
         panel.add(button);
     }
 
