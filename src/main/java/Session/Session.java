@@ -1,6 +1,7 @@
 package Session;
 
 import Controllers.Logincontroller;
+import Controllers.SuperAdminController;
 import Controllers.Welcomecontroller;
 import Views.Mainscreen;
 import Views.Welcomeview.Welcomeview;
@@ -28,10 +29,7 @@ public class Session {
 
     public void showSuperAdmin() {
         System.out.println("Super Admin Controller called.");
+        SuperAdminController superAdminController = new SuperAdminController();
+        superAdminController.start();
     }
-//    show login has been implemented
-//    public void showGeneralLoginPage() {
-//        // Switch to general login page
-//        System.out.println("Navigating to General Login Page.");
-//    }
 }
