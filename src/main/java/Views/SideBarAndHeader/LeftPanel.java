@@ -1,6 +1,7 @@
 package Views.SideBarAndHeader;
 
 import Utils.Values;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -9,6 +10,7 @@ import java.util.List;
 public class LeftPanel extends JPanel {
     private JPanel buttonPanel;
     private JLabel logoLabel;
+    private JButton selectedButton; // To keep track of the active button
 
     // Constructor to accept logo and button details dynamically
     public LeftPanel(String logoPath, List<MenuItem> menuItems, ActionListener actionListener) {
@@ -40,7 +42,19 @@ public class LeftPanel extends JPanel {
         // Add each menu item as a button
         for (MenuItem item : menuItems) {
             JButton button = createButton(item.getLabel(), item.getIconPath(), 40, 40);
-            button.addActionListener(actionListener);
+            button.addActionListener(e -> {
+                // Reset previous button color
+                if (selectedButton != null) {
+                    selectedButton.setBackground(Color.decode(Values.BUTTON_COLOR)); // Default button color
+                }
+
+                // Set the newly selected button color
+                selectedButton = (JButton) e.getSource();
+                selectedButton.setBackground(Color.decode(Values.BUTTON_SELECTED_COLOR)); // Highlight color
+
+                // Trigger the provided action
+                actionListener.actionPerformed(e);
+            });
             button.setAlignmentX(Component.CENTER_ALIGNMENT); // Ensure alignment in a straight vertical line
             button.setMaximumSize(new Dimension(240, 50)); // Consistent button size
             buttonPanel.add(button);
@@ -73,7 +87,7 @@ public class LeftPanel extends JPanel {
 
         button.setHorizontalAlignment(SwingConstants.LEFT); // Align icon and text
         button.setIconTextGap(10); // Space between icon and text
-        button.setBackground(Color.decode(Values.BUTTON_COLOR)); // Button color
+        button.setBackground(Color.decode(Values.BUTTON_COLOR)); // Default button color
         button.setFocusPainted(false);
         button.setBorder(BorderFactory.createLineBorder(Color.decode(Values.BG_COLOR))); // Border color
         button.setPreferredSize(new Dimension(getPreferredSize().width, 50)); // Set button width to match left panel

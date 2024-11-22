@@ -22,7 +22,7 @@ public class Logincontroller {
     public void start() {
         ActionListener loginListener = setActionListeners();
         Mainscreen.getInstance().showLogin(loginListener);
-        //loginview = new Loginview(loginListener); // gui
+        loginview = new Loginview(loginListener); // gui
         loginmodel = new Login(); // db
     }
 
@@ -37,7 +37,7 @@ public class Logincontroller {
                 loginmodel.setPassword(loginview.Getpassword());
                 if (loginmodel.validateUser()) {
                     session.showSuperAdmin();
-                    JOptionPane.showMessageDialog(null, loginview.Getusername() + " validated");
+                    //JOptionPane.showMessageDialog(null, loginview.Getusername() + " validated");
 
                 } else {
                     JOptionPane.showMessageDialog(null, loginview.Getusername() + " Not validated Enter correct username and password");

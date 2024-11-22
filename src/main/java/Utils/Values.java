@@ -8,6 +8,7 @@ public class Values {
     public static final String TEXT_COLOR = "#613DE4"; // Blue
 
     // Color Constants
+    public static final String BUTTON_SELECTED_COLOR = "#613DE4"; // Selected button color
     public static final String LEFT_PANEL_BG_COLOR = "#F8F8FF"; // Soft Gray
     public static final String BUTTON_COLOR = "#613DE4"; // Blue
     public static final String BUTTON_GCOLOR = "#A3A5EB"; // Mauve

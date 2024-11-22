@@ -18,7 +18,7 @@ public class RightPanelHeader extends JPanel {
 
         // Add label
         JLabel titleLabel = new JLabel(labelText);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 30)); // Font size
+        titleLabel.setFont(new Font(Values.LABEL_FONT, Font.BOLD, 30)); // Font size
         titleLabel.setForeground(Color.decode(Values.TEXT_COLOR)); // Text color
 
         // Add icon and label to the header panel

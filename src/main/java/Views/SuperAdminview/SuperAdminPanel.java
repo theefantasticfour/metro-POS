@@ -46,7 +46,7 @@ public class SuperAdminPanel extends JPanel {
 
 
         // Initialize Right Panel Header with icon and label
-        rightPanelHeader = new RightPanelHeader(Values.SUPER_ADMIN_ICON, "Super Admin Dashboard Opens");
+        rightPanelHeader = new RightPanelHeader(Values.SUPER_ADMIN_ICON, "Super Admin Dashboard ");
 
 
         contentPanel = new JPanel();
@@ -56,6 +56,8 @@ public class SuperAdminPanel extends JPanel {
         // Add Left Panel and Right Panel Header to the main panel
         add(leftPanel, BorderLayout.WEST);
         add(createRightPanel(), BorderLayout.CENTER);
+
+        openCreateBranchForm();
     }
 
 
@@ -78,7 +80,7 @@ public class SuperAdminPanel extends JPanel {
 
         // Create an instance of CreateBranch and call its display method
         CreateBranch createBranchForm = new CreateBranch();
-        createBranchForm.display(this); // Pass the current panel context (assuming `this` is your main SuperAdminPanel)
+        createBranchForm.display(this);
 
         // Revalidate and repaint to apply changes
         contentPanel.revalidate();

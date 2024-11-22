@@ -2,6 +2,7 @@ package Views;
 
 import Controllers.Logincontroller;
 import Session.Session;
+import Views.SuperAdminview.SuperAdminPanel;
 import Views.Welcomeview.Welcomeview;
 import Views.loginview.Loginview;
 
@@ -52,6 +53,12 @@ public class Mainscreen extends JFrame {
     }
 
     public void showSuperAdmin() {
+        SuperAdminPanel mainPanel = new SuperAdminPanel();
+        this.add(mainPanel, "SuperAdmin");
+        c1.show(this.getContentPane(), "SuperAdmin");
+
+        System.out.println("SuperAdminPanel displayed.");
     }
+
 }
 
