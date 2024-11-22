@@ -51,5 +51,7 @@ public class Mainscreen extends JFrame {
         return c1;
     }
 
+    public void showSuperAdmin() {
+    }
 }
 

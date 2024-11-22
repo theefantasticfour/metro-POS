@@ -12,7 +12,6 @@ public class Session {
         System.out.println("Session initialized");
         showWelcomeScreen();
         Mainscreen mainscreen = Mainscreen.getInstance();
-        System.out.println("Reached here");
 
     }
 

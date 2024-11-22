@@ -1,4 +1,7 @@
 package Views.SuperAdminview;
 
-public class SuperAdminView {
+import javax.swing.*;
+
+public class SuperAdminView extends JPanel {
+
 }
