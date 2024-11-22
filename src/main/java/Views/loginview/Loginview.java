@@ -41,7 +41,6 @@ public class Loginview extends JPanel {
 
     // Show the GeneralLoginPanel
     public void showGeneralPanel() {
-        System.out.println("Reached here 2");
 
         // Ensure the GeneralLoginPanel is displayed
         CardLayout cl = (CardLayout) this.getLayout();

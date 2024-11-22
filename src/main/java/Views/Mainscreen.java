@@ -10,7 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class Mainscreen extends JFrame {
-    static Mainscreen instance; // singelton
+    static Mainscreen instance; // singleton class
     Session sessionInstance;
     CardLayout c1;
     Loginview loginview;
@@ -24,21 +24,13 @@ public class Mainscreen extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
     }
-    public CardLayout getLayout() {
-        return c1;
-    }
+
     public void showWelcomeScreen(Session sessionInstance) {
         if (welcomeview == null) {
             welcomeview = new Welcomeview(sessionInstance);
             this.add(welcomeview, "Welcome");
         }
         c1.show(this.getContentPane(), "Welcome");
-    }
-    public static Mainscreen getInstance() {
-        if (instance == null) {
-            instance = new Mainscreen();
-        }
-        return instance;
     }
     public void showLogin(ActionListener loginListener) {
         if (loginview == null) {
@@ -48,5 +40,16 @@ public class Mainscreen extends JFrame {
         System.out.println("Reached here1");
         c1.show(this.getContentPane(), "Login");
     }
+   // getters
+    public static Mainscreen getInstance() {
+        if (instance == null) {
+            instance = new Mainscreen();
+        }
+        return instance;
+    }
+    public CardLayout getLayout() {
+        return c1;
+    }
+
 }
 
