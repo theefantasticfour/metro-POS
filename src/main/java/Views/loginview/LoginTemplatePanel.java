@@ -7,6 +7,8 @@ import Views.Components.CustomPasswordField;  // Import the CustomPasswordField
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class LoginTemplatePanel extends JPanel {
     String type;
@@ -17,6 +19,7 @@ public class LoginTemplatePanel extends JPanel {
     private CustomTextField usernameField;  // Use CustomTextField
     private CustomPasswordField passwordField;   // Use CustomPasswordField for password
     private String iconPath;  // Store the iconPath
+    private JSplitPane splitPane; // Declare the split pane for dynamic adjustment
 
     public LoginTemplatePanel(String type, ActionListener loginListener, String iconPath) {
         this.loginListener = loginListener;
@@ -127,13 +130,34 @@ public class LoginTemplatePanel extends JPanel {
         rightPanel.add(login);
 
         // JSplitPane for splitting the layout
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
-        splitPane.setDividerLocation(750);
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
         splitPane.setDividerSize(0);
-        splitPane.setResizeWeight(0.3);
+        splitPane.setResizeWeight(0.5); // This makes the division dynamic
         splitPane.setBorder(null);
 
         this.add(splitPane, BorderLayout.CENTER);
+
+        // Listen for resizing events to adjust the split divider dynamically
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                adjustSplitPaneDivider();
+            }
+        });
+
+        // Initial divider adjustment
+        adjustSplitPaneDivider();
+    }
+
+    private void adjustSplitPaneDivider() {
+        // Get the screen width
+        int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
+
+        // Set divider location to half the screen width
+        int dividerLocation = screenWidth / 2;
+
+        // Adjust divider location dynamically
+        splitPane.setDividerLocation(dividerLocation);
     }
 
     // ----- getters -----
