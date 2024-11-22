@@ -1,54 +1,70 @@
 package Views.loginview;
 
+import Views.Mainscreen;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-// Login view is the J frame
-// it has 2 panels
+// Loginview is the main panel
+// It contains two panels:
 // 1. GeneralLoginPanel
 // 2. LoginTemplatePanel
-// GeneralLoginPanel has 4 buttons for 4 types of users
-// LoginTemplatePanel is the general login panel for all the users
-public class Loginview extends JFrame {
-    CardLayout cl;
-    GeneralLoginPanel generalLoginPanel;
-    LoginTemplatePanel loginTemplate;
-    ActionListener loginListener; // will be used by Login template login button
+// GeneralLoginPanel has 4 buttons for different types of users.
+// LoginTemplatePanel is used for specific login forms for all user types.
+public class Loginview extends JPanel {
+    private GeneralLoginPanel generalLoginPanel;
+    private LoginTemplatePanel loginTemplate;
+    private final ActionListener loginListener; // Used by LoginTemplatePanel login button
     private String typeOfUser;
 
     public Loginview(ActionListener loginListener) {
-        dispose();
         this.loginListener = loginListener;
-        inIt(); // set the frame in the init method
+        inIt(); // Initialize the panels
     }
 
     public void inIt() {
-        this.setTitle("Login");
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH); // Make the JFrame fill the screen
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // Set layout to CardLayout for easy switching
+        this.setLayout(new CardLayout());
 
-        // Initialize the CardLayout and save reference to it
-        cl = new CardLayout();
-        this.setLayout(cl); // Set the layout of the frame to CardLayout
-        this.showGeneralPanel(); // Show the general panel
-        this.setVisible(true);
-    }
-
-    // ------- Navigation usage --------
-    public void showGeneralPanel() {
+        // Initialize the GeneralLoginPanel
         generalLoginPanel = new GeneralLoginPanel(this);
         this.add(generalLoginPanel, "General");
+
+        // Initialize an empty placeholder for LoginTemplatePanel
+        loginTemplate = new LoginTemplatePanel("", loginListener, "");
+        this.add(loginTemplate, "Template");
+
+        // Show the GeneralLoginPanel by default
+        showGeneralPanel();
     }
 
+    // Show the GeneralLoginPanel
+    public void showGeneralPanel() {
+        System.out.println("Reached here 2");
+
+        // Ensure the GeneralLoginPanel is displayed
+        CardLayout cl = (CardLayout) this.getLayout();
+        cl.show(this, "General");
+    }
+
+    // Show the LoginTemplatePanel
     public void ShowTemplatePanel(String userType, String iconPath) {
         this.typeOfUser = userType;
-        loginTemplate = new LoginTemplatePanel(userType, loginListener, iconPath);  // Pass the iconPath too
+
+        // Remove the existing login template
+        this.remove(loginTemplate);
+
+        // Recreate the LoginTemplatePanel with the updated user type and icon
+        loginTemplate = new LoginTemplatePanel(userType, loginListener, iconPath);
         this.add(loginTemplate, "Template");
-        cl.show(this.getContentPane(), "Template"); // Use the initialized CardLayout to switch panels
+
+        // Switch to the LoginTemplatePanel
+        CardLayout cl = (CardLayout) this.getLayout();
+        cl.show(this, "Template");
     }
 
-    //  ----- getters ------
+    // ----- Getters -----
     public String getTypeOfUser() {
         return this.typeOfUser;
     }

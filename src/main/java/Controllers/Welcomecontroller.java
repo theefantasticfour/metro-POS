@@ -2,6 +2,7 @@ package Controllers;
 
 import Models.Welcome;
 import Session.Session;
+import Views.Mainscreen;
 import Views.Welcomeview.Welcomeview;
 
 import java.awt.event.ActionEvent;
@@ -19,8 +20,8 @@ public class Welcomecontroller {
     }
     public void start()
     {
-
-        welcomeView = new Welcomeview(instance);
+        Mainscreen.getInstance().showWelcomeScreen(instance);
+        //welcomeView = new Welcomeview(instance);
         welcomeModel = new Welcome();
 
     }

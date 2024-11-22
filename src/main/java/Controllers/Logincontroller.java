@@ -2,6 +2,7 @@ package Controllers;
 
 import Models.Login;
 import Session.Session;
+import Views.Mainscreen;
 import Views.loginview.Loginview;
 
 import javax.swing.*;
@@ -20,13 +21,15 @@ public class Logincontroller {
 
     public void start() {
         ActionListener loginListener = setActionListeners();
-        loginview = new Loginview(loginListener); // gui
+        Mainscreen.getInstance().showLogin(loginListener);
+        //loginview = new Loginview(loginListener); // gui
         loginmodel = new Login(); // db
     }
 
     public ActionListener setActionListeners() {
         // set action listner for login button for all the users
-        ActionListener loginListener = new ActionListener() {
+
+        return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 loginmodel.setTypeOfUser(loginview.getTypeOfUser());
@@ -41,8 +44,6 @@ public class Logincontroller {
                 }
             }
         };
-
-        return loginListener;
     }
 }
 
