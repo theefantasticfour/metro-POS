@@ -22,49 +22,17 @@ public class GeneralLoginPanel extends JPanel {
 
     public void inIt() {
         // create GUI here
-        this.setLayout(new GridLayout(4, 1));
-        student = new JButton("Student");
-        teacher = new JButton("Teacher");
-        admin = new JButton("Admin");
-        parent = new JButton("Parent");
-        this.add(student);
-        this.add(teacher);
-        this.add(admin);
-        this.add(parent);
-        ActionListener generalLoginListener = getGeneralLoginListener();
-        student.addActionListener(generalLoginListener);
-        teacher.addActionListener(generalLoginListener);
-        admin.addActionListener(generalLoginListener);
-        parent.addActionListener(generalLoginListener);
+        GeneralLoginPage loginPage = new GeneralLoginPage(loginview);
+        JPanel mainPanel = loginPage.getPanel();
+
+        // Add the GeneralLoginPage's GUI to this panel
+        this.setLayout(new BorderLayout());
+        this.add(mainPanel, BorderLayout.CENTER);
         this.setVisible(true);
     }
 
     // Action listener for the 4 buttons
-    public ActionListener getGeneralLoginListener() {
-        // show the login template panel for teacher
-        // show the login template panel for admin
-        // show the login template panel for parent
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String type = "";
-                if (e.getSource() == student) {
-                    type = "Student";
-                } else if (e.getSource() == teacher) {
-                    // show the login template panel for teacher
-                    type = "Teacher";
-                } else if (e.getSource() == admin) {
-                    // show the login template panel for admin
-                    type = "Admin";
-                } else if (e.getSource() == parent) {
-                    // show the login template panel for parent
-                    type = "Parent";
-                }
-                loginview.ShowTemplatePanel(type);
 
-            }
-        };
-    }
 }
 
 

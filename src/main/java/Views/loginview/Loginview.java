@@ -25,14 +25,15 @@ public class Loginview extends JFrame {
 
     public void inIt() {
         this.setTitle("Login");
-        this.setSize(300, 200);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH); // Make the JFrame fill the screen
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Initialize the CardLayout and save reference to it
         cl = new CardLayout();
-        this.setLayout(cl);
-        this.showGeneralPanel();
+        this.setLayout(cl); // Set the layout of the frame to CardLayout
+        this.showGeneralPanel(); // Show the general panel
         this.setVisible(true);
     }
-
 
     // ------- Navigation usage --------
     public void showGeneralPanel() {
@@ -40,11 +41,11 @@ public class Loginview extends JFrame {
         this.add(generalLoginPanel, "General");
     }
 
-    public void ShowTemplatePanel(String type) {
-        this.typeOfUser = type;
-        loginTemplate = new LoginTemplatePanel(typeOfUser, loginListener);
+    public void ShowTemplatePanel(String userType, String iconPath) {
+        this.typeOfUser = userType;
+        loginTemplate = new LoginTemplatePanel(userType, loginListener, iconPath);  // Pass the iconPath too
         this.add(loginTemplate, "Template");
-        cl.show(this.getContentPane(), "Template");
+        cl.show(this.getContentPane(), "Template"); // Use the initialized CardLayout to switch panels
     }
 
     //  ----- getters ------
@@ -59,5 +60,4 @@ public class Loginview extends JFrame {
     public String Getpassword() {
         return loginTemplate.getPassword();
     }
-
 }
