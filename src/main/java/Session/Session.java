@@ -2,13 +2,17 @@ package Session;
 
 import Controllers.Logincontroller;
 import Controllers.Welcomecontroller;
+import Views.Mainscreen;
 import Views.Welcomeview.Welcomeview;
 
 public class Session {
-
+    Mainscreen mainscreen;
     public Session() {
         System.out.println("Session initialized");
         showWelcomeScreen();
+        Mainscreen mainscreen = Mainscreen.getInstance();
+        System.out.println("Reached here");
+
     }
 
     private void showWelcomeScreen() {

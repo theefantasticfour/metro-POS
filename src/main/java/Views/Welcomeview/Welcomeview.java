@@ -6,19 +6,14 @@ import javax.swing.*;
 import java.awt.*;
 import Utils.Values;
 
-public class Welcomeview extends JFrame {
+public class Welcomeview extends JPanel {
 
     private final JLayeredPane layeredPane;
 
     public Welcomeview(Session instance) {
-        setTitle(Values.APP_NAME);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setExtendedState(JFrame.MAXIMIZED_BOTH); // Fullscreen mode
         setLayout(new BorderLayout());
-
         layeredPane = new JLayeredPane();
         add(layeredPane, BorderLayout.CENTER);
-        setVisible(true);
         initializeIntroPage(instance);
     }
 
@@ -70,7 +65,7 @@ public class Welcomeview extends JFrame {
 
             // Timer to transition to General Login Page
             Timer timer = new Timer(Values.INTRO_PAGE_DELAY, e -> {
-                dispose(); // Close the intro page
+                // Close the intro page
                 instance.showLogin(); // Transition to login page
             });
             timer.setRepeats(false);
