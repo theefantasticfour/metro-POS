@@ -3,9 +3,12 @@ package Views.loginview;
 import Views.Components.CustomButtonWithImg;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class GeneralLoginPage {
     private JPanel mainPanel;
+    private JSplitPane splitPane;
 
     public GeneralLoginPage(Loginview parentView) {
         // Main Panel
@@ -60,14 +63,35 @@ public class GeneralLoginPage {
         addUserButton(rightPanel, "Data Entry Operator", Utils.Values.DATA_ENTRY_ICON, parentView);
 
         // JSplitPane to divide the panel
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
-        splitPane.setDividerLocation(750);
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
         splitPane.setDividerSize(0);
-        splitPane.setResizeWeight(0.3);
+        splitPane.setResizeWeight(0.5); // This makes the division dynamic
         splitPane.setBorder(null);
 
         // Add split pane to main panel
         mainPanel.add(splitPane, BorderLayout.CENTER);
+
+        // Listen for resizing events to adjust the split divider dynamically
+        mainPanel.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                adjustSplitPaneDivider();
+            }
+        });
+
+        // Initial divider adjustment
+        adjustSplitPaneDivider();
+    }
+
+    private void adjustSplitPaneDivider() {
+        // Get the screen width
+        int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
+
+        // Set divider location to half the screen width
+        int dividerLocation = screenWidth / 2;
+
+        // Adjust divider location dynamically
+        splitPane.setDividerLocation(dividerLocation);
     }
 
     private void addUserButton(JPanel panel, String userType, String iconPath, Loginview parentView) {
