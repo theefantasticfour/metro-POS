@@ -1,6 +1,7 @@
 package Views.SideBarAndHeader;
 
 import Utils.Values;
+import Session.Session;
 
 import javax.swing.*;
 import java.awt.*;
@@ -62,9 +63,13 @@ public class LeftPanel extends JPanel {
     private void addLogoutButton(ActionListener actionListener) {
         logoutButton = createButton("Logout", Values.LOGOUT_ICON, 40, 40);
 
-        // Temporarily position it; this will be adjusted dynamically later
-        logoutButton.setBounds(30, getHeight() - 70, 240, 50); // Initial position
-        logoutButton.addActionListener(actionListener);
+        // Add action listener to the logout button
+        logoutButton.addActionListener(e -> {
+            //logout to general login page
+        });
+
+
+        logoutButton.setBounds(30, getHeight() - 70, 240, 50);
         add(logoutButton);
     }
 

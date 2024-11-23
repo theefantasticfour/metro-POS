@@ -1,5 +1,6 @@
 package Views.SuperAdminview;
 
+import Session.Session;
 import Utils.Values;
 import Views.SideBarAndHeader.LeftPanel;
 import Views.SideBarAndHeader.RightPanelHeader;
@@ -15,7 +16,7 @@ public class SuperAdminPanel extends JPanel {
     private JPanel contentPanel; // Panel for dynamic content display
 
     public SuperAdminPanel() {
-        // Set layout for the main panel
+
         setLayout(new BorderLayout());
         setBackground(Color.decode(Values.BG_COLOR));
 
@@ -44,10 +45,8 @@ public class SuperAdminPanel extends JPanel {
             }
         });
 
-
         // Initialize Right Panel Header with icon and label
         rightPanelHeader = new RightPanelHeader(Values.SUPER_ADMIN_ICON, "Super Admin Dashboard ");
-
 
         contentPanel = new JPanel();
         contentPanel.setBackground(Color.decode(Values.BG_COLOR)); // Set background color to white
@@ -57,15 +56,14 @@ public class SuperAdminPanel extends JPanel {
         add(leftPanel, BorderLayout.WEST);
         add(createRightPanel(), BorderLayout.CENTER);
 
+        // Initially display the Create Branch form
         openCreateBranchForm();
     }
-
 
     private JPanel createRightPanel() {
         JPanel rightPanel = new JPanel();
         rightPanel.setLayout(new BorderLayout());
         rightPanel.setBackground(Color.decode(Values.BG_COLOR)); // Match main panel background
-
 
         rightPanel.add(rightPanelHeader, BorderLayout.NORTH);
         rightPanel.add(contentPanel, BorderLayout.CENTER);
@@ -73,32 +71,16 @@ public class SuperAdminPanel extends JPanel {
         return rightPanel;
     }
 
-    // Example method to handle "Create Branch" menu action
     private void openCreateBranchForm() {
-        // Clear the content panel
-        contentPanel.removeAll();
-
-        // Create an instance of CreateBranch and call its display method
         CreateBranch createBranchForm = new CreateBranch();
         createBranchForm.display(this);
-
-        // Revalidate and repaint to apply changes
-        contentPanel.revalidate();
-        contentPanel.repaint();
     }
 
-
-
-
-    // Example method to handle "Create Branch Manager" menu action
     private void openCreateBranchManagerForm() {
-        contentPanel.removeAll();
-        contentPanel.add(new JLabel("Create Branch Manager Form")); // Replace with actual form panel
-        contentPanel.revalidate();
-        contentPanel.repaint();
+        CreateBranchManager createBranchManagerForm = new CreateBranchManager();
+        createBranchManagerForm.display(this);
     }
 
-    // Example method to handle "View/Update/Delete" menu action
     private void openViewUpdateDeleteForm() {
         contentPanel.removeAll();
         contentPanel.add(new JLabel("View/Update/Delete Form")); // Replace with actual form panel
@@ -106,7 +88,6 @@ public class SuperAdminPanel extends JPanel {
         contentPanel.repaint();
     }
 
-    // Example method to handle "Report" menu action
     private void openReportForm() {
         contentPanel.removeAll();
         contentPanel.add(new JLabel("Report Form")); // Replace with actual form panel
@@ -114,8 +95,16 @@ public class SuperAdminPanel extends JPanel {
         contentPanel.repaint();
     }
 
-    // Getter for the contentPanel
+    // Handle logout action
+    private void handleLogoutAction() {
+        // Logout Logic (this is where you can add your logout logic)
+        JOptionPane.showMessageDialog(this, "Logging out...");
+        // Perform any additional actions here (e.g., redirect to login screen, close the session)
+        System.exit(0); // Exit the application for now (can be replaced with a redirection to login)
+    }
+
     public JPanel getContentPanel() {
         return contentPanel;
     }
 }
+

@@ -15,7 +15,7 @@ public class Session {
 
     }
 
-    private void showWelcomeScreen() {
+    public void showWelcomeScreen() {
         Welcomecontroller welcomecontroller = new Welcomecontroller(this);
         welcomecontroller.start();
     }
