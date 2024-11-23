@@ -20,7 +20,7 @@ public class SuperAdminPanel extends JPanel {
         setBackground(Color.decode(Values.BG_COLOR));
 
         // Initialize Left Panel with dynamic menu items and actions
-        leftPanel = new LeftPanel(Values.LOGO_ICON, Arrays.asList(
+        leftPanel = new LeftPanel(Arrays.asList(
                 new MenuItem("Create Branch", Values.CREATION_ICON),
                 new MenuItem("Create Branch Manager", Values.CREATION_ICON),
                 new MenuItem("View/Update/Delete", Values.VIEW_ICON),

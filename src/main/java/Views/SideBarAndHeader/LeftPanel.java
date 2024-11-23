@@ -5,77 +5,81 @@ import Utils.Values;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.List;
 
 public class LeftPanel extends JPanel {
-    private JPanel buttonPanel;
-    private JLabel logoLabel;
-    private JButton selectedButton; // To keep track of the active button
+    private JButton logoutButton; // Declare logoutButton at the class level for access during resizing
 
-    // Constructor to accept logo and button details dynamically
-    public LeftPanel(String logoPath, List<MenuItem> menuItems, ActionListener actionListener) {
-        setLayout(new BorderLayout());
+    public LeftPanel(List<MenuItem> menuItems, ActionListener actionListener) {
+        setLayout(null); // Using null layout for absolute positioning
         setBackground(Color.decode(Values.LEFT_PANEL_BG_COLOR)); // Left panel background color
-        setPreferredSize(new Dimension(300, 0)); // Fixed width, height adjusts dynamically
+        setPreferredSize(new Dimension(300, 0)); // Fixed width
 
-        // Add Logo
-        addLogo(logoPath);
+        // Add Metro Logo with specific bounds
+        addMetroLogo();
 
-        // Add Menu Buttons
         addButtons(menuItems, actionListener);
+
+        // Add Logout Button at the bottom of the panel
+        addLogoutButton(actionListener);
+
+        // Listen for component resize events to position the Logout button dynamically
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                positionLogoutButton(); // Adjust the logout button's position when resized
+            }
+        });
     }
 
-    // Method to add the logo at the top
-    private void addLogo(String logoPath) {
-        logoLabel = new JLabel(new ImageIcon(new ImageIcon(logoPath)
-                .getImage()
-                .getScaledInstance(Values.LOGO_WIDTH, Values.LOGO_HEIGHT, Image.SCALE_SMOOTH)), SwingConstants.CENTER);
-        logoLabel.setPreferredSize(new Dimension(300, 100)); // Space for the logo
-        add(logoLabel, BorderLayout.NORTH);
+    // Method to add the Metro logo at a fixed position
+    private void addMetroLogo() {
+        ImageIcon logoIcon = new ImageIcon(Utils.Values.LOGO_ICON);
+        Image scaledLogo = logoIcon.getImage().getScaledInstance(Utils.Values.LOGO_WIDTH, Utils.Values.LOGO_HEIGHT, Image.SCALE_SMOOTH);
+        JLabel logoLabel = new JLabel(new ImageIcon(scaledLogo));
+        logoLabel.setBounds(Utils.Values.LOGO_X, Utils.Values.LOGO_Y, Utils.Values.LOGO_WIDTH, Utils.Values.LOGO_HEIGHT); // Specific bounds
+        add(logoLabel);
     }
 
+    // Method to add menu buttons dynamically below the logo
     private void addButtons(List<MenuItem> menuItems, ActionListener actionListener) {
-        buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS)); // Vertical arrangement
-        buttonPanel.setBackground(Color.decode(Values.LEFT_PANEL_BG_COLOR)); // Background color
+        int buttonY = Utils.Values.LOGO_Y + Utils.Values.LOGO_HEIGHT + 30; // Start below the logo
+        int buttonHeight = 50;
+        int buttonSpacing = 10;
 
-        // Add each menu item as a button
         for (MenuItem item : menuItems) {
             JButton button = createButton(item.getLabel(), item.getIconPath(), 40, 40);
-            button.addActionListener(e -> {
-                // Reset previous button color
-                if (selectedButton != null) {
-                    selectedButton.setBackground(Color.decode(Values.BUTTON_COLOR)); // Default button color
-                }
-
-                // Set the newly selected button color
-                selectedButton = (JButton) e.getSource();
-                selectedButton.setBackground(Color.decode(Values.BUTTON_SELECTED_COLOR)); // Highlight color
-
-                // Trigger the provided action
-                actionListener.actionPerformed(e);
-            });
-            button.setAlignmentX(Component.CENTER_ALIGNMENT); // Ensure alignment in a straight vertical line
-            button.setMaximumSize(new Dimension(240, 50)); // Consistent button size
-            buttonPanel.add(button);
-            buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add consistent spacing between buttons
+            button.setBounds(30, buttonY, 240, buttonHeight); // Set bounds manually
+            button.addActionListener(actionListener);
+            add(button);
+            buttonY += buttonHeight + buttonSpacing; // Adjust for spacing
         }
-
-        // Add a vertical glue to ensure the logout button is pushed to the bottom
-        buttonPanel.add(Box.createVerticalGlue());
-
-        // Add the logout button
-        MenuItem logoutItem = new MenuItem("Logout", Values.LOGOUT_ICON);
-        JButton logoutButton = createButton(logoutItem.getLabel(), logoutItem.getIconPath(), 40, 40);
-        logoutButton.addActionListener(actionListener);
-        logoutButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        logoutButton.setMaximumSize(new Dimension(200, 50)); // Same size as other buttons
-        buttonPanel.add(logoutButton);
-
-        add(buttonPanel, BorderLayout.CENTER); // Add button panel to the left panel
     }
 
-    // Method to create a button with icon and label
+    // Method to add the Logout button
+    private void addLogoutButton(ActionListener actionListener) {
+        logoutButton = createButton("Logout", Values.LOGOUT_ICON, 40, 40);
+
+        // Temporarily position it; this will be adjusted dynamically later
+        logoutButton.setBounds(30, getHeight() - 70, 240, 50); // Initial position
+        logoutButton.addActionListener(actionListener);
+        add(logoutButton);
+    }
+
+    // Dynamically adjust the Logout button's position
+    private void positionLogoutButton() {
+        if (logoutButton != null) {
+            int buttonHeight = 50;
+            int buttonY = this.getHeight() - buttonHeight - 20; // 20px margin from the bottom
+            logoutButton.setBounds(30, buttonY, 240, buttonHeight); // Update the bounds
+            logoutButton.revalidate();
+            logoutButton.repaint();
+        }
+    }
+
+    // Method to create a button with an icon and label
     private JButton createButton(String label, String iconPath, int iconWidth, int iconHeight) {
         JButton button = new JButton(label);
         button.setFont(new Font(Values.BUTTON_FONT, Font.PLAIN, Values.BUTTON_FONT_SIZE)); // Font
@@ -87,10 +91,9 @@ public class LeftPanel extends JPanel {
 
         button.setHorizontalAlignment(SwingConstants.LEFT); // Align icon and text
         button.setIconTextGap(10); // Space between icon and text
-        button.setBackground(Color.decode(Values.BUTTON_COLOR)); // Default button color
+        button.setBackground(Color.decode(Values.LEFT_PANEL_BG_COLOR)); // Default button color
         button.setFocusPainted(false);
-        button.setBorder(BorderFactory.createLineBorder(Color.decode(Values.BG_COLOR))); // Border color
-        button.setPreferredSize(new Dimension(getPreferredSize().width, 50)); // Set button width to match left panel
+        button.setBorder(BorderFactory.createLineBorder(Color.decode(Values.LEFT_PANEL_BG_COLOR))); // Border color
         return button;
     }
 }
