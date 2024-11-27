@@ -73,12 +73,12 @@ public class SuperAdminPanel extends JPanel {
 
     private void openCreateBranchForm() {
         CreateBranch createBranchForm = new CreateBranch();
-        createBranchForm.display(this);
+        createBranchForm.display(contentPanel);
     }
 
     private void openCreateBranchManagerForm() {
         CreateBranchManager createBranchManagerForm = new CreateBranchManager();
-        createBranchManagerForm.display(this);
+        createBranchManagerForm.display(contentPanel);
     }
 
     private void openViewUpdateDeleteForm() {

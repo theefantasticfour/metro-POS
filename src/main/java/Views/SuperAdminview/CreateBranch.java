@@ -1,9 +1,7 @@
 package Views.SuperAdminview;
 
 import Utils.Values;
-import Views.Components.CustomTextField;
 import Views.Components.CustomComboBox;
-import Views.Components.CustomButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,161 +9,154 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class CreateBranch {
-    public void display(SuperAdminPanel superAdminPanel) {
-        // Get the content panel
-        JPanel contentPanel = superAdminPanel.getContentPanel();
+    public void display(JPanel parentPanel) {
 
-        // Clear any existing components in the content panel
-        contentPanel.removeAll();
+        parentPanel.removeAll();
+        parentPanel.setLayout(new GridBagLayout());
+        parentPanel.setBackground(Color.decode(Values.BG_COLOR));
 
-        // Set layout for the content panel to center the form
-        contentPanel.setLayout(new GridBagLayout());
-        contentPanel.setBackground(Color.decode(Values.BG_COLOR)); // Set background color to white
-
-        // Create the main form panel
-        JPanel formPanel = new JPanel();
-        formPanel.setLayout(new GridBagLayout());
-        formPanel.setBackground(Color.decode(Values.BG_COLOR)); // Set background color to white
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        formPanel.setBackground(Color.decode(Values.BG_COLOR));
         formPanel.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2),
                 "Add New Branch",
-                0, 0, new Font(Values.LABEL_FONT, Font.BOLD, 20)
+                0, 0, new Font(Values.LABEL_FONT, Font.BOLD, 16)
         ));
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(15, 15, 15, 15); // Add padding around components
+        gbc.insets = new Insets(4, 8, 4, 8); // Padding
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.anchor = GridBagConstraints.WEST; // Align components to the left within the form
+        gbc.anchor = GridBagConstraints.WEST;
 
-        Font labelFont = new Font(Values.LABEL_FONT, Font.PLAIN, 18);
-        Font fieldFont = new Font(Values.TEXT_FIELD_FONT, Font.PLAIN, 16);
+        Font labelFont = new Font(Values.LABEL_FONT, Font.PLAIN, 14);
 
-        // Branch Code (disabled text field)
-        JLabel branchCodeLabel = new JLabel("Branch Code:");
-        branchCodeLabel.setFont(labelFont);
-        gbc.gridx = 0; // Left-most column
-        gbc.gridy = 0; // First row
-        gbc.weightx = 0; // No extra horizontal space
-        formPanel.add(branchCodeLabel, gbc);
-
-        //implement login to get branch code
-
-        CustomTextField branchCodeField = new CustomTextField(10);
-        branchCodeField.setText("0000");
-        branchCodeField.setEnabled(false);
-        gbc.gridx = 1; // Next to the label
-        gbc.weightx = 1; // Expand horizontally
+        // Branch Code (Disabled)
+        gbc.insets = new Insets(25, 8, 4, 8);
+        addLabelAndComponent(formPanel, "Branch Code", labelFont, gbc, 0, 0);
+        JTextField branchCodeField = createDisabledTextField("0000");
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.insets = new Insets(4, 8, 4, 8); // Padding
         formPanel.add(branchCodeField, gbc);
 
-        // City (text field)
-        JLabel cityLabel = new JLabel("City:");
-        cityLabel.setFont(labelFont);
-        gbc.gridx = 2; // Start a new column on the right
-        gbc.gridy = 0; // Same row as Branch Code
-        gbc.weightx = 0;
-        formPanel.add(cityLabel, gbc);
-
-        CustomTextField cityField = new CustomTextField(10);
-        gbc.gridx = 3; // Next to the label
-        gbc.weightx = 1;
+        // City
+        gbc.insets = new Insets(25, 8, 4, 8);
+        addLabelAndComponent(formPanel, "City", labelFont, gbc, 1, 0);
+        JTextField cityField = createCustomTextField();
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.insets = new Insets(4, 8, 4, 8);
         formPanel.add(cityField, gbc);
 
         // Address
-        JLabel addressLabel = new JLabel("Address:");
-        addressLabel.setFont(labelFont);
-        gbc.gridx = 0; // New row
-        gbc.gridy = 1; // Second row
-        gbc.weightx = 0;
-        formPanel.add(addressLabel, gbc);
-
-        CustomTextField addressField = new CustomTextField(10);
-        gbc.gridx = 1; // Next to the label
-        gbc.gridwidth = 3; // Spans across three columns
-        gbc.weightx = 1;
+        addLabelAndComponent(formPanel, "Address", labelFont, gbc, 0, 2);
+        JTextField addressField = createCustomTextField();
+        gbc.gridx = 0;
+        gbc.gridy = 3;
         formPanel.add(addressField, gbc);
-
-        // Branch Status (combo box)
-        JLabel statusLabel = new JLabel("Branch Status:");
-        statusLabel.setFont(labelFont);
-        gbc.gridx = 0; // Left-most column
-        gbc.gridy = 2; // Third row
-        gbc.gridwidth = 1; // Reset to one column
-        formPanel.add(statusLabel, gbc);
-
-        CustomComboBox statusComboBox = new CustomComboBox(new String[]{
-                "Open", "Closed", "Temporarily Closed", "Frozen", "Terminated"
-        });
-        gbc.gridx = 1; // Next to the label
-        gbc.weightx = 1;
-        formPanel.add(statusComboBox, gbc);
+        gbc.gridwidth = 1;
 
         // Phone Number
-        JLabel phoneLabel = new JLabel("Phone Number:");
-        phoneLabel.setFont(labelFont);
-        gbc.gridx = 2; // Start a new column on the right
-        gbc.gridy = 2; // Same row as Branch Status
-        gbc.weightx = 0;
-        formPanel.add(phoneLabel, gbc);
+        addLabelAndComponent(formPanel, "Phone Number", labelFont, gbc, 0, 4);
+        JTextField phoneNumberField = createCustomTextField();
+        phoneNumberField.setText("");
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        formPanel.add(phoneNumberField, gbc);
 
-        CustomTextField phoneField = new CustomTextField(10);
-        gbc.gridx = 3; // Next to the label
-        gbc.weightx = 1;
-        formPanel.add(phoneField, gbc);
-
-        // No. of Employees
-        JLabel employeesLabel = new JLabel("No. of Employees:");
-        employeesLabel.setFont(labelFont);
-        gbc.gridx = 0; // Left-most column
-        gbc.gridy = 3; // Fourth row
-        formPanel.add(employeesLabel, gbc);
-
-        CustomTextField employeesField = new CustomTextField(10);
-        gbc.gridx = 1; // Next to the label
-        gbc.gridwidth = 1; // Reset to one column
+        // Number of Employees
+        addLabelAndComponent(formPanel, "No. of Employees", labelFont, gbc, 1, 4);
+        JTextField employeesField = createCustomTextField();
+        employeesField.setText("");
+        gbc.gridx = 1;
+        gbc.gridy = 5;
         formPanel.add(employeesField, gbc);
 
-        // Apply Button
-        JButton applyButton = new JButton("Apply");
-        applyButton.setPreferredSize(new Dimension(180, 40));
-        applyButton.setBackground(Color.decode(Values.BUTTON_COLOR));
-        applyButton.setForeground(Color.decode(Values.BUTTON_TEXT_COLOR));
-        applyButton.setFont(new Font(Values.BUTTON_FONT, Font.PLAIN, Values.BUTTON_FONT_SIZE));
+        // Active Status
+        addLabelAndComponent(formPanel, "Active Status", labelFont, gbc, 1, 2);
+        CustomComboBox activeStatusComboBox = new CustomComboBox(new String[]{"Open", "Close", "Temporary Closed"});
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        formPanel.add(activeStatusComboBox, gbc);
 
-        gbc.gridx = 3;
-        gbc.gridy = 5;
-        gbc.gridwidth = 1;
-        gbc.anchor = GridBagConstraints.CENTER;
+        // Apply Button
+        JButton applyButton = createApplyButton();
+        gbc.gridx = 1;
+        gbc.gridy = 6;
+        gbc.gridwidth = 2;
+        gbc.insets = new Insets(30, 8, 4, 8);
+        gbc.anchor = GridBagConstraints.EAST;
         formPanel.add(applyButton, gbc);
+
 
         applyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Collect data from the form
-                String branchCode = branchCodeField.toString();
-                String city = cityField.getText();
-                String address = addressField.getText();
-                String branchStatus = statusComboBox.getSelectedItem().toString();
-                String phoneNumber = phoneField.getText();
-                String noOfEmployees = employeesField.getText();
 
-                JOptionPane.showMessageDialog(contentPanel,
-                        "Data Saved",
-                        "Success",
-                        JOptionPane.INFORMATION_MESSAGE);
+                String branchCode = branchCodeField.getText().trim();
+                String city = cityField.getText().trim();
+                String address = addressField.getText().trim();
+                String phoneNumber = phoneNumberField.getText().trim();
+                String numOfEmployees = employeesField.getText().trim();
+                String activeStatus = (String) activeStatusComboBox.getSelectedItem();
 
-                // Add additional logic to save data to a database or perform other actions
+
+                if (city.isEmpty() || address.isEmpty() || phoneNumber.isEmpty() || numOfEmployees.isEmpty()) {
+                    JOptionPane.showMessageDialog(parentPanel,
+                            "All fields except 'Branch Code' must be filled out.",
+                            "Validation Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                //logic to save to database
+
+                cityField.setText("");
+                addressField.setText("");
+                phoneNumberField.setText("");
+                employeesField.setText("");
+                activeStatusComboBox.setSelectedIndex(0);
             }
         });
 
-        GridBagConstraints contentGbc = new GridBagConstraints();
-        contentGbc.gridx = 0;
-        contentGbc.gridy = 0;
-        contentGbc.weightx = 1; // Allow the panel to expand horizontally
-        contentGbc.weighty = 1; // Allow the panel to expand vertically
-        contentGbc.fill = GridBagConstraints.HORIZONTAL; // Fill horizontally
-        contentPanel.add(formPanel, contentGbc);
+        GridBagConstraints parentGbc = new GridBagConstraints();
+        parentGbc.gridx = 0;
+        parentGbc.gridy = 0;
+        parentGbc.weightx = 1;
+        parentGbc.weighty = 1;
+        parentGbc.fill = GridBagConstraints.HORIZONTAL;
+        parentPanel.add(formPanel, parentGbc);
 
-        contentPanel.revalidate();
-        contentPanel.repaint();
+        parentPanel.revalidate();
+        parentPanel.repaint();
+    }
+
+    private void addLabelAndComponent(JPanel panel, String labelText, Font labelFont, GridBagConstraints gbc, int x, int y) {
+        JLabel label = new JLabel(labelText);
+        label.setFont(labelFont);
+        gbc.gridx = x;
+        gbc.gridy = y;
+        panel.add(label, gbc);
+    }
+
+    private JTextField createCustomTextField() {
+        return Views.Components.CustomTextFieldDashboard.createCustomTextField();
+    }
+
+    private JTextField createDisabledTextField(String text) {
+        JTextField textField = createCustomTextField();
+        textField.setText(text);
+        textField.setEnabled(false);
+        textField.setDisabledTextColor(Color.GRAY);
+        return textField;
+    }
+
+    private JButton createApplyButton() {
+        JButton applyButton = new JButton("Apply");
+        applyButton.setPreferredSize(new Dimension(100, 35));
+        applyButton.setBackground(Color.decode(Values.BUTTON_COLOR));
+        applyButton.setForeground(Color.decode(Values.BUTTON_TEXT_COLOR));
+        applyButton.setFont(new Font(Values.BUTTON_FONT, Font.BOLD, 12));
+        return applyButton;
     }
 }
