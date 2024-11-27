@@ -44,15 +44,12 @@ public class BranchManagerPanel extends JPanel {
             }
         });
 
-        // Initialize Right Panel Header with icon and label
         rightPanelHeader = new RightPanelHeader(Values.BRANCH_MANAGER_ICON, "Branch Manager");
 
-        // Initialize Content Panel for dynamic form switching
         contentPanel = new JPanel();
-        contentPanel.setBackground(Color.decode(Values.BG_COLOR)); // Set background color to white
-        contentPanel.setLayout(new CardLayout()); // CardLayout for switching between forms
+        contentPanel.setBackground(Color.decode(Values.BG_COLOR));
+        contentPanel.setLayout(new CardLayout());
 
-        // Add Left Panel and Right Panel Header to the main panel
         add(leftPanel, BorderLayout.WEST);
         add(createRightPanel(), BorderLayout.CENTER);
 
@@ -80,7 +77,8 @@ public class BranchManagerPanel extends JPanel {
     // Method to display the Add Employee form
     private void openAddEmployeeForm() {
         contentPanel.removeAll();
-        contentPanel.add(new JLabel("Add Employee Form")); // Replace with actual form panel
+        AddEmployee addEmployeeForm = new AddEmployee();
+        addEmployeeForm.display(this);
         contentPanel.revalidate();
         contentPanel.repaint();
     }
@@ -88,10 +86,12 @@ public class BranchManagerPanel extends JPanel {
     // Method to display the View/Update/Delete form
     private void openViewUpdateDeleteForm() {
         contentPanel.removeAll();
-        contentPanel.add(new JLabel("View/Update/Delete Form")); // Replace with actual form panel
+        ViewUpdateDeleteEmployee viewUpdateDeleteEmployee = new ViewUpdateDeleteEmployee();
+        viewUpdateDeleteEmployee.display(this); // Pass the parent panel for the form
         contentPanel.revalidate();
         contentPanel.repaint();
     }
+
 
     // Method to display the Report form
     private void openReportForm() {
