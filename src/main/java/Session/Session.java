@@ -26,9 +26,9 @@ public class Session {
         loginController.start();
     }
 
-    public void showSuperAdmin() {
+    public void showSuperAdmin(String username, String password) {
         System.out.println("Super Admin Controller called.");
         SuperAdminController superAdminController = new SuperAdminController();
-        superAdminController.start();
+        superAdminController.start(username, password);
     }
 }
