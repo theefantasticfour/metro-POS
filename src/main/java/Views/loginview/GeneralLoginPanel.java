@@ -21,7 +21,7 @@ public class GeneralLoginPanel extends JPanel {
     }
 
     public void inIt() {
-        // create GUI here
+        // This panel is calling GeneralLoginPage
         GeneralLoginPage loginPage = new GeneralLoginPage(loginview);
         JPanel mainPanel = loginPage.getPanel();
 
@@ -31,7 +31,6 @@ public class GeneralLoginPanel extends JPanel {
         this.setVisible(true);
     }
 
-    // Action listener for the 4 buttons
 
 }
 
