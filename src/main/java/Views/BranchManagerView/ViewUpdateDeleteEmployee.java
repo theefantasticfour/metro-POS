@@ -49,7 +49,7 @@ public class ViewUpdateDeleteEmployee {
 
         // Create search label
         JLabel searchLabel = new JLabel("Search:");
-        searchLabel.setFont(new Font(Values.LABEL_FONT, Font.PLAIN, Values.LABEL_FONT_SIZE));
+        searchLabel.setFont(new Font(Values.LABEL_FONT, Font.PLAIN, Values.LABEL_FONT_SMALLSIZE));
         searchLabel.setPreferredSize(new Dimension(60, 30));
 
         CustomTextField searchField = new CustomTextField(20);
