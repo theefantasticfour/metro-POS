@@ -47,5 +47,18 @@ public class Values {
     public static final int LOGO_X = 17;
     public static final int LOGO_Y = 13;
 
+    // buttons Action command used in Action listners
+    public static final String REGISTER_BRANCH = "RegisterBranch";
+    public static final String CREATE_MANAGER = "createManagerOfBranch";
+    public static final String UPDATE_BRANCH = "UpdateBranch";
+    public static final String DELETE_BRANCH = "DeleteBranch";
+    public static final String SALES_REPORT = "SalesReport";
+    public static final String STOCK_REPORT = "StockReport";
+    public static final String PROFIT_REPORT = "ProfitReport";
+    public static final String LOGOUT = "Logout";
+
+
+
+
 
 }

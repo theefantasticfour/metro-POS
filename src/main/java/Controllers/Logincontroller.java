@@ -32,17 +32,17 @@ public class Logincontroller {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String username = loginview.Getusername();
-                String password = loginview.Getpassword();
-                loginmodel.setTypeOfUser(loginview.getTypeOfUser());
+                String username = Mainscreen.getLoginview().Getusername();
+                String password = Mainscreen.getLoginview().Getpassword();
+                loginmodel.setTypeOfUser(Mainscreen.getLoginview().getTypeOfUser());
                 loginmodel.setUsername(username);
                 loginmodel.setPassword(password);
                 if (loginmodel.validateUser()) {
                     session.showSuperAdmin(username, password);
-                    JOptionPane.showMessageDialog(null, loginview.Getusername() + " validated");
+                    JOptionPane.showMessageDialog(null, username + " validated");
 
                 } else {
-                    JOptionPane.showMessageDialog(null, loginview.Getusername() + " Not validated Enter correct username and password");
+                    JOptionPane.showMessageDialog(null, username + " Not validated Enter correct username and password");
                 }
             }
         };

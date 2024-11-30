@@ -1,6 +1,7 @@
 package Models;
 
 import Entites.Branch;
+import Entites.Product;
 import Entites.Transactions;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class SuperAdmin {
         this.username = username;
         this.password = password;
     }
+    // ------- Getters and Setters -------
     public void setUsername(String username) {
         this.username = username;
     }
@@ -30,6 +32,7 @@ public class SuperAdmin {
         // logic to get unique manager id either from DB or txt file
         return 0;
     }
+    // DB operations
     public Boolean RegisterBranch(int branchId,String city,String Address,String phoneNo,int noOfEmployees,Boolean Status) {
         Boolean isRegistered = false; // if duplicate exsits or due to some other reason we cannot register it
 
@@ -86,24 +89,28 @@ public class SuperAdmin {
 
         return transactions;
     }
-    public Map<Integer,Integer> getRemainingStock(int branchId) {
-        Map<Integer,Integer> remainingStock = new TreeMap<>();
-        // key will be product id and value will be remaining stock
+    public  ArrayList<Product> getRemainingStock(int branchId) {
+        ArrayList<Product> products = new ArrayList<Product>();
         // if branch id is -1 then we will get the remaining stock of the product
         // phir ham sirf product id ki base pai search karien ga
         // or agar branch id ki koi value ho to phir ham us branch ki stock nikalie ga
         // phir ham prodcutid+branchid ki base pai search karien ga
         // logic to get remaining stock of a particlular id from DB
-        return remainingStock;
-
-
+        // product kai constructor mai sari details hain sirf branchid ko set karna pare ga
+        // agar to branch id -1 nahi hai to branch id set karni hai or remaining stock us
+        // branch ki nikalni hai
+        // agar branch id -1 hai to hamain sari branches ki stock nikalni hai in that case branch id set hi nahi karien ga
+        return products;
     }
 
     // -------- Logical Operations -------
-    public void GenerateSalesReport() {
-        // logic to generate sales report
-        Map<Integer,Integer> map = new TreeMap<>();
-    }
 
+    public Float CalculateProfit(int BranchId,String type) {
+        // logic to generate profit report by using getTransactions and type = daily, monthly, yearly
+        // if -1 then we will get the profit of all branches combined
+        // logic to calculate profit from transactions
+        // Danish this will be implemented as selling price - cost price of all products invloveld in the transaction
+        return 0.0f;
+    }
 
 }

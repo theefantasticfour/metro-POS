@@ -2,6 +2,7 @@ package Views;
 
 import Controllers.Logincontroller;
 import Session.Session;
+import Views.SuperAdminview.SuperAdminView;
 import Views.Welcomeview.Welcomeview;
 import Views.loginview.Loginview;
 
@@ -15,6 +16,19 @@ public class Mainscreen extends JFrame {
     CardLayout c1;
     Loginview loginview;
     Welcomeview welcomeview;
+    SuperAdminView superAdminView;
+
+
+
+    public static Loginview getLoginview() {
+        return instance.loginview;
+    }
+    public static Welcomeview getWelcomeview() {
+        return instance.welcomeview;
+    }
+    public static SuperAdminView getSuperAdminView() {
+        return instance.superAdminView;
+    }
 
     private Mainscreen() {
         this.setTitle("Main Screen");
@@ -51,8 +65,12 @@ public class Mainscreen extends JFrame {
         return c1;
     }
 
-    public void showSuperAdmin() {
-
+    public void showSuperAdmin(ActionListener LISTNER) {
+        if (superAdminView == null) {
+            superAdminView = new SuperAdminView(LISTNER);
+            this.add(superAdminView, "SuperAdmin");
+        }
+        c1.show(this.getContentPane(), "SuperAdmin");
     }
 }
 
