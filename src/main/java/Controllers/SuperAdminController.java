@@ -71,6 +71,16 @@ public class SuperAdminController {
         // logic to get unique manager id either from DB or txt file
         return superAdminModel.getUniqueManagerId();
     }
+    public static ArrayList<Integer> getAllBranchIds() {
+        // logic to get all branch ids
+        ArrayList<Integer> branches = superAdminModel.getAllBranchIds();
+       // simulation
+        branches.add(0);
+        branches.add(1);
+        branches.add(2);
+        branches.add(3);
+        return branches;
+    }
     public void UpdateBranch() {
         // logic to update branch in DB
         Object[] data = getData();

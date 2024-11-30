@@ -102,6 +102,13 @@ public class SuperAdmin {
         // agar branch id -1 hai to hamain sari branches ki stock nikalni hai in that case branch id set hi nahi karien ga
         return products;
     }
+    public ArrayList<Integer> getAllBranchIds() {
+        ArrayList<Integer> branches = new ArrayList<Integer>();
+        // logic to get all branch ids
+        // getBranches() sai sari branches mil jain gi or jese tumhe sahi lage
+        // phir unki ids nikal kar forward karna hai
+        return branches;
+    }
 
     // -------- Logical Operations -------
 

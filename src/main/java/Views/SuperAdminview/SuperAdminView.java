@@ -6,7 +6,10 @@ import javax.swing.*;
 import java.awt.event.ActionListener;
 
 public class SuperAdminView extends JPanel {
+    // Logically implement kar dena it will work jab danish db add kar de ga
+    // for your testing you may use dummy data
     ActionListener superAdminListener;
+
     // jis panel mai yai chaie isko pass kardo
     // pr yai logout button kai liye bhi chale ga
     // iska action command hoga Values.LOGOUT
