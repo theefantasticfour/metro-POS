@@ -61,21 +61,24 @@ public class Values {
     public static final int LOGO_Y = 13;
 
     // buttons Action command used in Action listners
+        // Super Admin
     public static final String REGISTER_BRANCH = "RegisterBranch";
     public static final String CREATE_MANAGER = "createManagerOfBranch";
     public static final String UPDATE_BRANCH = "UpdateBranch";
     public static final String DELETE_BRANCH = "DeleteBranch";
-    public static final String SALES_REPORT = "SalesReport";
-    public static final String STOCK_REPORT = "StockReport";
-    public static final String PROFIT_REPORT = "ProfitReport";
-    public static final String LOGOUT = "Logout";
+    public static final String SALES_REPORT = "SalesReport"; // also used by branch manager
+    public static final String STOCK_REPORT = "StockReport"; //   --
+    public static final String PROFIT_REPORT = "ProfitReport";//  --
+    public static final String LOGOUT = "Logout";             //  --
+        // Branch Manager
 
+    public static final String CHANGE_PASSWORD = "ChangePassword";
+    public static final String UPDATE_EMPLOYEE = "Update";
+    public static final String DELETE_EMPLOYEE = "Delete";
+    public static final String ADD_EMPLOYEE = "AddEmployee";
     // type of Users
     public static final String SUPER_ADMIN = "SuperAdmin";
     public static final String BRANCH_MANAGER = "BranchManager";
     public static final String CASHIER = "Cashier";
     public static final String DATA_ENTRY = "DataEntry";
-
-
-
 }
