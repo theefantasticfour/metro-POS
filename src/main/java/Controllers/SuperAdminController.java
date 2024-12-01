@@ -4,6 +4,7 @@ import Entites.Branch;
 import Entites.Product;
 import Entites.Transactions;
 import Models.SuperAdmin;
+import Session.Session;
 import Utils.Values;
 import Views.Mainscreen;
 import Views.SuperAdminview.SuperAdminView;
@@ -16,9 +17,11 @@ import java.util.Map;
 public class SuperAdminController {
     static SuperAdmin superAdminModel;
     SuperAdminView superAdminView;
+    Session session;
 // ------- Constructor ------
-    public SuperAdminController() {
+    public SuperAdminController(Session instance) {
         System.out.println("Super Admin Controller called.");
+        this.session = instance;
     }
     public void start(String username, String password) {
         System.out.println("Super Admin Controller started.");
@@ -34,9 +37,10 @@ public class SuperAdminController {
         //------- DB operations ------
     public void RegisterBranch() {
         // logic to register branch in DB
-        int bId = superAdminView.getBranchidtoRegister();
+        int branchId = superAdminView.getBranchidtoRegister();
+        int managerId = superAdminView.getManagerId();
         Object[] data = getData();
-        Boolean isRegistered = superAdminModel.RegisterBranch(bId,(String) data[0], (String) data[1], (String) data[2], (Integer) data[3], (Boolean) data[4]);
+        Boolean isRegistered = superAdminModel.RegisterBranch(branchId,(String) data[0], (String) data[1], (String) data[2], (Integer) data[3], (Boolean) data[4]);
         if (isRegistered) {
             System.out.println("Branch Registered");
         } else {

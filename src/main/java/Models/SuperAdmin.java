@@ -23,6 +23,7 @@ public class SuperAdmin {
     public void setPassword(String password) {
         this.password = password;
     }
+    
     //  ---------- database operations ----------
     public int getUniqueBranchId() {
         // logic to get unique branch id either from DB or txt file
@@ -30,6 +31,7 @@ public class SuperAdmin {
     }
     public int getUniqueManagerId() {
         // logic to get unique manager id either from DB or txt file
+
         return 0;
     }
     // DB operations
@@ -54,9 +56,9 @@ public class SuperAdmin {
 
         // logic to get all branches from DB
 
-        // Note : Branch have manager name and manager salry that would be set by calling
-        //        setManagerName and setManagerSalary
-        //        because there is a possible case that branch have no manager assigned yet
+        // Note : Branch have manager name, manager salry and managerid that would be set by calling
+        //        setManagerName and setManagerSalary setManagerId methods of Branch class
+        //        because there is a possible case that branch have no manager assigned yet but branch has been created
 
 
         return branches;
@@ -80,7 +82,7 @@ public class SuperAdmin {
     // reports + graphs
     // of Sales || Remaining Stock || Profit
     // All this to be calculated daily, weekly, monthly, yearly
-    public ArrayList<Transactions> getTransactions(int branchId , String type) {
+    public static ArrayList<Transactions> getTransactions(int branchId , String type) {
         ArrayList<Transactions> transactions = new ArrayList<Transactions>();
 
         // logic to get all transactions from DB
@@ -89,7 +91,7 @@ public class SuperAdmin {
 
         return transactions;
     }
-    public  ArrayList<Product> getRemainingStock(int branchId) {
+    public static  ArrayList<Product> getRemainingStock(int branchId) {
         ArrayList<Product> products = new ArrayList<Product>();
         // if branch id is -1 then we will get the remaining stock of the product
         // phir ham sirf product id ki base pai search karien ga
@@ -102,7 +104,7 @@ public class SuperAdmin {
         // agar branch id -1 hai to hamain sari branches ki stock nikalni hai in that case branch id set hi nahi karien ga
         return products;
     }
-    public ArrayList<Integer> getAllBranchIds() {
+    public static ArrayList<Integer> getAllBranchIds() {
         ArrayList<Integer> branches = new ArrayList<Integer>();
         // logic to get all branch ids
         // getBranches() sai sari branches mil jain gi or jese tumhe sahi lage
@@ -112,7 +114,7 @@ public class SuperAdmin {
 
     // -------- Logical Operations -------
 
-    public Float CalculateProfit(int BranchId,String type) {
+    public static Float CalculateProfit(int BranchId,String type) {
         // logic to generate profit report by using getTransactions and type = daily, monthly, yearly
         // if -1 then we will get the profit of all branches combined
         // logic to calculate profit from transactions

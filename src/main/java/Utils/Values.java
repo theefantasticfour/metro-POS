@@ -57,7 +57,11 @@ public class Values {
     public static final String PROFIT_REPORT = "ProfitReport";
     public static final String LOGOUT = "Logout";
 
-
+    // type of Users
+    public static final String SUPER_ADMIN = "SuperAdmin";
+    public static final String BRANCH_MANAGER = "BranchManager";
+    public static final String CASHIER = "Cashier";
+    public static final String DATA_ENTRY = "DataEntry";
 
 
 

@@ -7,6 +7,7 @@ public class Branch {
     String phoneNo;
     int noOfEmployees;
     Boolean Status;
+    int managerId ;
     String managerName = "";
     Float managerSalary = 0.0f;
     public Branch(int branchId, String city, String address, String phoneNo, int noOfEmployees, Boolean status) {
@@ -16,6 +17,10 @@ public class Branch {
         this.phoneNo = phoneNo;
         this.noOfEmployees = noOfEmployees;
         Status = status;
+    }
+    public void setManagerId(int managerId)
+    {
+        this.managerId = managerId;
     }
     public void setManagerName(String managerName) {
         this.managerName = managerName;
