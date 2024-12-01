@@ -20,7 +20,7 @@ public class Login {
     }
 
     public Boolean validateUser() {
-        // validate the type of user from db
+        // validate the type of user from db using username(email) and password
         return true;
     }
 }
