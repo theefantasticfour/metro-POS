@@ -22,6 +22,7 @@ public class Login {
     }
 
     public Boolean validateUser() {
+
         System.out.println("Reached in validateuser() method");
         Connection connection = ConnectionConfig.getConnection(); // Get the database connection
         PreparedStatement preparedStatement = null;

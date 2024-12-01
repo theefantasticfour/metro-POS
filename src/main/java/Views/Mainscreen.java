@@ -1,7 +1,9 @@
 package Views;
 
-import Controllers.Logincontroller;
+import Models.BranchManager;
 import Session.Session;
+import Views.BranchManagerView.BranchManagerView;
+import Views.SuperAdminview.SuperAdminView;
 import Views.Welcomeview.Welcomeview;
 import Views.loginview.Loginview;
 
@@ -15,6 +17,9 @@ public class Mainscreen extends JFrame {
     CardLayout c1;
     Loginview loginview;
     Welcomeview welcomeview;
+    SuperAdminView superAdminView;
+    BranchManagerView branchManagerView;
+
 
     private Mainscreen() {
         this.setTitle("Main Screen");
@@ -25,6 +30,35 @@ public class Mainscreen extends JFrame {
         this.setVisible(true);
     }
 
+    // getters
+    public static Loginview getLoginview() {
+        return instance.loginview;
+    }
+
+    public static Welcomeview getWelcomeview() {
+        return instance.welcomeview;
+    }
+
+    public static SuperAdminView getSuperAdminView() {
+        return instance.superAdminView;
+    }
+    public static BranchManagerView getBranchManagerView() {
+        return instance.branchManagerView;
+    }
+
+    public static Mainscreen getInstance() {
+        if (instance == null) {
+            instance = new Mainscreen();
+        }
+        return instance;
+    }
+
+    public CardLayout getLayout() {
+        return c1;
+    }
+
+    // gui operations
+    // show welcome screen
     public void showWelcomeScreen(Session sessionInstance) {
         if (welcomeview == null) {
             welcomeview = new Welcomeview(sessionInstance);
@@ -32,27 +66,35 @@ public class Mainscreen extends JFrame {
         }
         c1.show(this.getContentPane(), "Welcome");
     }
+
+    // show login screen
     public void showLogin(ActionListener loginListener) {
         if (loginview == null) {
             loginview = new Loginview(loginListener);
-            this.add(loginview,"Login");
+            this.add(loginview, "Login");
         }
         System.out.println("Reached here1");
         c1.show(this.getContentPane(), "Login");
     }
-   // getters
-    public static Mainscreen getInstance() {
-        if (instance == null) {
-            instance = new Mainscreen();
+
+    // show super admin screen
+    public void showSuperAdmin(ActionListener LISTNER) {
+        if (superAdminView == null) {
+            superAdminView = new SuperAdminView(LISTNER);
+            this.add(superAdminView, "SuperAdmin");
         }
-        return instance;
-    }
-    public CardLayout getLayout() {
-        return c1;
+        c1.show(this.getContentPane(), "SuperAdmin");
     }
 
-    public void showSuperAdmin() {
-
+    // show branch manager screen
+    public void showBranchManager() {
+        // Switch to manager screen
+        if (branchManagerView == null)
+        {
+            branchManagerView = new BranchManagerView();
+            this.add(branchManagerView, "BranchManager");
+        }
+        c1.show(this.getContentPane(), "BranchManager");
     }
 }
 

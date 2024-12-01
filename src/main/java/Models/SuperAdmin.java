@@ -1,6 +1,7 @@
 package Models;
 
 import Entites.Branch;
+import Entites.Product;
 import Entites.Transactions;
 
 import java.util.ArrayList;
@@ -15,12 +16,14 @@ public class SuperAdmin {
         this.username = username;
         this.password = password;
     }
+    // ------- Getters and Setters -------
     public void setUsername(String username) {
         this.username = username;
     }
     public void setPassword(String password) {
         this.password = password;
     }
+    
     //  ---------- database operations ----------
     public int getUniqueBranchId() {
         // logic to get unique branch id either from DB or txt file
@@ -28,8 +31,10 @@ public class SuperAdmin {
     }
     public int getUniqueManagerId() {
         // logic to get unique manager id either from DB or txt file
+
         return 0;
     }
+    // DB operations
     public Boolean RegisterBranch(int branchId,String city,String Address,String phoneNo,int noOfEmployees,Boolean Status) {
         Boolean isRegistered = false; // if duplicate exsits or due to some other reason we cannot register it
 
@@ -51,9 +56,9 @@ public class SuperAdmin {
 
         // logic to get all branches from DB
 
-        // Note : Branch have manager name and manager salry that would be set by calling
-        //        setManagerName and setManagerSalary
-        //        because there is a possible case that branch have no manager assigned yet
+        // Note : Branch have manager name, manager salry and managerid that would be set by calling
+        //        setManagerName and setManagerSalary setManagerId methods of Branch class
+        //        because there is a possible case that branch have no manager assigned yet but branch has been created
 
 
         return branches;
@@ -77,7 +82,7 @@ public class SuperAdmin {
     // reports + graphs
     // of Sales || Remaining Stock || Profit
     // All this to be calculated daily, weekly, monthly, yearly
-    public ArrayList<Transactions> getTransactions(int branchId , String type) {
+    public static ArrayList<Transactions> getTransactions(int branchId , String type) {
         ArrayList<Transactions> transactions = new ArrayList<Transactions>();
 
         // logic to get all transactions from DB
@@ -86,24 +91,35 @@ public class SuperAdmin {
 
         return transactions;
     }
-    public Map<Integer,Integer> getRemainingStock(int branchId) {
-        Map<Integer,Integer> remainingStock = new TreeMap<>();
-        // key will be product id and value will be remaining stock
+    public static  ArrayList<Product> getRemainingStock(int branchId) {
+        ArrayList<Product> products = new ArrayList<Product>();
         // if branch id is -1 then we will get the remaining stock of the product
         // phir ham sirf product id ki base pai search karien ga
         // or agar branch id ki koi value ho to phir ham us branch ki stock nikalie ga
         // phir ham prodcutid+branchid ki base pai search karien ga
         // logic to get remaining stock of a particlular id from DB
-        return remainingStock;
-
-
+        // product kai constructor mai sari details hain sirf branchid ko set karna pare ga
+        // agar to branch id -1 nahi hai to branch id set karni hai or remaining stock us
+        // branch ki nikalni hai
+        // agar branch id -1 hai to hamain sari branches ki stock nikalni hai in that case branch id set hi nahi karien ga
+        return products;
+    }
+    public static ArrayList<Integer> getAllBranchIds() {
+        ArrayList<Integer> branches = new ArrayList<Integer>();
+        // logic to get all branch ids
+        // getBranches() sai sari branches mil jain gi or jese tumhe sahi lage
+        // phir unki ids nikal kar forward karna hai
+        return branches;
     }
 
     // -------- Logical Operations -------
-    public void GenerateSalesReport() {
-        // logic to generate sales report
-        Map<Integer,Integer> map = new TreeMap<>();
-    }
 
+    public static Float CalculateProfit(int BranchId,String type) {
+        // logic to generate profit report by using getTransactions and type = daily, monthly, yearly
+        // if -1 then we will get the profit of all branches combined
+        // logic to calculate profit from transactions
+        // Danish this will be implemented as selling price - cost price of all products invloveld in the transaction
+        return 0.0f;
+    }
 
 }

@@ -2,6 +2,7 @@ package Controllers;
 
 import Models.Login;
 import Session.Session;
+import Utils.Values;
 import Views.Mainscreen;
 import Views.loginview.Loginview;
 
@@ -13,7 +14,7 @@ public class Logincontroller {
     Loginview loginview;
     Login loginmodel;
     Session session;
-
+    String typeOfUser = "";
     public Logincontroller(Session instance) {
         System.out.println("Login controller initialized");
         this.session = instance;
@@ -32,17 +33,31 @@ public class Logincontroller {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String username = loginview.Getusername();
-                String password = loginview.Getpassword();
-                loginmodel.setTypeOfUser(loginview.getTypeOfUser());
+                String message = "User not validated";
+                String username = Mainscreen.getLoginview().Getusername();
+                String password = Mainscreen.getLoginview().Getpassword();
+                loginmodel.setTypeOfUser(Mainscreen.getLoginview().getTypeOfUser());
+                typeOfUser = Mainscreen.getLoginview().getTypeOfUser();
                 loginmodel.setUsername(username);
                 loginmodel.setPassword(password);
                 if (loginmodel.validateUser()) {
-                    session.showSuperAdmin(username, password);
-                    JOptionPane.showMessageDialog(null, loginview.Getusername() + " validated");
+                    if (typeOfUser == Values.SUPER_ADMIN) {
+                        session.showSuperAdmin(username, password);
+                        message = "Super Admin" + username + "validated";
+                    } else if (typeOfUser == Values.BRANCH_MANAGER) {
+                        session.showBranchManager(username, password);
+                        message = "Branch Manager" + username + "validated";
+                    } else if (typeOfUser == Values.DATA_ENTRY){
+                        session.showDataEntry(username, password);
+                        message = "Data Entry" + username + "validated";
+                    } else if (typeOfUser == Values.CASHIER) {
+                        session.showCashier(username, password);
+                        message = "Cashier" + username + "validated";
+                    }
+                    JOptionPane.showMessageDialog(null, message);
 
                 } else {
-                    JOptionPane.showMessageDialog(null, loginview.Getusername() + " Not validated Enter correct username and password");
+                    JOptionPane.showMessageDialog(null, username + " Not validated Enter correct username and password");
                 }
             }
         };
