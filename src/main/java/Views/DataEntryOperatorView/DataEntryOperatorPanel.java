@@ -93,9 +93,10 @@ public class DataEntryOperatorPanel extends JPanel {
     }
 
     private void openViewProductsForm() {
-        // Placeholder for View Products form (replace with actual form)
+
         contentPanel.removeAll();
-        contentPanel.add(new JLabel("View Products Form")); // Replace with actual form panel
+        ViewProducts viewProducts=new ViewProducts();
+        viewProducts.display(contentPanel);
         contentPanel.revalidate();
         contentPanel.repaint();
     }
@@ -103,7 +104,8 @@ public class DataEntryOperatorPanel extends JPanel {
     private void openViewVendorForm() {
         // Placeholder for View Vendor form (replace with actual form)
         contentPanel.removeAll();
-        contentPanel.add(new JLabel("View Vendor Form")); // Replace with actual form panel
+     ViewVendor viewVendor=new ViewVendor();
+     viewVendor.display(contentPanel);
         contentPanel.revalidate();
         contentPanel.repaint();
     }

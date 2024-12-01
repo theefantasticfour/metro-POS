@@ -2,6 +2,7 @@ package Views.SuperAdminview;
 
 import Session.Session;
 import Utils.Values;
+import Views.BranchManagerView.ViewUpdateDeleteEmployee;
 import Views.SideBarAndHeader.LeftPanel;
 import Views.SideBarAndHeader.RightPanelHeader;
 import Views.SideBarAndHeader.MenuItem;
@@ -83,14 +84,16 @@ public class SuperAdminPanel extends JPanel {
 
     private void openViewUpdateDeleteForm() {
         contentPanel.removeAll();
-        contentPanel.add(new JLabel("View/Update/Delete Form")); // Replace with actual form panel
+        ViewUpdateDelete viewUpdateDelete= new ViewUpdateDelete();
+        viewUpdateDelete.display(this);
         contentPanel.revalidate();
         contentPanel.repaint();
     }
 
     private void openReportForm() {
         contentPanel.removeAll();
-        contentPanel.add(new JLabel("Report Form")); // Replace with actual form panel
+        Reports reports =new Reports();
+        reports.display(contentPanel);
         contentPanel.revalidate();
         contentPanel.repaint();
     }

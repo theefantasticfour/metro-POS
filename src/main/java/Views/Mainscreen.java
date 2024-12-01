@@ -56,8 +56,8 @@ public class Mainscreen extends JFrame {
 
     public void showSuperAdmin() {
         //SuperAdminPanel mainPanel = new SuperAdminPanel();
-        //DataEntryOperatorPanel mainPanel =new DataEntryOperatorPanel();
-        BranchManagerPanel mainPanel = new BranchManagerPanel();
+        DataEntryOperatorPanel mainPanel =new DataEntryOperatorPanel();
+        //BranchManagerPanel mainPanel = new BranchManagerPanel();
         this.add(mainPanel, "SuperAdmin");
         c1.show(this.getContentPane(), "SuperAdmin");
 
