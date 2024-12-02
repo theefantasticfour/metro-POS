@@ -40,7 +40,7 @@ public class SuperAdminController {
         int branchId = superAdminView.getBranchidtoRegister();
         int managerId = superAdminView.getManagerId();
         Object[] data = getData();
-        Boolean isRegistered = superAdminModel.RegisterBranch(branchId,(String) data[0], (String) data[1], (String) data[2], (Integer) data[3], (Boolean) data[4]);
+        Boolean isRegistered = superAdminModel.RegisterBranch(branchId,(String) data[0],(String) data[1], (String) data[2], (String) data[3], (Integer) data[4], (Boolean) data[5]);
         if (isRegistered) {
             System.out.println("Branch Registered");
         } else {

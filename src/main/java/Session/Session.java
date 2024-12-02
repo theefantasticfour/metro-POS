@@ -21,15 +21,17 @@ public class Session {
 
     }
     private void showWelcomeScreen() {
+
         if (welcomecontroller == null) {
-            Welcomecontroller welcomecontroller = new Welcomecontroller(this);
+            welcomecontroller = new Welcomecontroller(this);
         }
         welcomecontroller.start();
     }
 
     public void showLogin() {
         // Switch to login screen
-        if (loginController == null) {
+        if (loginController == null)
+        {
             loginController = new Logincontroller(this);
         }
         loginController.start();

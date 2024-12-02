@@ -40,8 +40,10 @@ public class Logincontroller {
                 typeOfUser = Mainscreen.getLoginview().getTypeOfUser();
                 loginmodel.setUsername(username);
                 loginmodel.setPassword(password);
-                if (loginmodel.validateUser()) {
-                    if (typeOfUser == Values.SUPER_ADMIN) {
+                if (loginmodel.validateUser())
+                {
+                    System.out.println("boss main yahan agya");
+                    if (typeOfUser.equals(Values.SUPER_ADMIN)) {
                         session.showSuperAdmin(username, password);
                         message = "Super Admin" + username + "validated";
                     } else if (typeOfUser == Values.BRANCH_MANAGER) {
@@ -56,7 +58,8 @@ public class Logincontroller {
                     }
                     JOptionPane.showMessageDialog(null, message);
 
-                } else {
+                }
+                else {
                     JOptionPane.showMessageDialog(null, username + " Not validated Enter correct username and password");
                 }
             }

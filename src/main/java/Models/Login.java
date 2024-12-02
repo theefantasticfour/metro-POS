@@ -1,5 +1,7 @@
 package Models;
 
+import Utils.Values;
+
 import java.sql.*;
 
 public class Login {
@@ -27,8 +29,17 @@ public class Login {
         Connection connection = ConnectionConfig.getConnection(); // Get the database connection
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        String query = "SELECT * FROM superadmin WHERE email = ? AND password = ?";
-
+        String query;
+        if(typeOfUser.equals(Values.SUPER_ADMIN))
+        {
+            System.out.println(typeOfUser+ "........");
+            query = "SELECT * FROM superadmin WHERE email = ? AND password = ?";
+        }
+         else
+         {
+             System.out.println(typeOfUser+ "........\\\\\\\\\\");
+            query = "SELECT * FROM employee WHERE email = ? AND password = ?";
+        }
         try {
             // Prepare the statement to prevent SQL injection
             preparedStatement = connection.prepareStatement(query);
@@ -38,17 +49,22 @@ public class Login {
             resultSet = preparedStatement.executeQuery();
 
             // If a record exists, the user is valid
-            if (resultSet.next()) {
+            if (resultSet.next())
+            {
+                System.out.println("User validated");
                 return true;
             }
-        } catch (SQLException e) {
+        } catch (SQLException e)
+        {
             System.err.println("Error during user validation: " + e.getMessage());
-        } finally {
-            // Close resources to avoid memory leaks
+        } finally
+        {
+            //Close resources to avoid memory leaks
             try {
                 if (resultSet != null) resultSet.close();
                 if (preparedStatement != null) preparedStatement.close();
-            } catch (SQLException e) {
+            } catch (SQLException e)
+            {
                 System.err.println("Error closing resources: " + e.getMessage());
             }
         }

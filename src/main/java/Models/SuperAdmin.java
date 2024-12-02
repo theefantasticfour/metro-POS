@@ -3,7 +3,7 @@ package Models;
 import Entites.Branch;
 import Entites.Product;
 import Entites.Transactions;
-
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
@@ -25,21 +25,53 @@ public class SuperAdmin {
     }
     
     //  ---------- database operations ----------
-    public int getUniqueBranchId() {
-        // logic to get unique branch id either from DB or txt file
-        return 0;
+    public int getID(String query,int id)
+    {
+        Connection connection = ConnectionConfig.getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                id =  resultSet.getInt(1) + 1;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
+    public int getUniqueBranchId()
+    {
+        int id =1; //for branch id, the first branch id will be 1
+        String query = "SELECT MAX(branchid) FROM branch";
+        return getID(query,id);
     }
     public int getUniqueManagerId() {
         // logic to get unique manager id either from DB or txt file
-
-        return 0;
+        int id =7001; //for manager id, the first manager id will be 7001
+        String query = "SELECT MAX(managerid) FROM manager";
+        return getID(query,id);
     }
     // DB operations
-    public Boolean RegisterBranch(int branchId,String city,String Address,String phoneNo,int noOfEmployees,Boolean Status) {
+    public Boolean RegisterBranch(int branchId,String name, String city,String Address,String phoneNo,int noOfEmployees,Boolean Status) {
         Boolean isRegistered = false; // if duplicate exsits or due to some other reason we cannot register it
 
         // logic to register branch in DB
-
+        Connection connection = ConnectionConfig.getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO branch VALUES(?,?,?,?,?,?,?,?)");
+            preparedStatement.setInt(1,branchId);
+            preparedStatement.setString(2,name);
+            preparedStatement.setString(3,city);
+            preparedStatement.setString(4,Address);
+            preparedStatement.setString(5,phoneNo);
+            preparedStatement.setInt(6,noOfEmployees);
+            preparedStatement.setBoolean(7,Status);
+            preparedStatement.setInt(8,-1); // manager id initially -1
+            preparedStatement.executeUpdate();
+            isRegistered = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         return isRegistered;
     }
@@ -47,7 +79,22 @@ public class SuperAdmin {
         Boolean isCreated = false; // if duplicate exsits or due to some other reason we cannot create it
 
         // logic to create manager in DB
-
+        Connection connection = ConnectionConfig.getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO employee VALUES(?,?,?,?,?,?,?,?)");
+            preparedStatement.setInt(1,branchId);
+            preparedStatement.setInt(2,managerId);
+            preparedStatement.setString(3,name);
+            preparedStatement.setString(4,email);
+            preparedStatement.setString(5,password);
+            preparedStatement.setString(6,"Manager");
+            preparedStatement.setFloat(7,Salary);
+            preparedStatement.setBoolean(8,false);
+            preparedStatement.executeUpdate();
+            isCreated = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         return isCreated;
     }
@@ -59,7 +106,6 @@ public class SuperAdmin {
         // Note : Branch have manager name, manager salry and managerid that would be set by calling
         //        setManagerName and setManagerSalary setManagerId methods of Branch class
         //        because there is a possible case that branch have no manager assigned yet but branch has been created
-
 
         return branches;
     }
