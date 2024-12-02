@@ -23,7 +23,7 @@ public class Welcomecontroller {
         Mainscreen.getInstance().showWelcomeScreen(instance);
         welcomeView = new Welcomeview(instance);
         welcomeModel = new Welcome();
-
+        welcomeView = Mainscreen.getWelcomeView();
     }
 
 }

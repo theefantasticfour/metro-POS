@@ -53,6 +53,10 @@ public class Mainscreen extends JFrame {
         return instance;
     }
 
+    public static Welcomeview getWelcomeView() {
+        return instance.welcomeview;
+    }
+
     public CardLayout getLayout() {
         return c1;
     }
@@ -73,7 +77,6 @@ public class Mainscreen extends JFrame {
             loginview = new Loginview(loginListener);
             this.add(loginview, "Login");
         }
-        System.out.println("Reached here1");
         c1.show(this.getContentPane(), "Login");
     }
 
