@@ -11,7 +11,7 @@ public class BranchManager {
     // DB operations
     public Boolean changePassword(String Password) {
         System.out.println("Branch Manager Password changed");
-        // sirf update karna hai against the id/email no checks to be performed
+        // sirf update karna hai against the id no checks to be performed
         return true;
     }
 }
