@@ -14,6 +14,11 @@ public class SuperAdminView extends JPanel {
     private RightPanelHeader rightPanelHeader;
     private JPanel contentPanel; // Panel for dynamic content display
     private SuperAdminView superAdminView;
+    ActionListener superAdminListener;
+    SuperAdminAddBranchpanel createBranch;
+    SuperAdminAddBranchManagerpanel createBranchManager;
+    SuperAdminViewUpdateDeleteBranchespanel viewUpdateDelete;
+    SuperAdminReportsGraphspanel reports;
 
     public SuperAdminView() {
         setLayout(new BorderLayout());
@@ -24,10 +29,10 @@ public class SuperAdminView extends JPanel {
 
         // Initialize Left Panel with dynamic menu items and actions
         leftPanel = new LeftPanel(Arrays.asList(
-                new MenuItem("Create Branch", Values.CREATION_ICON),
-                new MenuItem("Create Branch Manager", Values.CREATION_ICON),
-                new MenuItem("View/Update/Delete", Values.VIEW_ICON),
-                new MenuItem("Report", Values.REPORT_ICON)
+                new MenuItem("Create Branch",Values.CREATION_ICON),
+                new MenuItem("Create Branch Manager",Values.CREATION_ICON),
+                new MenuItem("View/Update/Delete",Values.VIEW_ICON),
+                new MenuItem("Report",Values.REPORT_ICON)
         ), e -> {
             JButton source = (JButton) e.getSource();
             String buttonText = source.getText();
@@ -66,7 +71,6 @@ public class SuperAdminView extends JPanel {
         JPanel rightPanel = new JPanel();
         rightPanel.setLayout(new BorderLayout());
         rightPanel.setBackground(Color.decode(Values.BG_COLOR)); // Match main panel background
-
         rightPanel.add(rightPanelHeader, BorderLayout.NORTH);
         rightPanel.add(contentPanel, BorderLayout.CENTER);
 
@@ -74,44 +78,28 @@ public class SuperAdminView extends JPanel {
     }
 
     private void openCreateBranchForm() {
-        SuperAdminAddBranchpanel createBranchForm = new SuperAdminAddBranchpanel();
-        createBranchForm.display(contentPanel);
+         createBranch = new SuperAdminAddBranchpanel(superAdminListener);
     }
 
     private void openCreateBranchManagerForm() {
-        CreateBranchManager createBranchManagerForm = new CreateBranchManager();
-        createBranchManagerForm.display(contentPanel);
+         createBranchManager= new SuperAdminAddBranchManagerpanel(superAdminListener);
+        createBranchManager.display(contentPanel);
     }
 
     private void openViewUpdateDeleteForm() {
         contentPanel.removeAll();
-        ViewUpdateDelete viewUpdateDelete = new ViewUpdateDelete();
-        viewUpdateDelete.display(this);
+        viewUpdateDelete = new SuperAdminViewUpdateDeleteBranchespanel(superAdminListener);
+      //  viewUpdateDelete.display(this);
         contentPanel.revalidate();
         contentPanel.repaint();
     }
 
     private void openReportForm() {
         contentPanel.removeAll();
-        Reports reports = new Reports();
-        reports.display(contentPanel);
+         reports = new SuperAdminReportsGraphspanel();
+       // reports.display(contentPanel);
         contentPanel.revalidate();
         contentPanel.repaint();
-    }
-
-    // Handle logout action
-    private void handleLogoutAction() {
-        // Logout Logic (this is where you can add your logout logic)
-        JOptionPane.showMessageDialog(this, "Logging out...");
-        // Perform any additional actions here (e.g., redirect to login screen, close the session)
-        System.exit(0); // Exit the application for now (can be replaced with a redirection to login)
-    }
-
-    private void handleAction(ActionListener actionEvent) {
-        // Handle the action when buttons are clicked on SuperAdminView
-        if (actionEvent.getActionCommand().equals(Values.LOGOUT)) {
-            handleLogoutAction();
-        }
     }
 
     // Getters and Setters for the data passed from SuperAdminView

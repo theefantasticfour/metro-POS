@@ -58,14 +58,22 @@ public class LeftPanel extends JPanel {
             buttonY += buttonHeight + buttonSpacing; // Adjust for spacing
         }
     }
-
+    // Handle logout action
+    private void handleLogoutAction() {
+        // Logout Logic (this is where you can add your logout logic)
+        JOptionPane.showMessageDialog(this, "Logging out...");
+        // Perform any additional actions here (e.g., redirect to login screen, close the session)
+        System.exit(0); // Exit the application for now (can be replaced with a redirection to login)
+    }
     // Method to add the Logout button
     private void addLogoutButton(ActionListener actionListener) {
         logoutButton = createButton("Logout", Values.LOGOUT_ICON, 40, 40);
 
         // Add action listener to the logout button
         logoutButton.addActionListener(e -> {
-            //logout to general login page
+            if (e.getActionCommand().equals(Values.LOGOUT)) {
+                handleLogoutAction();
+            }
         });
 
 

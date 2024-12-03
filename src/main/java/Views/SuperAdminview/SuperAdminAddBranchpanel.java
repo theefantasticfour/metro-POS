@@ -12,6 +12,13 @@ import java.awt.event.ActionListener;
 public class SuperAdminAddBranchpanel extends JPanel {
     ActionListener SuperAdminListener;
 
+    public String branchId;   // Added branchId
+    public String city;
+    public String address;
+    public String phoneNumber;
+    public String numberOfEmployees;
+    public String status;
+
     public SuperAdminAddBranchpanel(ActionListener SuperAdminListener) {
         this.SuperAdminListener = SuperAdminListener;
         System.out.println("SuperAdminAddBranchpanel initialized");
@@ -38,6 +45,7 @@ public class SuperAdminAddBranchpanel extends JPanel {
         Font labelFont = new Font(Values.LABEL_FONT, Font.PLAIN, 14);
 
         // Branch Code (Disabled)
+        branchId=String.valueOf(SuperAdminController.getUniqueBranchId());
         gbc.insets = new Insets(25, 8, 4, 8);
         addLabelAndComponent(formPanel, "Branch ID", labelFont, gbc, 0, 0);
         JTextField branchCodeField = createDisabledTextField(
@@ -98,6 +106,41 @@ public class SuperAdminAddBranchpanel extends JPanel {
         gbc.anchor = GridBagConstraints.EAST;
         formPanel.add(applyButton, gbc);
 
+        applyButton.addActionListener(e -> {
+            branchId = branchCodeField.getText().trim(); // Branch ID (disabled field)
+            city = cityField.getText().trim();
+            address = addressField.getText().trim();
+            phoneNumber = phoneNumberField.getText().trim();
+            numberOfEmployees = employeesField.getText().trim();
+            status = (String) activeStatusComboBox.getSelectedItem();
+
+            if (city.isEmpty() || address.isEmpty() || phoneNumber.isEmpty() || numberOfEmployees.isEmpty() || status == null) {
+                JOptionPane.showMessageDialog(
+                        formPanel,
+                        "All fields must be filled out.",
+                        "Validation Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
+                return;
+            }
+
+            e.getActionCommand().equals(Values.CREATE_MANAGER);
+            JOptionPane.showMessageDialog(
+                    formPanel,
+                    "Branch added successfully!\nBranch ID: " + branchId,
+                    "Success",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+
+
+            cityField.setText("");
+            addressField.setText("");
+            phoneNumberField.setText("");
+            employeesField.setText("");
+            activeStatusComboBox.setSelectedIndex(0);
+        });
+
+
         GridBagConstraints parentGbc = new GridBagConstraints();
         parentGbc.gridx = 0;
         parentGbc.gridy = 0;
@@ -134,5 +177,30 @@ public class SuperAdminAddBranchpanel extends JPanel {
         applyButton.setForeground(Color.decode(Values.BUTTON_TEXT_COLOR));
         applyButton.setFont(new Font(Values.BUTTON_FONT, Font.BOLD, 12));
         return applyButton;
+    }
+
+    // Getter methods for branchId, city, address, phoneNumber, numberOfEmployees, and status
+    public String getBranchId() {
+        return branchId;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getNumberOfEmployees() {
+        return numberOfEmployees;
+    }
+
+    public String getStatus() {
+        return status;
     }
 }

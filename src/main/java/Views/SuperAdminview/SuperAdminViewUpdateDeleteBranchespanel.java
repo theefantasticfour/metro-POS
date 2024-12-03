@@ -15,43 +15,53 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+//import java.awt.event.ActionEvent;
 
 public class SuperAdminViewUpdateDeleteBranchespanel extends JPanel {
 
     private final ActionListener superAdminListener;
-
     private JTable table;
     private DefaultTableModel tableModel;
 
+    private final String[] columnNames = {
+            "Branch Code", "Branch City", "Branch Address", "Branch Ph#", "Branch Status",
+            "No. of Empl.", "Branch Manager", "Manager's Salary", "Update", "Delete"
+    };
+
     public SuperAdminViewUpdateDeleteBranchespanel(ActionListener superAdminListener) {
         this.superAdminListener = superAdminListener;
-        System.out.println("SuperAdminViewUpdateDeleteBranchesPanel initialized");
-        initialize();
+        System.out.println("SuperAdminViewUpdateDeleteBranchespanel initialized");
+        init(); // Initialize the panel
     }
 
-    public void initialize() {
-        this.setLayout(new BorderLayout());
-        this.setBackground(Color.decode(Values.BG_COLOR));
+    private void init() {
+        setLayout(new BorderLayout());
+        setBackground(Color.decode(Values.BG_COLOR)); // Use constant for background color
 
         // Search Panel
         JPanel searchPanel = createSearchPanel();
-        this.add(searchPanel, BorderLayout.NORTH);
+        add(searchPanel, BorderLayout.NORTH);
 
         // Table
-        JScrollPane tableScrollPane = createBranchTablePanel();
-        this.add(tableScrollPane, BorderLayout.CENTER);
+        table = createTable();
+        JScrollPane scrollPane = new JScrollPane(table);
+        add(scrollPane, BorderLayout.CENTER);
+
+        revalidate();
+        repaint();
     }
 
     private JPanel createSearchPanel() {
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        searchPanel.setBackground(Color.decode(Values.LEFT_PANEL_BG_COLOR));
+        searchPanel.setBackground(Color.decode(Values.LEFT_PANEL_BG_COLOR)); // Use constant for search panel color
 
+        // Create search label
         JLabel searchLabel = new JLabel("Search:");
-        searchLabel.setFont(new Font(Values.LABEL_FONT, Font.PLAIN, Values.LABEL_FONT_SMALLSIZE));
+        searchLabel.setFont(new Font(Values.LABEL_FONT, Font.PLAIN, Values.LABEL_FONT_SMALLSIZE)); // Use font constants
         searchLabel.setPreferredSize(new Dimension(60, 30));
 
         CustomTextField searchField = new CustomTextField(20);
-        searchField.setBackground(Color.decode(Values.TEXT_FIELD_BACKGROUND_COLOR));
+        searchField.setBackground(Color.decode(Values.TEXT_FIELD_BACKGROUND_COLOR)); // Use constants for text field
         searchField.setForeground(Color.decode(Values.TEXT_FIELD_TEXT_COLOR));
 
         searchField.getDocument().addDocumentListener(new DocumentListener() {
@@ -76,8 +86,7 @@ public class SuperAdminViewUpdateDeleteBranchespanel extends JPanel {
         return searchPanel;
     }
 
-    private JScrollPane createBranchTablePanel() {
-        // Sample data: replace with real data from SuperAdminController
+    private JTable createTable() {
         ArrayList<Branch> branches = SuperAdminController.getBranches();
         Object[][] branchData = new Object[branches.size()][10];
         int row = 0;
@@ -97,12 +106,6 @@ public class SuperAdminViewUpdateDeleteBranchespanel extends JPanel {
             row++;
         }
 
-        // Column names
-        String[] columnNames = {
-                "Branch Code", "Branch City", "Branch Address", "Branch Ph#", "Branch Status",
-                "No. of Empl.", "Branch Manager", "Manager's Salary", "Update", "Delete"
-        };
-
         tableModel = new DefaultTableModel(branchData, columnNames) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -110,26 +113,46 @@ public class SuperAdminViewUpdateDeleteBranchespanel extends JPanel {
             }
         };
 
-        table = new JTable(tableModel);
-        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        table.setFont(new Font(Values.TABLE_FONT, Font.PLAIN, 14));
-        table.setBackground(Color.decode(Values.TABLE_BG_COLOR));
+        // Create table with model
+        JTable table = new JTable(tableModel);
 
-        // Add custom button renderers for "Update" and "Delete" columns
-        table.getColumnModel().getColumn(8).setCellRenderer(new ButtonRenderer());
-        table.getColumnModel().getColumn(9).setCellRenderer(new ButtonRenderer());
-        table.getColumnModel().getColumn(8).setCellEditor(new ButtonEditor("Update"));
-        table.getColumnModel().getColumn(9).setCellEditor(new ButtonEditor("Delete"));
+        // Add custom button renderers and editors for "Update" and "Delete"
+        table.getColumn("Update").setCellRenderer(new ButtonRenderer("Update", Color.decode(Values.BUTTON_COLOR)));
+        table.getColumn("Delete").setCellRenderer(new ButtonRenderer("Delete", Color.decode(Values.BUTTON_COLOR)));
 
+        table.getColumn("Update").setCellEditor(new ButtonEditor(new JButton("Update"), e -> {
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow != -1) {
+                int branchId = Integer.parseInt((String) tableModel.getValueAt(selectedRow, 0)); // Assuming branch ID is in the first column
+                JButton source = (JButton) e.getSource();
+                source.setActionCommand(Values.UPDATE_BRANCH);
+                source.addActionListener(superAdminListener);
+                source.doClick(); // Simulate the button click
+            }
+        }));
+
+        table.getColumn("Delete").setCellEditor(new ButtonEditor(new JButton("Delete"), e -> {
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow != -1) {
+                int branchId = Integer.parseInt((String) tableModel.getValueAt(selectedRow, 0)); // Assuming branch ID is in the first column
+                JButton source = (JButton) e.getSource();
+                source.setActionCommand(Values.DELETE_BRANCH);
+                source.addActionListener(superAdminListener);
+                source.doClick(); // Simulate the button click
+            }
+        }));
+
+        return table;
+    }
+
+    private void filterTable(String searchText) {
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
         table.setRowSorter(sorter);
 
-        return new JScrollPane(table);
-    }
-
-    private void filterTable(String query) {
-        TableRowSorter<DefaultTableModel> sorter = (TableRowSorter<DefaultTableModel>) table.getRowSorter();
-        RowFilter<DefaultTableModel, Object> rowFilter = RowFilter.regexFilter("(?i)" + query);
-        sorter.setRowFilter(rowFilter);
+        if (searchText.trim().isEmpty()) {
+            sorter.setRowFilter(null); // Show all rows if search text is empty
+        } else {
+            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText)); // Case-insensitive search
+        }
     }
 }

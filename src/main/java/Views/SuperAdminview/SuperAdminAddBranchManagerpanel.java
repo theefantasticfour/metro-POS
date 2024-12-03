@@ -1,15 +1,22 @@
 package Views.SuperAdminview;
 
+import Controllers.SuperAdminController;
 import Utils.Values;
 import Views.Components.CustomComboBox;
 import Views.Components.CustomTextFieldDashboard;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.awt.event.ActionListener;
 
 public class SuperAdminAddBranchManagerpanel {
     private final ActionListener superAdminListener;
+    public String managerName;
+    public String salary;
+    public String email;
+    public String managerId;  // Add managerId
+    public String branchId;   // Add branchId
 
     public SuperAdminAddBranchManagerpanel(ActionListener superAdminListener) {
         this.superAdminListener = superAdminListener;
@@ -51,13 +58,23 @@ public class SuperAdminAddBranchManagerpanel {
 
         // Branch Manager ID (Read-only)
         addLabel(formPanel, "Branch Manager ID", labelFont, gbc, 0, 0);
-        JTextField managerIdField = createDisabledTextField("Auto-generated");
-        addComponent(formPanel, managerIdField, gbc, 0, 1);
+        JTextField managerIdField = createDisabledTextField(
+                String.valueOf(SuperAdminController.getUniqueBranchId()) // Auto-generated Branch ID
+        );
 
-        // Branch Code
-        addLabel(formPanel, "Branch Code", labelFont, gbc, 1, 0);
-        CustomComboBox branchCodeComboBox = new CustomComboBox(new String[]{"BC001", "BC002", "BC003", "BC004"});
+        // Fetch all branch IDs from the controller (using the getAllBranchIds method)
+        ArrayList<Integer> branchIdsList = SuperAdminController.getAllBranchIds();
+        String[] branchIds = new String[branchIdsList.size()];
+        for (int i = 0; i < branchIdsList.size(); i++) {
+            branchIds[i] = String.valueOf(branchIdsList.get(i));  // Convert the Integer ID to String
+        }
+        CustomComboBox branchCodeComboBox = new CustomComboBox(branchIds);
+        gbc.gridx = 1;
+        gbc.gridy = 1;
         addComponent(formPanel, branchCodeComboBox, gbc, 1, 1);
+
+
+
 
         // Manager's Name
         addLabel(formPanel, "Manager's Name", labelFont, gbc, 0, 2);
@@ -84,9 +101,11 @@ public class SuperAdminAddBranchManagerpanel {
         formPanel.add(applyButton, gbc);
 
         applyButton.addActionListener(e -> {
-            String managerName = managerNameField.getText().trim();
-            String salary = salaryField.getText().trim();
-            String email = emailField.getText().trim();
+            managerId = managerIdField.getText().trim(); // Assign value to managerId
+            branchId = (String) branchCodeComboBox.getSelectedItem(); // Assign selected branch ID
+            managerName = managerNameField.getText().trim();
+            salary = salaryField.getText().trim();
+            email = emailField.getText().trim();
 
             if (managerName.isEmpty() || salary.isEmpty() || email.isEmpty()) {
                 JOptionPane.showMessageDialog(
@@ -97,12 +116,11 @@ public class SuperAdminAddBranchManagerpanel {
                 );
                 return;
             }
-
-            // Save to database logic here...
-
             JOptionPane.showMessageDialog(formPanel, "Branch Manager added successfully!");
 
-            // Reset fields
+            e.getActionCommand().equals(Values.CREATE_MANAGER);
+
+            // Clear the form after submission
             managerNameField.setText("");
             salaryField.setText("");
             emailField.setText("");
@@ -145,5 +163,22 @@ public class SuperAdminAddBranchManagerpanel {
         applyButton.setForeground(Color.decode(Values.BUTTON_TEXT_COLOR));
         applyButton.setFont(new Font(Values.BUTTON_FONT, Font.BOLD, 12));
         return applyButton;
+    }
+
+    // Getter methods for the new variables
+    public String getManagerId() {
+        return managerId;
+    }
+    public String BranchIdtoCreateManager() {
+        return branchId;
+    }
+    public String getManagerName() {
+        return managerName;
+    }
+    public String getSalary() {
+        return salary;
+    }
+    public String getEmail() {
+        return email;
     }
 }
