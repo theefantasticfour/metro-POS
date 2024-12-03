@@ -99,7 +99,7 @@ public class SuperAdminController {
         }
     }
     public void DeleteBranch() {
-        int branchId = superAdminView.getBranchIdtoupdate();
+        int branchId = superAdminView.getBranchIdToUpdate();
         // logic to delete branch in DB
         Boolean isDeleted = superAdminModel.deleteBranch(branchId);
         if (isDeleted) {
@@ -146,11 +146,11 @@ public class SuperAdminController {
             } else if (e.getActionCommand().equals(Values.DELETE_BRANCH)) {
                 DeleteBranch();
             } else if (e.getActionCommand().equals(Values.SALES_REPORT)) {
-                downloadSalesReport(superAdminView.getBranchidtoshowreports(),superAdminView.getTypetoShowReports(),true);
+              //  downloadSalesReport(superAdminView.getBranchidtoshowreports(),superAdminView.getTypetoShowReports(),true);
             } else if (e.getActionCommand().equals(Values.STOCK_REPORT)) {
-               downloadProductsReport(superAdminView.getBranchidtoshowreports(),true);
+               //downloadProductsReport(superAdminView.getBranchidtoshowreports(),true);
             } else if (e.getActionCommand().equals(Values.PROFIT_REPORT)) {
-                downloadProfitreport(superAdminView.getBranchidtoshowreports(),superAdminView.getTypetoShowReports(),true);
+                //downloadProfitreport(superAdminView.getBranchidtoshowreports(),superAdminView.getTypetoShowReports(),true);
             } else if (e.getActionCommand().equals(Values.LOGOUT)) {
                 // logout and go to login screen
             }
