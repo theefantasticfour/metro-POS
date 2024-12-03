@@ -166,13 +166,13 @@ public class SuperAdminAddBranchManagerpanel {
     }
 
     // Getter methods for the new variables
-    public String getManagerId() {
+    public String getmanagerId() {
         return managerId;
     }
-    public String BranchIdtoCreateManager() {
+    public String BranchIdtoCreatemanager() {
         return branchId;
     }
-    public String getManagerName() {
+    public String getmanagerName() {
         return managerName;
     }
     public String getSalary() {

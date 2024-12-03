@@ -21,13 +21,12 @@ public class SuperAdminView extends JPanel {
     SuperAdminViewUpdateDeleteBranchespanel viewUpdateDelete;
     SuperAdminReportsGraphspanel reports;
 
-    public SuperAdminView() {
+    public SuperAdminView(ActionListener LISTNER) {
+        LISTNER =superAdminListener;
         setLayout(new BorderLayout());
         setBackground(Color.decode(Values.BG_COLOR));
 
         // Initialize SuperAdminView
-        //superAdminView = new SuperAdminView(e -> handleAction(e));
-
         // Initialize Left Panel with dynamic menu items and actions
         leftPanel = new LeftPanel(Arrays.asList(
                 new MenuPanel("Create Branch",Values.CREATION_ICON),
@@ -53,7 +52,7 @@ public class SuperAdminView extends JPanel {
             }
         });
 
-        // Initialize Right Panel Header with icon and label
+
         rightPanelHeader = new RightPanelHeader(Values.SUPER_ADMIN_ICON, "Super Admin Dashboard");
 
         contentPanel = new JPanel();
@@ -79,22 +78,26 @@ public class SuperAdminView extends JPanel {
     }
 
     private void openCreateBranchForm() {
-         createBranch = new SuperAdminAddBranchpanel(superAdminListener);
+        createBranch = new SuperAdminAddBranchpanel(superAdminListener);
     }
 
     private void openCreateBranchManagerForm() {
-         createBranchManager= new SuperAdminAddBranchManagerpanel(superAdminListener);
+        createBranchManager= new SuperAdminAddBranchManagerpanel(superAdminListener);
         createBranchManager.display(contentPanel);
     }
 
     private void openViewUpdateDeleteForm() {
+        contentPanel.removeAll();
         viewUpdateDelete = new SuperAdminViewUpdateDeleteBranchespanel(superAdminListener);
-
+        //  viewUpdateDelete.display(this);
+        contentPanel.revalidate();
+        contentPanel.repaint();
     }
 
     private void openReportForm() {
         contentPanel.removeAll();
-         reports = new SuperAdminReportsGraphspanel();
+        reports = new SuperAdminReportsGraphspanel();
+        // reports.display(contentPanel);
         contentPanel.revalidate();
         contentPanel.repaint();
     }
@@ -121,47 +124,81 @@ public class SuperAdminView extends JPanel {
         return superAdminView.getTypeToShowReports();
     }
 
-    public String getCity() {
-        return superAdminView.getCity();
-    }
-
-    public String getAddress() {
-        return superAdminView.getAddress();
-    }
-
-    public String getPhoneNo() {
-        return superAdminView.getPhoneNo();
-    }
-
-    public int getNoOfEmployees() {
-        return superAdminView.getNoOfEmployees();
-    }
-
-    public Boolean getStatus() {
-        return superAdminView.getStatus();
+    public int getManagerId() {
+        if (createBranchManager != null) {
+            return Integer.parseInt(createBranchManager.getmanagerId());
+        }
+        throw new IllegalStateException("Create Branch Manager form is not initialized.");
     }
 
     public String getManagerName() {
-        return superAdminView.getManagerName();
+        if (createBranchManager != null) {
+            return createBranchManager.getmanagerName();
+        }
+        throw new IllegalStateException("Create Branch Manager form is not initialized.");
     }
 
     public Float getManagerSalary() {
-        return superAdminView.getManagerSalary();
-    }
-
-    public int getManagerId() {
-        return superAdminAddBranchManagerpanel.getManagerId();
+        if (createBranchManager != null) {
+            return Float.parseFloat(createBranchManager.getSalary());
+        }
+        throw new IllegalStateException("Create Branch Manager form is not initialized.");
     }
 
     public String getManagerEmail() {
-        return superAdminView.getManagerEmail();
+        if (createBranchManager != null) {
+            return createBranchManager.getEmail();
+        }
+        throw new IllegalStateException("Create Branch Manager form is not initialized.");
     }
 
-    public int getBranchIdToRegister() {
-        return superAdminView.getBranchIdToRegister();
+    public int getBranchIdtoCreateManager() {
+        if (createBranchManager != null) {
+            return Integer.parseInt(createBranchManager.BranchIdtoCreatemanager());
+        }
+        throw new IllegalStateException("Create Branch Manager form is not initialized.");
+    }
+    public int getBranchidtoRegister() {
+        if (createBranch != null) {
+            return  Integer.parseInt(createBranch.getBranchId());
+        }
+        throw new IllegalStateException("Create Branch form is not initialized.");
     }
 
-    public int getBranchIdToCreateManager() {
-        return superAdminView.getBranchIdToCreateManager();
+    public String getCity() {
+        if (createBranch != null) {
+            return createBranch.getCity();
+        }
+        throw new IllegalStateException("Create Branch form is not initialized.");
     }
+
+    public String getAddress() {
+        if (createBranch != null) {
+            return createBranch.getAddress();
+        }
+        throw new IllegalStateException("Create Branch form is not initialized.");
+    }
+
+    public String getPhoneNo() {
+        if (createBranch != null) {
+            return createBranch.getPhoneNumber();
+        }
+        throw new IllegalStateException("Create Branch form is not initialized.");
+    }
+
+    public int getNoOfEmployees() {
+        if (createBranch != null) {
+            return Integer.parseInt(createBranch.getNumberOfEmployees());
+        }
+        throw new IllegalStateException("Create Branch form is not initialized.");
+    }
+
+    public Boolean getStatus() {
+        if (createBranch != null) {
+            return Boolean.parseBoolean(createBranch.getStatus());
+        }
+        throw new IllegalStateException("Create Branch form is not initialized.");
+    }
+
+
 }
