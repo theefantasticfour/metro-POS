@@ -1,5 +1,6 @@
 package Views.loginview;
 
+import Utils.Values;
 import Views.Components.CustomButtonWithImg;
 import javax.swing.*;
 import java.awt.*;
@@ -57,7 +58,7 @@ public class GeneralLoginPage {
         rightPanel.setBorder(BorderFactory.createEmptyBorder(70, 120, 100, 120));
 
         // Adding Buttons
-        addUserButton(rightPanel, "Super Admin", Utils.Values.SUPER_ADMIN_ICON, parentView);
+        addUserButton(rightPanel, Values.SUPER_ADMIN, Utils.Values.SUPER_ADMIN_ICON, parentView);
         addUserButton(rightPanel, "Branch Manager", Utils.Values.BRANCH_MANAGER_ICON, parentView);
         addUserButton(rightPanel, "Retail Cashier", Utils.Values.CASHIER_ICON, parentView);
         addUserButton(rightPanel, "Data Entry Operator", Utils.Values.DATA_ENTRY_ICON, parentView);

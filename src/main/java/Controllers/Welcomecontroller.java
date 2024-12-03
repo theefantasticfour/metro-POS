@@ -21,9 +21,9 @@ public class Welcomecontroller {
     public void start()
     {
         Mainscreen.getInstance().showWelcomeScreen(instance);
-        //welcomeView = new Welcomeview(instance);
+        welcomeView = new Welcomeview(instance);
         welcomeModel = new Welcome();
-
+        welcomeView = Mainscreen.getWelcomeView();
     }
 
 }
