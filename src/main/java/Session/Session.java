@@ -22,7 +22,7 @@ public class Session {
     }
     private void showWelcomeScreen() {
         if (welcomecontroller == null) {
-            Welcomecontroller welcomecontroller = new Welcomecontroller(this);
+            welcomecontroller = new Welcomecontroller(this);
         }
         Welcomecontroller welcomecontroller = new Welcomecontroller(this);
         //welcomecontroller.start();

@@ -99,7 +99,7 @@ public class SuperAdminViewUpdateDeleteBranchespanel extends JPanel {
             branchData[row][3] = branch.getPhoneNo();
             branchData[row][4] = branch.getStatus();
             branchData[row][5] = branch.getNoOfEmployees();
-            branchData[row][6] = branch.getBranchManager();
+            branchData[row][6] = branch.getManagerName();
             branchData[row][7] = branch.getManagerSalary();
             branchData[row][8] = "Update";
             branchData[row][9] = "Delete";

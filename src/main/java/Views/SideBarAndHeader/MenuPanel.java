@@ -1,13 +1,10 @@
 package Views.SideBarAndHeader;
 
-import javax.swing.*;
-import java.awt.*;
-
-public class MenuItem {
+public class MenuPanel {
     private String label;
     private String iconPath;
 
-    public MenuItem(String label, String iconPath) {
+    public MenuPanel(String label, String iconPath) {
         this.label = label;
         this.iconPath = iconPath;
     }

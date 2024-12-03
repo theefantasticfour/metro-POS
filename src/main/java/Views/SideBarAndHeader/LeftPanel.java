@@ -1,7 +1,6 @@
 package Views.SideBarAndHeader;
 
 import Utils.Values;
-import Session.Session;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +12,7 @@ import java.util.List;
 public class LeftPanel extends JPanel {
     private JButton logoutButton; // Declare logoutButton at the class level for access during resizing
 
-    public LeftPanel(List<MenuItem> menuItems, ActionListener actionListener) {
+    public LeftPanel(List<MenuPanel> menuPanels, ActionListener actionListener) {
         setLayout(null); // Using null layout for absolute positioning
         setBackground(Color.decode(Values.LEFT_PANEL_BG_COLOR)); // Left panel background color
         setPreferredSize(new Dimension(300, 0)); // Fixed width
@@ -21,7 +20,7 @@ public class LeftPanel extends JPanel {
         // Add Metro Logo with specific bounds
         addMetroLogo();
 
-        addButtons(menuItems, actionListener);
+        addButtons(menuPanels, actionListener);
 
         // Add Logout Button at the bottom of the panel
         addLogoutButton(actionListener);
@@ -45,12 +44,12 @@ public class LeftPanel extends JPanel {
     }
 
     // Method to add menu buttons dynamically below the logo
-    private void addButtons(List<MenuItem> menuItems, ActionListener actionListener) {
+    private void addButtons(List<MenuPanel> menuPanels, ActionListener actionListener) {
         int buttonY = Utils.Values.LOGO_Y + Utils.Values.LOGO_HEIGHT + 30; // Start below the logo
         int buttonHeight = 50;
         int buttonSpacing = 10;
 
-        for (MenuItem item : menuItems) {
+        for (MenuPanel item : menuPanels) {
             JButton button = createButton(item.getLabel(), item.getIconPath(), 40, 40);
             button.setBounds(30, buttonY, 240, buttonHeight); // Set bounds manually
             button.addActionListener(actionListener);

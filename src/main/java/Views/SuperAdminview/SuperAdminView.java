@@ -2,6 +2,7 @@ package Views.SuperAdminview;
 
 import Utils.Values;
 import Views.SideBarAndHeader.LeftPanel;
+import Views.SideBarAndHeader.MenuPanel;
 import Views.SideBarAndHeader.RightPanelHeader;
 
 import javax.swing.*;
@@ -25,14 +26,14 @@ public class SuperAdminView extends JPanel {
         setBackground(Color.decode(Values.BG_COLOR));
 
         // Initialize SuperAdminView
-        superAdminView = new SuperAdminView(e -> handleAction(e));
+        //superAdminView = new SuperAdminView(e -> handleAction(e));
 
         // Initialize Left Panel with dynamic menu items and actions
         leftPanel = new LeftPanel(Arrays.asList(
-                new MenuItem("Create Branch",Values.CREATION_ICON),
-                new MenuItem("Create Branch Manager",Values.CREATION_ICON),
-                new MenuItem("View/Update/Delete",Values.VIEW_ICON),
-                new MenuItem("Report",Values.REPORT_ICON)
+                new MenuPanel("Create Branch",Values.CREATION_ICON),
+                new MenuPanel("Create Branch Manager",Values.CREATION_ICON),
+                new MenuPanel("View/Update/Delete",Values.VIEW_ICON),
+                new MenuPanel("Report",Values.REPORT_ICON)
         ), e -> {
             JButton source = (JButton) e.getSource();
             String buttonText = source.getText();
@@ -87,17 +88,13 @@ public class SuperAdminView extends JPanel {
     }
 
     private void openViewUpdateDeleteForm() {
-        contentPanel.removeAll();
         viewUpdateDelete = new SuperAdminViewUpdateDeleteBranchespanel(superAdminListener);
-      //  viewUpdateDelete.display(this);
-        contentPanel.revalidate();
-        contentPanel.repaint();
+
     }
 
     private void openReportForm() {
         contentPanel.removeAll();
          reports = new SuperAdminReportsGraphspanel();
-       // reports.display(contentPanel);
         contentPanel.revalidate();
         contentPanel.repaint();
     }
@@ -153,7 +150,7 @@ public class SuperAdminView extends JPanel {
     }
 
     public int getManagerId() {
-        return superAdminView.getManagerId();
+        return superAdminAddBranchManagerpanel.getManagerId();
     }
 
     public String getManagerEmail() {
