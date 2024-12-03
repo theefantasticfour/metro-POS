@@ -3,6 +3,7 @@ package Views;
 import Controllers.Logincontroller;
 import Session.Session;
 import Views.BranchManagerView.BranchManagerPanel;
+import Views.CashierView.CashierPanel;
 import Views.DataEntryOperatorView.DataEntryOperatorPanel;
 import Views.SuperAdminview.SuperAdminPanel;
 import Views.Welcomeview.Welcomeview;
@@ -55,9 +56,10 @@ public class Mainscreen extends JFrame {
     }
 
     public void showSuperAdmin() {
-        //SuperAdminPanel mainPanel = new SuperAdminPanel();
-        DataEntryOperatorPanel mainPanel =new DataEntryOperatorPanel();
+        SuperAdminPanel mainPanel = new SuperAdminPanel();
+       // DataEntryOperatorPanel mainPanel =new DataEntryOperatorPanel();
         //BranchManagerPanel mainPanel = new BranchManagerPanel();
+        //CashierPanel mainPanel = new CashierPanel();
         this.add(mainPanel, "SuperAdmin");
         c1.show(this.getContentPane(), "SuperAdmin");
 
