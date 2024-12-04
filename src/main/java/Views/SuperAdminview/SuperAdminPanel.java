@@ -91,11 +91,8 @@ public class SuperAdminPanel extends JPanel {
     }
 
     private void openReportForm() {
-        contentPanel.removeAll();
         Reports reports =new Reports();
         reports.display(contentPanel);
-        contentPanel.revalidate();
-        contentPanel.repaint();
     }
 
     // Handle logout action
