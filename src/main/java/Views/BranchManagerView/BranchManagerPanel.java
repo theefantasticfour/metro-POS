@@ -5,6 +5,7 @@ import Utils.Values;
 import Views.SideBarAndHeader.LeftPanel;
 import Views.SideBarAndHeader.RightPanelHeader;
 import Views.SideBarAndHeader.MenuItem;
+import Views.SuperAdminview.Reports;
 
 import javax.swing.*;
 import java.awt.*;
@@ -99,6 +100,8 @@ public class BranchManagerPanel extends JPanel {
         contentPanel.add(new JLabel("Report Form")); // Replace with actual form panel
         contentPanel.revalidate();
         contentPanel.repaint();
+        BMReport reports = new BMReport();
+        reports.display(contentPanel);
     }
 
     // Getter for the content panel
