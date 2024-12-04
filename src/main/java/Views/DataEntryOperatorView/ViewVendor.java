@@ -17,15 +17,15 @@ public class ViewVendor {
     private JTable table;
     private DefaultTableModel tableModel;
 
-    // Sample data
+    // Sample data with Contract Start and Contract End columns
     private final String[][] vendorData = {
-            {"V001", "Vendor A", "1234567890","123 Main Street, City A", "50000", "20", "Update", "Delete"},
-            {"V002", "Vendor B", "1234568990","123 Main Street, City B", "50000", "20", "Update", "Delete"}
-
+            {"V001", "Vendor A", "1234567890", "123 Main Street, City A", "50000", "20", "01/01/2024", "31/12/2024", "Update", "Delete"},
+            {"V002", "Vendor B", "1234568990", "123 Main Street, City B", "60000", "15", "01/01/2023", "31/12/2023", "Update", "Delete"}
     };
+
     private final String[] columnNames = {
-            "Vendor ID", "Vendor Name", "Vendor Ph#","Address", "Total Payment Amount", "Total Products"
-            , "Update", "Delete"
+            "Vendor ID", "Vendor Name", "Vendor Ph#", "Address", "Total Payment Amount",
+            "Total Products", "Contract Start", "Contract End", "Update", "Delete"
     };
 
     public void display(JPanel mainPanel) {
@@ -82,7 +82,8 @@ public class ViewVendor {
         tableModel = new DefaultTableModel(vendorData, columnNames) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column < 6; // Prevent editing of "Update" and "Delete" columns
+                // Prevent editing for non-editable columns
+                return column < 6; // Only Vendor ID, Name, Ph#, Address, Payment Amount, and Products are editable
             }
         };
 

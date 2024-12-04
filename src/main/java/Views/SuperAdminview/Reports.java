@@ -1,6 +1,7 @@
 package Views.SuperAdminview;
 
 import Utils.Values;
+import Views.Components.CustomButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,51 +41,97 @@ public class Reports {
         mainPanel.add(lowerWrapper, BorderLayout.SOUTH);
     }
 
-    private JPanel createUpperPanel() {
-        JPanel upperPanel = new JPanel();
-        upperPanel.setLayout(new GridBagLayout());
-        upperPanel.setBackground(Color.decode(Values.BG_COLOR));
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
+        private JPanel createUpperPanel() {
+            JPanel upperPanel = new JPanel();
+            upperPanel.setLayout(new GridBagLayout());
+            upperPanel.setBackground(Color.decode(Values.BG_COLOR));
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.insets = new Insets(0, 5, 5, 5);
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            upperPanel.add(new JLabel("Branch Code:"), gbc);
 
-        // Branch Code Label and Text Field
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        upperPanel.add(new JLabel("Branch Code:"), gbc);
+            gbc.gridx = 1;
+            JTextField branchCodeField = new JTextField(15);
+            upperPanel.add(branchCodeField, gbc);
 
-        gbc.gridx = 1;
-        JTextField branchCodeField = new JTextField(15);
-        upperPanel.add(branchCodeField, gbc);
 
-        // Slider for Report Range Selection
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.gridwidth = 2;
-        JSlider reportSlider = new JSlider(0, 3, 0);
-        reportSlider.setMajorTickSpacing(1);
-        reportSlider.setPaintTicks(true);
-        reportSlider.setPaintLabels(true);
+            gbc.gridx = 0;
+            gbc.gridy = 1;
+            gbc.gridwidth = 2; // Slider spans two columns
+            JSlider reportSlider = new JSlider(0, 3, 0);
+            reportSlider.setMajorTickSpacing(1);
+            reportSlider.setPaintTicks(true);
+            reportSlider.setPaintLabels(true);
 
-        Hashtable<Integer, JLabel> labels = new Hashtable<>();
-        labels.put(0, new JLabel("Today"));
-        labels.put(1, new JLabel("Weekly"));
-        labels.put(2, new JLabel("Monthly"));
-        labels.put(3, new JLabel("Yearly"));
-        reportSlider.setLabelTable(labels);
-        reportSlider.setPreferredSize(new Dimension(300, 50));
-        upperPanel.add(reportSlider, gbc);
+            // Labels for slider values
+            Hashtable<Integer, JLabel> labels = new Hashtable<>();
+            labels.put(0, new JLabel("Today"));
+            labels.put(1, new JLabel("Weekly"));
+            labels.put(2, new JLabel("Monthly"));
+            labels.put(3, new JLabel("Yearly"));
+            reportSlider.setLabelTable(labels);
+            reportSlider.setPreferredSize(new Dimension(300, 50));
+            upperPanel.add(reportSlider, gbc);
 
-        // Buttons Panel
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.gridwidth = 2;
-        JPanel buttonPanel = createButtonPanel();
-        upperPanel.add(buttonPanel, gbc);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        return upperPanel;
-    }
+            gbc.gridx = 2;
+            gbc.gridy = 1; // On the same row as the slider
+            gbc.gridwidth = 1; // Reset gridwidth to 1
+            upperPanel.add(new JLabel("Start Range:"), gbc);
 
-    private JPanel createButtonPanel() {
+            gbc.gridx = 3; // Next column for the text field
+            JTextField startRangeField = new JTextField(10); // Wider text field
+            startRangeField.setPreferredSize(new Dimension(100, 25));
+            upperPanel.add(startRangeField, gbc);
+
+            // End Range Label and TextField
+            gbc.gridx = 4; // Next column after Start Range
+            upperPanel.add(new JLabel("End Range:"), gbc);
+
+            gbc.gridx = 5; // Next column for the text field
+            JTextField endRangeField = new JTextField(10); // Wider text field
+            endRangeField.setPreferredSize(new Dimension(100, 25));
+            upperPanel.add(endRangeField, gbc);
+
+            // Apply Button
+            gbc.gridx = 6; // Place the Apply button after the End Range text field
+            CustomButton applyButton = new CustomButton("Apply");
+            upperPanel.add(applyButton, gbc);
+            applyButton.addActionListener(e -> {
+                String startRange = startRangeField.getText();
+                String endRange = endRangeField.getText();
+                JOptionPane.showMessageDialog(null, "Start: " + startRange + "\nEnd: " + endRange);
+            });
+
+
+            // Label to show the selected report range
+            gbc.gridx = 0;
+            gbc.gridy = 2; // Move below the slider
+            gbc.gridwidth = 7; // Span across all fields
+            gbc.anchor = GridBagConstraints.CENTER; // Center alignment
+            JLabel label = new JLabel();
+            upperPanel.add(label, gbc);
+
+            // Add a ChangeListener to the slider
+            reportSlider.addChangeListener(e -> {
+                String reportText = labels.get(reportSlider.getValue()).getText();
+                label.setText("Report: " + reportText);
+            });
+
+            // Buttons Panel
+            gbc.gridx = 0;
+            gbc.gridy = 3;
+            gbc.gridwidth = 7; // Span across all columns
+            JPanel buttonPanel = createButtonPanel();
+            upperPanel.add(buttonPanel, gbc);
+
+            gbc.fill = GridBagConstraints.HORIZONTAL;
+            return upperPanel;
+        }
+
+
+
+        private JPanel createButtonPanel() {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
         buttonPanel.setBackground(Color.decode(Values.BG_COLOR));
 
