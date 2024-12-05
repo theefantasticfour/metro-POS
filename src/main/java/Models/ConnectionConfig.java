@@ -23,7 +23,7 @@ public class ConnectionConfig {
             try {
                 // Initialize the connection
                 connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-                System.out.println("Database connection established.");
+                System.out.println("Database connection established. teuly");
             } catch (SQLException e) {
                 // Handle any errors
                 System.err.println("Error establishing database connection: " + e.getMessage());

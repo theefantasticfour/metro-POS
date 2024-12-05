@@ -41,23 +41,23 @@ public class SuperAdmin {
     public int getUniqueBranchId()
     {
         int id =1; //for branch id, the first branch id will be 1
-        String query = "SELECT MAX(branchid) FROM branch";
+        String query = "SELECT MAX(branch_id) FROM branch";
         return getID(query,id);
     }
     public int getUniqueManagerId() {
         // logic to get unique manager id either from DB or txt file
         int id =7001; //for manager id, the first manager id will be 7001
-        String query = "SELECT MAX(managerid) FROM manager";
+        String query = "SELECT MAX(employee_id) FROM employee";
         return getID(query,id);
     }
     // DB operations
     public Boolean RegisterBranch(int branchId,String name, String city,String Address,String phoneNo,int noOfEmployees,Boolean Status) {
         Boolean isRegistered = false; // if duplicate exsits or due to some other reason we cannot register it
-
+        System.out.println("reached in supera admin model method regsiter branch");
         // logic to register branch in DB
         Connection connection = ConnectionConfig.getConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO branch VALUES(?,?,?,?,?,?,?,?)");
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO branch VALUES(?,?,?,?,?,?,?)");
             preparedStatement.setInt(1,branchId);
             preparedStatement.setString(2,name);
             preparedStatement.setString(3,city);
@@ -65,13 +65,13 @@ public class SuperAdmin {
             preparedStatement.setString(5,phoneNo);
             preparedStatement.setInt(6,noOfEmployees);
             preparedStatement.setBoolean(7,Status);
-            preparedStatement.setInt(8,-1); // manager id initially -1
             preparedStatement.executeUpdate();
+            System.out.println("Branch Registered SUccessfullyyyyyyyyyy");
             isRegistered = true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        System.out.println("isregistered value = "+isRegistered+"    wese true ani chahiye");
         return isRegistered;
     }
     public Boolean createManagerOfBranch(int branchId,int managerId,String name,Float Salary , String email,String password) {
