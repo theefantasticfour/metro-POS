@@ -213,6 +213,7 @@ public class SuperAdminAddBranchpanel extends JPanel {
     }
     public String getBranchName()
     {
+        // if we decide to name our branch
         return "DHA branch";
     }
 }
