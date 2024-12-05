@@ -156,4 +156,11 @@ public class SuperAdminViewUpdateDeleteBranchespanel extends JPanel {
             sorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText)); // Case-insensitive search
         }
     }
+    public int getBranchIdtoUpdate() {
+        int row = table.getSelectedRow();
+        if (row != -1) {
+            return (int) table.getValueAt(row, 0);
+        }
+        throw new IllegalStateException("No branch selected.");
+    }
 }

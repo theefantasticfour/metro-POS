@@ -116,7 +116,7 @@ public class SuperAdminView extends JPanel {
 
     // Implement logic for getters from SuperAdminView if needed (for testing or integration purposes)
     public int getBranchIdToUpdate() {
-        return superAdminView.getBranchIdToUpdate();
+        return viewUpdateDelete.getBranchIdtoUpdate();
     }
 
     public int getBranchIdToShowReports() {
