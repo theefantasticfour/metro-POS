@@ -1,92 +1,207 @@
 package Views.SuperAdminview;
 
+import Controllers.SuperAdminController;
+import Models.SuperAdmin;
 import Utils.Values;
+import Views.SideBarAndHeader.LeftPanel;
+import Views.SideBarAndHeader.MenuPanel;
+import Views.SideBarAndHeader.RightPanelHeader;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 public class SuperAdminView extends JPanel {
-    // Logically implement kar dena it will work jab danish db add kar de ga
-    // for your testing you may use dummy data
+    SuperAdminController superAdminController;
+    private LeftPanel leftPanel;
+    private RightPanelHeader rightPanelHeader;
+    private JPanel contentPanel; // Panel for dynamic content display
+    private SuperAdminView superAdminView;
     ActionListener superAdminListener;
+    SuperAdminAddBranchpanel createBranch;
+    SuperAdminAddBranchManagerpanel createBranchManager;
+    SuperAdminViewUpdateDeleteBranchespanel viewUpdateDelete;
+    SuperAdminReportsGraphspanel reports;
 
-    // jis panel mai yai chaie isko pass kardo
-    // pr yai logout button kai liye bhi chale ga
-    // iska action command hoga Values.LOGOUT
+    public SuperAdminView(ActionListener LISTNER,SuperAdminController instance) {
+        this.superAdminController = instance;
+        LISTNER =superAdminListener;
+        setLayout(new BorderLayout());
+        setBackground(Color.decode(Values.BG_COLOR));
 
-    // Side Panel yahn bane ga or yahn sai baqi panels kholien gai
-    // wo wali ratio or navigation ap nai khud set karni hai kai kia click ho to konsa panel khole
-    // panels ki classes mene bana di hain.
-    // Getters or setter bhi set kar dena hain
-    // you have to see kai konse panel wo mai wo particluar textfeild hai or phir wahn sai uska data uthana hai
-    // i.e for getCity
-    //  getCity(){
-    //  SuperAdminAddBranchpanel panel = new SuperAdminAddBranchpanel();
-    // panel.getCity();
-    // }
+        // Initialize SuperAdminView
+        // Initialize Left Panel with dynamic menu items and actions
+        leftPanel = new LeftPanel(Arrays.asList(
+                new MenuPanel("Create Branch",Values.CREATION_ICON),
+                new MenuPanel("Create Branch Manager",Values.CREATION_ICON),
+                new MenuPanel("View/Update/Delete",Values.VIEW_ICON),
+                new MenuPanel("Report",Values.REPORT_ICON)
+        ), e -> {
+            JButton source = (JButton) e.getSource();
+            String buttonText = source.getText();
+            switch (buttonText) {
+                case "Create Branch":
+                    openCreateBranchForm();
+                    break;
+                case "Create Branch Manager":
+                    openCreateBranchManagerForm();
+                    break;
+                case "View/Update/Delete":
+                    openViewUpdateDeleteForm();
+                    break;
+                case "Report":
+                    openReportForm();
+                    break;
+            }
+        });
 
-    public SuperAdminView(ActionListener superAdminListener) {
-        this.superAdminListener = superAdminListener;
-        System.out.println("SuperAdminView initialized");
+
+        rightPanelHeader = new RightPanelHeader(Values.SUPER_ADMIN_ICON, "Super Admin Dashboard");
+
+        contentPanel = new JPanel();
+        contentPanel.setBackground(Color.decode(Values.BG_COLOR)); // Set background color to white
+        contentPanel.setLayout(new CardLayout()); // CardLayout for switching between forms
+
+        // Add Left Panel and Right Panel Header to the main panel
+        add(leftPanel, BorderLayout.WEST);
+        add(createRightPanel(), BorderLayout.CENTER);
+
+        // Initially display the Create Branch form
+        openCreateBranchForm();
     }
 
-    // Getters and
-    public int getBranchIdtoupdate() {
-    return 0;
-    } // table sai branch id to update ect
-    public int getBranchidtoshowreports() { // combo box sai id
-    return 0;
-    }
-    public String getTypetoShowReports() {
-    return null;
-    // type can be daily, weekly, monthly
+    private JPanel createRightPanel() {
+        JPanel rightPanel = new JPanel();
+        rightPanel.setLayout(new BorderLayout());
+        rightPanel.setBackground(Color.decode(Values.BG_COLOR)); // Match main panel background
+        rightPanel.add(rightPanelHeader, BorderLayout.NORTH);
+        rightPanel.add(contentPanel, BorderLayout.CENTER);
+        return rightPanel;
     }
 
-
-    public String getCity() {
-
-    return null;
+    private void openCreateBranchForm() {
+        createBranch = new SuperAdminAddBranchpanel(superAdminListener,superAdminController,contentPanel);
     }
 
-    public String getAddress() {
-    return null;
+    private void openCreateBranchManagerForm() {
+        createBranchManager= new SuperAdminAddBranchManagerpanel(superAdminListener,superAdminController);
+        createBranchManager.display(contentPanel);
     }
 
-    public String getPhoneNo() {
-        return null;
+    private void openViewUpdateDeleteForm() {
+        contentPanel.removeAll();
+        viewUpdateDelete = new SuperAdminViewUpdateDeleteBranchespanel(superAdminListener,superAdminController,contentPanel);
+        //  viewUpdateDelete.display(this);
+        contentPanel.revalidate();
+        contentPanel.repaint();
     }
 
-    public int getNoOfEmployees() {
-        return 0;
+    private void openReportForm() {
+        contentPanel.removeAll();
+        reports = new SuperAdminReportsGraphspanel();
+        // reports.display(contentPanel);
+        contentPanel.revalidate();
+        contentPanel.repaint();
     }
 
-    public Boolean getStatus() {
-        return null;
+    // Getters and Setters for the data passed from SuperAdminView
+    public SuperAdminView getSuperAdminView() {
+        return superAdminView;
     }
 
-
-    public String getManagerName() {
-        return null;
+    public JPanel getContentPanel() {
+        return contentPanel;
     }
 
-    public Float getManagerSalary() {
-        return null;
+    // Implement logic for getters from SuperAdminView if needed (for testing or integration purposes)
+    public int getBranchIdToUpdate() {
+        return superAdminView.getBranchIdToUpdate();
+    }
+
+    public int getBranchIdToShowReports() {
+        return superAdminView.getBranchIdToShowReports();
+    }
+
+    public String getTypeToShowReports() {
+        return superAdminView.getTypeToShowReports();
     }
 
     public int getManagerId() {
-        return 0;
+        if (createBranchManager != null) {
+            return Integer.parseInt(createBranchManager.getmanagerId());
+        }
+        throw new IllegalStateException("Create Branch Manager form is not initialized.");
+    }
+
+    public String getManagerName() {
+        if (createBranchManager != null) {
+            return createBranchManager.getmanagerName();
+        }
+        throw new IllegalStateException("Create Branch Manager form is not initialized.");
+    }
+
+    public Float getManagerSalary() {
+        if (createBranchManager != null) {
+            return Float.parseFloat(createBranchManager.getSalary());
+        }
+        throw new IllegalStateException("Create Branch Manager form is not initialized.");
     }
 
     public String getManagerEmail() {
-        return null;
+        if (createBranchManager != null) {
+            return createBranchManager.getEmail();
+        }
+        throw new IllegalStateException("Create Branch Manager form is not initialized.");
     }
 
-    public int getBranchidtoRegister() { // addbranch wale panel sai
-    return 0;
+    public int getBranchIdtoCreateManager() {
+        if (createBranchManager != null) {
+            return Integer.parseInt(createBranchManager.BranchIdtoCreatemanager());
+        }
+        throw new IllegalStateException("Create Branch Manager form is not initialized.");
+    }
+    public int getBranchidtoRegister() {
+        if (createBranch != null) {
+            return  Integer.parseInt(createBranch.getBranchId());
+        }
+        throw new IllegalStateException("Create Branch form is not initialized.");
     }
 
-    public int getBranchIdtoCreateManager() { // add manager wale panel sai
-    return 0;
+    public String getCity() {
+        if (createBranch != null) {
+            return createBranch.getCity();
+        }
+        throw new IllegalStateException("Create Branch form is not initialized.");
     }
+
+    public String getAddress() {
+        if (createBranch != null) {
+            return createBranch.getAddress();
+        }
+        throw new IllegalStateException("Create Branch form is not initialized.");
+    }
+
+    public String getPhoneNo() {
+        if (createBranch != null) {
+            return createBranch.getPhoneNumber();
+        }
+        throw new IllegalStateException("Create Branch form is not initialized.");
+    }
+
+    public int getNoOfEmployees() {
+        if (createBranch != null) {
+            return Integer.parseInt(createBranch.getNumberOfEmployees());
+        }
+        throw new IllegalStateException("Create Branch form is not initialized.");
+    }
+
+    public Boolean getStatus() {
+        if (createBranch != null) {
+            return Boolean.parseBoolean(createBranch.getStatus());
+        }
+        throw new IllegalStateException("Create Branch form is not initialized.");
+    }
+
+
 }
-

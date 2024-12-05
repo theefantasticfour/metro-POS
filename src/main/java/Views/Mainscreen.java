@@ -1,6 +1,8 @@
 package Views;
 
+import Controllers.SuperAdminController;
 import Models.BranchManager;
+import Models.SuperAdmin;
 import Session.Session;
 import Views.BranchManagerView.BranchManagerView;
 import Views.SuperAdminview.SuperAdminView;
@@ -78,9 +80,9 @@ public class Mainscreen extends JFrame {
     }
 
     // show super admin screen
-    public void showSuperAdmin(ActionListener LISTNER) {
+    public void showSuperAdmin(ActionListener LISTNER, SuperAdminController insntance) {
         if (superAdminView == null) {
-            superAdminView = new SuperAdminView(LISTNER);
+            superAdminView = new SuperAdminView(LISTNER,insntance);
             this.add(superAdminView, "SuperAdmin");
         }
         c1.show(this.getContentPane(), "SuperAdmin");

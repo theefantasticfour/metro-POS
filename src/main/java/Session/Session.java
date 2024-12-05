@@ -25,6 +25,8 @@ public class Session {
         if (welcomecontroller == null) {
             welcomecontroller = new Welcomecontroller(this);
         }
+        Welcomecontroller welcomecontroller = new Welcomecontroller(this);
+        //welcomecontroller.start();
         welcomecontroller.start();
     }
 
@@ -40,7 +42,7 @@ public class Session {
     public void showSuperAdmin(String username, String password) {
        if (superAdminController == null) {
            System.out.println("Super Admin Controller called.");
-           SuperAdminController superAdminController = new SuperAdminController(this);
+           superAdminController = new SuperAdminController(this);
        }
        superAdminController.start(username, password);
     }
