@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class SuperAdminController {
-    static SuperAdmin superAdminModel;
+    SuperAdmin superAdminModel;
     SuperAdminView superAdminView;
     Session session;
 // ------- Constructor ------
@@ -26,11 +26,13 @@ public class SuperAdminController {
     public void start(String username, String password) {
         System.out.println("Super Admin Controller started.");
         // initialed View
-        Mainscreen.getInstance().showSuperAdmin(setActionListeners()); // returns the action listner
         // Initialised model
         superAdminModel = new SuperAdmin(username, password);
+        Mainscreen.getInstance().showSuperAdmin(setActionListeners(),this); // returns the action listner
+
         superAdminView = Mainscreen.getSuperAdminView();
     }
+
 // ------- GUI operations ------
 
 
@@ -63,19 +65,19 @@ public class SuperAdminController {
             System.out.println("Manager Not Created");
         }
     }
-    public static ArrayList<Branch> getBranches() {
+    public ArrayList<Branch> getBranches() {
         // logic to get all branches from DB
-        return superAdminModel.getBranches();// forward it to view
+        return superAdminModel.getBranches(); // forward it to view
     } // to Show in table
-    public static int getUniqueBranchId() {
+    public int getUniqueBranchId() {
         // logic to get unique branch id either from DB or txt file
         return superAdminModel.getUniqueBranchId();
     }
-    public static int getUniqueManagerId() {
+    public  int getUniqueManagerId() {
         // logic to get unique manager id either from DB or txt file
         return superAdminModel.getUniqueManagerId();
     }
-    public static ArrayList<Integer> getAllBranchIds() {
+    public ArrayList<Integer> getAllBranchIds() {
         // logic to get all branch ids
         ArrayList<Integer> branches = superAdminModel.getAllBranchIds();
        // simulation
@@ -99,7 +101,7 @@ public class SuperAdminController {
         }
     }
     public void DeleteBranch() {
-        int branchId = superAdminView.getBranchIdtoupdate();
+        int branchId = superAdminView.getBranchIdToUpdate();
         // logic to delete branch in DB
         Boolean isDeleted = superAdminModel.deleteBranch(branchId);
         if (isDeleted) {
@@ -108,21 +110,21 @@ public class SuperAdminController {
         JOptionPane.showMessageDialog(null, "Branch Not Deleted");
         }
     }
-    public static  ArrayList<Transactions> downloadSalesReport(int branchId,String type,Boolean isDownload) {
+    public  ArrayList<Transactions> downloadSalesReport(int branchId,String type,Boolean isDownload) {
         // logic to get sales report and make it downloadable
         if (isDownload) {
             // download the report
         }
         return superAdminModel.getTransactions(branchId,type);
     }
-    public static ArrayList<Product> downloadProductsReport(int branchId,Boolean isDownload) {
+    public  ArrayList<Product> downloadProductsReport(int branchId,Boolean isDownload) {
         // logic to get remaining products
         if (isDownload) {
             // download the report
         }
         return superAdminModel.getRemainingStock(branchId);
     }
-    public static Float downloadProfitreport(int branchId, String type,Boolean isDownload) {
+    public  Float downloadProfitreport(int branchId, String type,Boolean isDownload) {
         // logic to get profit
         if (isDownload) {
             // download the report
@@ -146,13 +148,15 @@ public class SuperAdminController {
             } else if (e.getActionCommand().equals(Values.DELETE_BRANCH)) {
                 DeleteBranch();
             } else if (e.getActionCommand().equals(Values.SALES_REPORT)) {
-                downloadSalesReport(superAdminView.getBranchidtoshowreports(),superAdminView.getTypetoShowReports(),true);
+              //  downloadSalesReport(superAdminView.getBranchidtoshowreports(),superAdminView.getTypetoShowReports(),true);
             } else if (e.getActionCommand().equals(Values.STOCK_REPORT)) {
-               downloadProductsReport(superAdminView.getBranchidtoshowreports(),true);
+               //downloadProductsReport(superAdminView.getBranchidtoshowreports(),true);
             } else if (e.getActionCommand().equals(Values.PROFIT_REPORT)) {
-                downloadProfitreport(superAdminView.getBranchidtoshowreports(),superAdminView.getTypetoShowReports(),true);
+                //downloadProfitreport(superAdminView.getBranchidtoshowreports(),superAdminView.getTypetoShowReports(),true);
             } else if (e.getActionCommand().equals(Values.LOGOUT)) {
                 // logout and go to login screen
+                JOptionPane.showMessageDialog(null, "Logging out...");
+                session.showLogin();
             }
         };
     }
