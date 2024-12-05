@@ -4,10 +4,9 @@ import Entites.Branch;
 import Entites.Product;
 import Entites.Transactions;
 import java.sql.*;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.Date;
-import java.util.Map;
-import java.util.TreeMap;
 
 public class SuperAdmin {
     private String username;
@@ -210,18 +209,79 @@ public class SuperAdmin {
     // reports + graphs
     // of Sales || Remaining Stock || Profit
     // All this to be calculated daily, weekly, monthly, yearly
-    public static ArrayList<Transactions> getTransactions(int branchId , String type) {
-        ArrayList<Transactions> transactions = new ArrayList<Transactions>();
+    public static ArrayList<Transactions> getTransactions(int branchId, String type) {
+        ArrayList<Transactions> transactions = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
 
-        // logic to get all transactions from DB
-        // type tells Daily monthly or yearly
+        try {
+            connection = ConnectionConfig.getConnection();
 
-        Connection connection = ConnectionConfig.getConnection();
-        
+            // Define the base SQL query
+            String sql = "SELECT s.sale_id, s.branch_id, s.cashier_id, sd.product_id, s.sale_date, (sd.quantity * sd.price_per_unit) AS transaction_amount " +
+                    "FROM Sale s " +
+                    "JOIN Sale_Details sd ON s.sale_id = sd.sale_id " +
+                    "WHERE s.branch_id = ? AND DATE(s.sale_date) BETWEEN ? AND ?";
 
+            // Calculate date range based on the type
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Calendar calendar = Calendar.getInstance();
+            Date endDate = calendar.getTime();
+            String endDateStr = sdf.format(endDate);
+            String startDateStr;
 
+            switch (type.toLowerCase()) {
+                case "daily":
+                    startDateStr = sdf.format(endDate); // Same day
+                    break;
+                case "monthly":
+                    calendar.set(Calendar.DAY_OF_MONTH, 1); // Start of the month
+                    startDateStr = sdf.format(calendar.getTime());
+                    break;
+                case "yearly":
+                    calendar.set(Calendar.DAY_OF_YEAR, 1); // Start of the year
+                    startDateStr = sdf.format(calendar.getTime());
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid report type: " + type);
+            }
+
+            // Prepare the statement
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, branchId);
+            preparedStatement.setString(2, startDateStr);
+            preparedStatement.setString(3, endDateStr);
+
+            // Execute the query
+            resultSet = preparedStatement.executeQuery();
+
+            // Process the result set
+            while (resultSet.next()) {
+                int transactionId = resultSet.getInt("sale_id");
+                int cashierId = resultSet.getInt("cashier_id");
+                int productId = resultSet.getInt("product_id");
+                Date transactionDate = resultSet.getDate("sale_date");
+                float transactionAmount = resultSet.getFloat("transaction_amount");
+
+                transactions.add(new Transactions(transactionId, branchId, cashierId, productId, transactionDate, transactionAmount));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Close resources
+            try {
+                if (resultSet != null) resultSet.close();
+                if (preparedStatement != null) preparedStatement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
         return transactions;
     }
+
     public static  ArrayList<Product> getRemainingStock(int branchId) {
         ArrayList<Product> products = new ArrayList<Product>();
         // if branch id is -1 then we will get the remaining stock of the product
@@ -240,6 +300,24 @@ public class SuperAdmin {
         // logic to get all branch ids
         // getBranches() sai sari branches mil jain gi or jese tumhe sahi lage
         // phir unki ids nikal kar forward karna hai
+
+        Connection connection = ConnectionConfig.getConnection();
+        try {
+            // Query to get all branches
+            String branchQuery = "SELECT branch_id FROM Branch";
+            PreparedStatement branchStmt = connection.prepareStatement(branchQuery);
+            ResultSet branchResultSet = branchStmt.executeQuery();
+
+            while (branchResultSet.next()) {
+                branches.add(branchResultSet.getInt("branch_id"));
+            }
+
+            branchStmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exceptions (e.g., log error, rethrow as custom exception, etc.)
+        }
+
         return branches;
     }
 

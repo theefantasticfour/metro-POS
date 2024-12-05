@@ -9,8 +9,19 @@ public class Transactions {
     int productId;
     Date transactionDate;
     float transactionAmount;
-    String transactionStatus;
+    public Transactions()
+    {
 
+    }
+    public Transactions(int transactionId,int branchId,int cashierId, int productId, Date transactionDate, float transactionAmount)
+    {
+        this.transactionId= transactionId;
+        this.branchId = branchId;
+        this.cashierId = cashierId;
+        this.productId = productId;
+        this.transactionDate = transactionDate;
+        this.transactionAmount = transactionAmount;
+    }
     public int getTransactionId() {
         return transactionId;
     }
@@ -35,7 +46,5 @@ public class Transactions {
         return transactionAmount;
     }
 
-    public String getTransactionStatus() {
-        return transactionStatus;
-    }
+
 }
