@@ -136,7 +136,8 @@ public class SuperAdminAddBranchpanel extends JPanel {
                     JOptionPane.INFORMATION_MESSAGE
             );
 
-
+            branchId = String.valueOf(superAdminController.getUniqueBranchId());
+            branchCodeField.setText(branchId);
             cityField.setText("");
             addressField.setText("");
             phoneNumberField.setText("");
