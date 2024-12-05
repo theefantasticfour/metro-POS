@@ -24,6 +24,8 @@ public class Session {
         if (welcomecontroller == null) {
             welcomecontroller = new Welcomecontroller(this);
         }
+        Welcomecontroller welcomecontroller = new Welcomecontroller(this);
+        //welcomecontroller.start();
         welcomecontroller.start();
     }
 
