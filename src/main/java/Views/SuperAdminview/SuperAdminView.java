@@ -77,13 +77,11 @@ public class SuperAdminView extends JPanel {
         rightPanel.setBackground(Color.decode(Values.BG_COLOR)); // Match main panel background
         rightPanel.add(rightPanelHeader, BorderLayout.NORTH);
         rightPanel.add(contentPanel, BorderLayout.CENTER);
-
         return rightPanel;
     }
 
     private void openCreateBranchForm() {
-        createBranch = new SuperAdminAddBranchpanel(superAdminListener,superAdminController);
-
+        createBranch = new SuperAdminAddBranchpanel(superAdminListener,superAdminController,contentPanel);
     }
 
     private void openCreateBranchManagerForm() {
@@ -93,7 +91,7 @@ public class SuperAdminView extends JPanel {
 
     private void openViewUpdateDeleteForm() {
         contentPanel.removeAll();
-        viewUpdateDelete = new SuperAdminViewUpdateDeleteBranchespanel(superAdminListener,superAdminController);
+        viewUpdateDelete = new SuperAdminViewUpdateDeleteBranchespanel(superAdminListener,superAdminController,contentPanel);
         //  viewUpdateDelete.display(this);
         contentPanel.revalidate();
         contentPanel.repaint();

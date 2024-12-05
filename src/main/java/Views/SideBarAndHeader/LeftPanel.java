@@ -65,15 +65,17 @@ public class LeftPanel extends JPanel {
         System.exit(0); // Exit the application for now (can be replaced with a redirection to login)
     }
     // Method to add the Logout button
-    private void addLogoutButton(ActionListener actionListener) {
+    private void addLogoutButton(ActionListener actionListener)
+    {
         logoutButton = createButton("Logout", Values.LOGOUT_ICON, 40, 40);
 
         // Add action listener to the logout button
-        logoutButton.addActionListener(e -> {
-            if (e.getActionCommand().equals(Values.LOGOUT)) {
-                handleLogoutAction();
-            }
-        });
+//        logoutButton.addActionListener(e -> {
+//            if (e.getActionCommand().equals(Values.LOGOUT)) {
+//                handleLogoutAction();
+//            }
+        logoutButton.addActionListener(actionListener);
+
 
 
         logoutButton.setBounds(30, getHeight() - 70, 240, 50);

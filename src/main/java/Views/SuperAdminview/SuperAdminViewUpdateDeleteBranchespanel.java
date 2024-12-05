@@ -21,6 +21,7 @@ public class SuperAdminViewUpdateDeleteBranchespanel extends JPanel {
     private SuperAdminController superAdminController;
     private JTable table;
     private DefaultTableModel tableModel;
+    public JPanel parentPanel;
 
     // Column names for the table
     private final String[] columnNames = {
@@ -28,24 +29,28 @@ public class SuperAdminViewUpdateDeleteBranchespanel extends JPanel {
             "No. of Empl.", "Branch Manager", "Manager's Salary", "Update", "Delete"
     };
 
-    public SuperAdminViewUpdateDeleteBranchespanel(ActionListener superAdminListener,SuperAdminController instance) {
+    public SuperAdminViewUpdateDeleteBranchespanel(ActionListener superAdminListener,SuperAdminController instance, JPanel parentPanel) {
         this.superAdminController = instance;
+        this.parentPanel = parentPanel;
         this.superAdminListener = superAdminListener;
         System.out.println("SuperAdminViewUpdateDeleteBranchespanel initialized");
         inIt();
     }
 
     public void inIt() {
-        setLayout(new BorderLayout());
-        setBackground(Color.decode(Values.BG_COLOR)); // Use constant for background color
+        parentPanel.removeAll();
+        parentPanel.setLayout(new BorderLayout());
+        parentPanel.setBackground(Color.decode(Values.BG_COLOR));
 
         // Search Panel
         JPanel searchPanel = createSearchPanel();
-        add(searchPanel, BorderLayout.NORTH);
+        parentPanel.add(searchPanel, BorderLayout.NORTH);
 
         // Table Panel
         JScrollPane tableScrollPane = new JScrollPane(createTable());
-        add(tableScrollPane, BorderLayout.CENTER);
+        parentPanel.add(tableScrollPane, BorderLayout.CENTER);
+        parentPanel.revalidate();
+        parentPanel.repaint();
     }
 
     private JPanel createSearchPanel() {

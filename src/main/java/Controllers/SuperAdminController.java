@@ -155,6 +155,7 @@ public class SuperAdminController {
                 //downloadProfitreport(superAdminView.getBranchidtoshowreports(),superAdminView.getTypetoShowReports(),true);
             } else if (e.getActionCommand().equals(Values.LOGOUT)) {
                 // logout and go to login screen
+                session.showLogin();
             }
         };
     }

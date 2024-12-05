@@ -18,17 +18,20 @@ public class SuperAdminAddBranchpanel extends JPanel {
     public String phoneNumber;
     public String numberOfEmployees;
     public String status;
+    public JPanel parentPanel;
 
-    public SuperAdminAddBranchpanel(ActionListener SuperAdminListener,SuperAdminController instance) {
+    public SuperAdminAddBranchpanel(ActionListener SuperAdminListener,SuperAdminController instance,JPanel parentPanel) {
         this.superAdminController=instance;
+        this.parentPanel = parentPanel;
         this.SuperAdminListener = SuperAdminListener;
         System.out.println("SuperAdminAddBranchpanel initialized");
         inIt();
     }
 
     public void inIt() {
-        this.setLayout(new GridBagLayout());
-        this.setBackground(Color.decode(Values.BG_COLOR));
+        parentPanel.removeAll();
+        parentPanel.setLayout(new GridBagLayout());
+        parentPanel.setBackground(Color.decode(Values.BG_COLOR));
 
         JPanel formPanel = new JPanel(new GridBagLayout());
         formPanel.setBackground(Color.decode(Values.BG_COLOR));
@@ -139,6 +142,7 @@ public class SuperAdminAddBranchpanel extends JPanel {
             phoneNumberField.setText("");
             employeesField.setText("");
             activeStatusComboBox.setSelectedIndex(0);
+
         });
 
 
@@ -149,6 +153,9 @@ public class SuperAdminAddBranchpanel extends JPanel {
         parentGbc.weighty = 1;
         parentGbc.fill = GridBagConstraints.HORIZONTAL;
         this.add(formPanel, parentGbc);
+        parentPanel.add(formPanel, parentGbc);
+        parentPanel.revalidate();
+        parentPanel.repaint();
     }
 
     private void addLabelAndComponent(JPanel panel, String labelText, Font labelFont, GridBagConstraints gbc, int x, int y) {

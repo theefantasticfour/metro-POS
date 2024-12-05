@@ -36,7 +36,7 @@ public class SuperAdminAddBranchManagerpanel {
         gbc.gridy = 0;
         gbc.weightx = 1;
         gbc.weighty = 1;
-        gbc.fill = GridBagConstraints.BOTH;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         parentPanel.add(formPanel, gbc);
 
         parentPanel.revalidate();
@@ -63,7 +63,13 @@ public class SuperAdminAddBranchManagerpanel {
         JTextField managerIdField = createDisabledTextField(
                 String.valueOf(superAdminController.getUniqueBranchId()) // Auto-generated Branch ID
         );
+        gbc.gridx=0;
+        gbc.gridy=1;
+        gbc.insets=new Insets(4,8,4,8);
+        formPanel.add(managerIdField, gbc);
 
+        gbc.insets=new Insets(25,8,4,8);
+        addLabel(formPanel, "Branch Code", labelFont, gbc, 1, 0);
         // Fetch all branch IDs from the controller (using the getAllBranchIds method)
         ArrayList<Integer> branchIdsList = superAdminController.getAllBranchIds();
         String[] branchIds = new String[branchIdsList.size()];
@@ -73,10 +79,8 @@ public class SuperAdminAddBranchManagerpanel {
         CustomComboBox branchCodeComboBox = new CustomComboBox(branchIds);
         gbc.gridx = 1;
         gbc.gridy = 1;
+        gbc.insets = new Insets(4, 8, 4, 8);
         addComponent(formPanel, branchCodeComboBox, gbc, 1, 1);
-
-
-
 
         // Manager's Name
         addLabel(formPanel, "Manager's Name", labelFont, gbc, 0, 2);
