@@ -43,7 +43,7 @@ public class SuperAdminController {
         System.out.println("reached hereeeeee");
         int branchId = superAdminView.getBranchidtoRegister();
        // int managerId = superAdminView.getManagerId();
-        String name = superAdminView.getName();
+        String name = superAdminView.getbranchName();
         System.out.println("name of branch = "+name);
         Object[] data = getData();
         Boolean isRegistered = superAdminModel.RegisterBranch(branchId,name,(String) data[0],(String) data[1], (String) data[2], (Integer) data[3], (Boolean) data[4]);
@@ -85,10 +85,6 @@ public class SuperAdminController {
         // logic to get all branch ids
         ArrayList<Integer> branches = superAdminModel.getAllBranchIds();
        // simulation
-        branches.add(0);
-        branches.add(1);
-        branches.add(2);
-        branches.add(3);
         return branches;
     }
     public void UpdateBranch() {
@@ -128,20 +124,22 @@ public class SuperAdminController {
         }
         return superAdminModel.getRemainingStock(branchId);
     }
-    public  Float downloadProfitreport(int branchId, String type,Boolean isDownload) {
+    public  Float downloadProfitreport(int branchId, String type,Boolean isDownload)
+    {
         // logic to get profit
         if (isDownload) {
             // download the report
         }
         return superAdminModel.CalculateProfit(branchId,type);
     }
-   // ---------- Action Listners -------
+    // ---------- Action Listners -------
     // 1 APPLY FOR BRANCH CREATION
     // 2 APPLY FOR MANAGER CREATION
     // 3 uPDATE BRANCH
     // 4 DELETE BRANCH
     // 3 buttons of salereport || stockreprt || profit
-    public ActionListener setActionListeners() {
+    public ActionListener setActionListeners()
+    {
         return e -> {
             if (e.getActionCommand().equals(Values.REGISTER_BRANCH)) {
                 RegisterBranch();

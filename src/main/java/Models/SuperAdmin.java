@@ -3,6 +3,8 @@ package Models;
 import Entites.Branch;
 import Entites.Product;
 import Entites.Transactions;
+import Utils.Values;
+
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -41,7 +43,7 @@ public class SuperAdmin {
     public int getUniqueBranchId()
     {
         int id =1; //for branch id, the first branch id will be 1
-        String query = "SELECT MAX(branch_id) FROM branch";
+        String query = "SELECT MAX(branch_id) FROM Branch";
         return getID(query,id);
     }
     public int getUniqueManagerId() {
@@ -53,11 +55,12 @@ public class SuperAdmin {
     // DB operations
     public Boolean RegisterBranch(int branchId,String name, String city,String Address,String phoneNo,int noOfEmployees,Boolean Status) {
         Boolean isRegistered = false; // if duplicate exsits or due to some other reason we cannot register it
-        System.out.println("reached in supera admin model method regsiter branch");
+        System.out.println("reached in supera admin model method regsiter branch\n and branch name = "+name);
         // logic to register branch in DB
+
         Connection connection = ConnectionConfig.getConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO branch VALUES(?,?,?,?,?,?,?)");
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Branch VALUES(?,?,?,?,?,?,?)");
             preparedStatement.setInt(1,branchId);
             preparedStatement.setString(2,name);
             preparedStatement.setString(3,city);
@@ -76,7 +79,7 @@ public class SuperAdmin {
     }
     public Boolean createManagerOfBranch(int branchId,int managerId,String name,Float Salary , String email,String password) {
         Boolean isCreated = false; // if duplicate exsits or due to some other reason we cannot create it
-
+        System.out.println("reached in create manager methoddddddddddddddd");
         // logic to create manager in DB
         Connection connection = ConnectionConfig.getConnection();
         try {
@@ -86,10 +89,11 @@ public class SuperAdmin {
             preparedStatement.setString(3,name);
             preparedStatement.setString(4,email);
             preparedStatement.setString(5,password);
-            preparedStatement.setString(6,"Manager");
+            preparedStatement.setString(6, Values.BRANCH_MANAGER);
             preparedStatement.setFloat(7,Salary);
-            preparedStatement.setBoolean(8,false);
+            preparedStatement.setBoolean(8,true);
             preparedStatement.executeUpdate();
+            System.out.println("Manager Created Successfullyyyyyyy");
             isCreated = true;
         } catch (SQLException e) {
             e.printStackTrace();
