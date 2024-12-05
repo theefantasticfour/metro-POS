@@ -150,8 +150,6 @@ public class SuperAdmin {
         //        because there is a possible case that branch have no manager assigned yet but branch has been created
 
     }
-
-
     public Boolean updateBranch(int branchId,String city,String Address,String phoneNo,int noOfEmployees,Boolean Status,String managerName,Float managerSalary,int managerId) {
         Boolean isUpdated = false; // if branch not found or due to some other reason we cannot update it
 

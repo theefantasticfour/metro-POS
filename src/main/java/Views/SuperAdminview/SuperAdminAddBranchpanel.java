@@ -211,4 +211,8 @@ public class SuperAdminAddBranchpanel extends JPanel {
     public String getStatus() {
         return status;
     }
+    public String getBranchName()
+    {
+        return "DHA branch";
+    }
 }
