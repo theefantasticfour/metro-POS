@@ -143,7 +143,6 @@ public class SuperAdminViewUpdateDeleteBranchespanel extends JPanel {
             // Handle delete action here for the selected row
             System.out.println("Delete clicked for row: " + row);
         }));
-
         return table;
     }
 
