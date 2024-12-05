@@ -1,5 +1,6 @@
 package Models;
 
-public class Welcome {
+public class Welcome
+{
     // will be implemented if needed
 }

@@ -9,7 +9,8 @@ public class BranchManager {
         System.out.println("Branch Manager Model initialized");
     }
     // DB operations
-    public Boolean changePassword(String Password) {
+    public Boolean changePassword(String Password)
+    {
         System.out.println("Branch Manager Password changed");
         // sirf update karna hai against the id no checks to be performed
         return true;
