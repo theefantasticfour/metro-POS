@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 
 public class SuperAdminAddBranchpanel extends JPanel {
     ActionListener SuperAdminListener;
-
+    SuperAdminController superAdminController;
     public String branchId;   // Added branchId
     public String city;
     public String address;
@@ -19,7 +19,8 @@ public class SuperAdminAddBranchpanel extends JPanel {
     public String numberOfEmployees;
     public String status;
 
-    public SuperAdminAddBranchpanel(ActionListener SuperAdminListener) {
+    public SuperAdminAddBranchpanel(ActionListener SuperAdminListener,SuperAdminController instance) {
+        this.superAdminController=instance;
         this.SuperAdminListener = SuperAdminListener;
         System.out.println("SuperAdminAddBranchpanel initialized");
         inIt();
@@ -45,11 +46,11 @@ public class SuperAdminAddBranchpanel extends JPanel {
         Font labelFont = new Font(Values.LABEL_FONT, Font.PLAIN, 14);
 
         // Branch Code (Disabled)
-        branchId=String.valueOf(SuperAdminController.getUniqueBranchId());
+        branchId=String.valueOf(superAdminController.getUniqueBranchId());
         gbc.insets = new Insets(25, 8, 4, 8);
         addLabelAndComponent(formPanel, "Branch ID", labelFont, gbc, 0, 0);
         JTextField branchCodeField = createDisabledTextField(
-                String.valueOf(SuperAdminController.getUniqueBranchId())
+                String.valueOf(superAdminController.getUniqueBranchId())
         );
         gbc.gridx = 0;
         gbc.gridy = 1;

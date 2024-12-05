@@ -12,13 +12,15 @@ import java.awt.event.ActionListener;
 
 public class SuperAdminAddBranchManagerpanel {
     private final ActionListener superAdminListener;
+    private SuperAdminController superAdminController;
     public String managerName;
     public String salary;
     public String email;
     public String managerId;  // Add managerId
     public String branchId;   // Add branchId
 
-    public SuperAdminAddBranchManagerpanel(ActionListener superAdminListener) {
+    public SuperAdminAddBranchManagerpanel(ActionListener superAdminListener,SuperAdminController instance) {
+        this.superAdminController = instance;
         this.superAdminListener = superAdminListener;
         System.out.println("SuperAdminAddBranchManagerPanel initialized");
     }
@@ -59,11 +61,11 @@ public class SuperAdminAddBranchManagerpanel {
         // Branch Manager ID (Read-only)
         addLabel(formPanel, "Branch Manager ID", labelFont, gbc, 0, 0);
         JTextField managerIdField = createDisabledTextField(
-                String.valueOf(SuperAdminController.getUniqueBranchId()) // Auto-generated Branch ID
+                String.valueOf(superAdminController.getUniqueBranchId()) // Auto-generated Branch ID
         );
 
         // Fetch all branch IDs from the controller (using the getAllBranchIds method)
-        ArrayList<Integer> branchIdsList = SuperAdminController.getAllBranchIds();
+        ArrayList<Integer> branchIdsList = superAdminController.getAllBranchIds();
         String[] branchIds = new String[branchIdsList.size()];
         for (int i = 0; i < branchIdsList.size(); i++) {
             branchIds[i] = String.valueOf(branchIdsList.get(i));  // Convert the Integer ID to String

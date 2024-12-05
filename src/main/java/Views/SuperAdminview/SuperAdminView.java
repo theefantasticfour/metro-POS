@@ -1,5 +1,7 @@
 package Views.SuperAdminview;
 
+import Controllers.SuperAdminController;
+import Models.SuperAdmin;
 import Utils.Values;
 import Views.SideBarAndHeader.LeftPanel;
 import Views.SideBarAndHeader.MenuPanel;
@@ -11,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.util.Arrays;
 
 public class SuperAdminView extends JPanel {
+    SuperAdminController superAdminController;
     private LeftPanel leftPanel;
     private RightPanelHeader rightPanelHeader;
     private JPanel contentPanel; // Panel for dynamic content display
@@ -21,7 +24,8 @@ public class SuperAdminView extends JPanel {
     SuperAdminViewUpdateDeleteBranchespanel viewUpdateDelete;
     SuperAdminReportsGraphspanel reports;
 
-    public SuperAdminView(ActionListener LISTNER) {
+    public SuperAdminView(ActionListener LISTNER,SuperAdminController instance) {
+        this.superAdminController = instance;
         LISTNER =superAdminListener;
         setLayout(new BorderLayout());
         setBackground(Color.decode(Values.BG_COLOR));
@@ -78,17 +82,18 @@ public class SuperAdminView extends JPanel {
     }
 
     private void openCreateBranchForm() {
-        createBranch = new SuperAdminAddBranchpanel(superAdminListener);
+        createBranch = new SuperAdminAddBranchpanel(superAdminListener,superAdminController);
+
     }
 
     private void openCreateBranchManagerForm() {
-        createBranchManager= new SuperAdminAddBranchManagerpanel(superAdminListener);
+        createBranchManager= new SuperAdminAddBranchManagerpanel(superAdminListener,superAdminController);
         createBranchManager.display(contentPanel);
     }
 
     private void openViewUpdateDeleteForm() {
         contentPanel.removeAll();
-        viewUpdateDelete = new SuperAdminViewUpdateDeleteBranchespanel(superAdminListener);
+        viewUpdateDelete = new SuperAdminViewUpdateDeleteBranchespanel(superAdminListener,superAdminController);
         //  viewUpdateDelete.display(this);
         contentPanel.revalidate();
         contentPanel.repaint();

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 public class SuperAdminViewUpdateDeleteBranchespanel extends JPanel {
     private ActionListener superAdminListener; // Listener for buttons
+    private SuperAdminController superAdminController;
     private JTable table;
     private DefaultTableModel tableModel;
 
@@ -27,7 +28,8 @@ public class SuperAdminViewUpdateDeleteBranchespanel extends JPanel {
             "No. of Empl.", "Branch Manager", "Manager's Salary", "Update", "Delete"
     };
 
-    public SuperAdminViewUpdateDeleteBranchespanel(ActionListener superAdminListener) {
+    public SuperAdminViewUpdateDeleteBranchespanel(ActionListener superAdminListener,SuperAdminController instance) {
+        this.superAdminController = instance;
         this.superAdminListener = superAdminListener;
         System.out.println("SuperAdminViewUpdateDeleteBranchespanel initialized");
         inIt();
@@ -85,7 +87,7 @@ public class SuperAdminViewUpdateDeleteBranchespanel extends JPanel {
 
     private JTable createTable() {
         // Fetch branch data from the controller
-        ArrayList<Branch> branches = SuperAdminController.getBranches();
+        ArrayList<Branch> branches = this.superAdminController.getBranches();
         Object[][] branchData = new Object[branches.size()][columnNames.length];
 
         // Populate data for the table
