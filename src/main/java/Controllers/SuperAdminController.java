@@ -37,10 +37,14 @@ public class SuperAdminController {
 
 
         //------- DB operations ------
-    public void RegisterBranch() {
+    public void RegisterBranch()
+    {
         // logic to register branch in DB
+        System.out.println("reached hereeeeee");
         int branchId = superAdminView.getBranchidtoRegister();
-        String name = superAdminView.getbranchName();
+       // int managerId = superAdminView.getManagerId();
+        String name = superAdminView.getName();
+        System.out.println("name of branch = "+name);
         Object[] data = getData();
         Boolean isRegistered = superAdminModel.RegisterBranch(branchId,name,(String) data[0],(String) data[1], (String) data[2], (Integer) data[3], (Boolean) data[4]);
         if (isRegistered) {
@@ -160,6 +164,7 @@ public class SuperAdminController {
             }
         };
     }
+
    // ------- Helper functions ------
     public Object[] getData() {
         String city = superAdminView.getCity();
