@@ -42,7 +42,6 @@ public class Logincontroller {
                 loginmodel.setPassword(password);
                 if (loginmodel.validateUser())
                 {
-                    System.out.println("boss main yahan agya");
                     if (typeOfUser.equals(Values.SUPER_ADMIN)) {
                         session.showSuperAdmin(username, password);
                         message = "Super Admin" + username + "validated";

@@ -26,7 +26,7 @@ public class SuperAdminView extends JPanel {
 
     public SuperAdminView(ActionListener LISTNER,SuperAdminController instance) {
         this.superAdminController = instance;
-        LISTNER =superAdminListener;
+        superAdminListener= LISTNER;
         setLayout(new BorderLayout());
         setBackground(Color.decode(Values.BG_COLOR));
 
