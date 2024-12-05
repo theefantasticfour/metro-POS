@@ -26,7 +26,7 @@ public class SuperAdminView extends JPanel {
 
     public SuperAdminView(ActionListener LISTNER,SuperAdminController instance) {
         this.superAdminController = instance;
-        superAdminListener= LISTNER;
+         superAdminListener = LISTNER;
         setLayout(new BorderLayout());
         setBackground(Color.decode(Values.BG_COLOR));
 
@@ -116,7 +116,7 @@ public class SuperAdminView extends JPanel {
 
     // Implement logic for getters from SuperAdminView if needed (for testing or integration purposes)
     public int getBranchIdToUpdate() {
-        return superAdminView.getBranchIdToUpdate();
+        return viewUpdateDelete.getBranchIdtoUpdate();
     }
 
     public int getBranchIdToShowReports() {
@@ -199,6 +199,13 @@ public class SuperAdminView extends JPanel {
     public Boolean getStatus() {
         if (createBranch != null) {
             return Boolean.parseBoolean(createBranch.getStatus());
+        }
+        throw new IllegalStateException("Create Branch form is not initialized.");
+    }
+    public String getbranchName()
+    {
+        if (createBranch != null) {
+            return createBranch.getBranchName();
         }
         throw new IllegalStateException("Create Branch form is not initialized.");
     }
