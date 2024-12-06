@@ -40,6 +40,7 @@ public class BranchManagerController {
 
     }
 
+
     // to change password
     public Boolean changePassword() {
         // see if the passwords match
