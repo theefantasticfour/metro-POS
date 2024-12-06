@@ -45,13 +45,13 @@ public class Logincontroller {
                     if (typeOfUser.equals(Values.SUPER_ADMIN)) {
                         session.showSuperAdmin(username, password);
                         message = "Super Admin" + username + "validated";
-                    } else if (typeOfUser == Values.BRANCH_MANAGER) {
+                    } else if (typeOfUser.equals(Values.BRANCH_MANAGER)) {
                         session.showBranchManager(username, password);
                         message = "Branch Manager" + username + "validated";
-                    } else if (typeOfUser == Values.DATA_ENTRY){
+                    } else if (typeOfUser.equals(Values.DATA_ENTRY)){
                         session.showDataEntry(username, password);
                         message = "Data Entry" + username + "validated";
-                    } else if (typeOfUser == Values.CASHIER) {
+                    } else if (typeOfUser.equals(Values.CASHIER)) {
                         session.showCashier(username, password);
                         message = "Cashier" + username + "validated";
                     }

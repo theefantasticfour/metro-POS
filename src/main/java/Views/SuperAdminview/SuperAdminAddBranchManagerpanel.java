@@ -10,8 +10,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.awt.event.ActionListener;
 
-public class SuperAdminAddBranchManagerpanel
-{
+public class SuperAdminAddBranchManagerpanel {
     private final ActionListener superAdminListener;
     private SuperAdminController superAdminController;
     public String managerName;
@@ -100,13 +99,13 @@ public class SuperAdminAddBranchManagerpanel
 
         // Apply Button
         JButton applyButton = createApplyButton();
+
         gbc.gridx = 1;
         gbc.gridy = 6;
         gbc.gridwidth = 2;
         gbc.insets = new Insets(30, 8, 4, 8);
         gbc.anchor = GridBagConstraints.EAST;
         formPanel.add(applyButton, gbc);
-        applyButton.setActionCommand(Values.CREATE_MANAGER);
         applyButton.addActionListener(superAdminListener);
         applyButton.addActionListener(e -> {
             managerId = managerIdField.getText().trim(); // Assign value to managerId
@@ -129,8 +128,6 @@ public class SuperAdminAddBranchManagerpanel
             e.getActionCommand().equals(Values.CREATE_MANAGER);
 
             // Clear the form after submission
-            managerId = String.valueOf(superAdminController.getUniqueManagerId());
-            managerIdField.setText(managerId);
             managerNameField.setText("");
             salaryField.setText("");
             emailField.setText("");
