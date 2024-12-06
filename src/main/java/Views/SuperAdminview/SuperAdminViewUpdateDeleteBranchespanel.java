@@ -121,6 +121,17 @@ public class SuperAdminViewUpdateDeleteBranchespanel extends JPanel {
         // Create table
         table = new JTable(tableModel);
 
+
+// Example usage in table setup:
+        // Create buttons
+        JButton updateButton = new JButton("Update");
+        updateButton.setActionCommand(Values.UPDATE_BRANCH);
+        updateButton.addActionListener(superAdminListener);
+
+        JButton deleteButton = new JButton("Delete");
+        deleteButton.setActionCommand(Values.DELETE_BRANCH);
+        deleteButton.addActionListener(superAdminListener);
+
         // Add custom button renderers and editors
         table.getColumn("Update").setCellRenderer(new ButtonRenderer("Update", Color.decode(Values.BUTTON_COLOR), e -> {
             int row = table.getSelectedRow();
@@ -133,13 +144,13 @@ public class SuperAdminViewUpdateDeleteBranchespanel extends JPanel {
             // Handle delete action here for the selected row
             System.out.println("Delete clicked for row: " + row);
         }));
-// Example usage in table setup:
-        table.getColumn("Update").setCellEditor(new ButtonEditor(new JButton("Update"), row -> {
+
+        table.getColumn("Update").setCellEditor(new ButtonEditor(updateButton, row -> {
             // Handle update action here for the selected row
             System.out.println("Update clicked for row: " + row);
         }));
 
-        table.getColumn("Delete").setCellEditor(new ButtonEditor(new JButton("Delete"), row -> {
+        table.getColumn("Delete").setCellEditor(new ButtonEditor(deleteButton, row -> {
             // Handle delete action here for the selected row
             System.out.println("Delete clicked for row: " + row);
         }));
@@ -160,6 +171,62 @@ public class SuperAdminViewUpdateDeleteBranchespanel extends JPanel {
         int row = table.getSelectedRow();
         if (row != -1) {
             return (int) table.getValueAt(row, 0);
+        }
+        throw new IllegalStateException("No branch selected.");
+    }
+
+    public String getCityToUpdate() {
+        int row = table.getSelectedRow();
+        if (row != -1) {
+            return (String) table.getValueAt(row, 1);
+        }
+        throw new IllegalStateException("No branch selected.");
+    }
+
+    public String getPhonenoToUpdate() {
+        int row = table.getSelectedRow();
+        if (row != -1) {
+            return (String) table.getValueAt(row, 3);
+        }
+        throw new IllegalStateException("No branch selected.");
+    }
+
+    public String getAdressToUpdate() {
+        int row = table.getSelectedRow();
+        if (row != -1) {
+            return (String) table.getValueAt(row, 2);
+        }
+        throw new IllegalStateException("No branch selected.");
+    }
+
+    public int getNoofEmployeesToUpdate() {
+        int row = table.getSelectedRow();
+        if (row != -1) {
+            return (int) table.getValueAt(row, 5);
+        }
+        throw new IllegalStateException("No branch selected.");
+    }
+
+    public Boolean getStatusToUpdate() {
+        int row = table.getSelectedRow();
+        if (row != -1) {
+            return (Boolean) table.getValueAt(row, 4);
+        }
+        throw new IllegalStateException("No branch selected.");
+    }
+
+    public String getManagerNameToUpdate() {
+        int row = table.getSelectedRow();
+        if (row != -1) {
+            return (String) table.getValueAt(row, 6);
+        }
+        throw new IllegalStateException("No branch selected.");
+    }
+
+    public String getManagerSalaryToUpdate() {
+        int row = table.getSelectedRow();
+        if (row != -1) {
+            return table.getValueAt(row, 7).toString();
         }
         throw new IllegalStateException("No branch selected.");
     }

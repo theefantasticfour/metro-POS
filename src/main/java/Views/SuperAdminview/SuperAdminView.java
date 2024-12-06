@@ -211,4 +211,31 @@ public class SuperAdminView extends JPanel {
     }
 
 
+    public String getCityToUpdate() {
+        return viewUpdateDelete.getCityToUpdate();
+    }
+
+    public String getPhonenoToUpdate() {
+      return  viewUpdateDelete.getPhonenoToUpdate();
+    }
+
+    public String getAdressToUpdate() {
+        return viewUpdateDelete.getAdressToUpdate();
+    }
+
+    public int getNoofEmployeesToUpdate() {
+        return viewUpdateDelete.getNoofEmployeesToUpdate();
+    }
+
+    public Boolean getStatusToUpdate() {
+        return viewUpdateDelete.getStatusToUpdate();
+    }
+
+    public String getManagerNameToUpdate() {
+        return viewUpdateDelete.getManagerNameToUpdate();
+    }
+
+    public String getManagerSalaryToUpdate() {
+        return viewUpdateDelete.getManagerSalaryToUpdate();
+    }
 }
