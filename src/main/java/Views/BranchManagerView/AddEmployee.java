@@ -24,11 +24,11 @@ public class AddEmployee {
         // Create the main form panel
         JPanel formPanel = new JPanel(new GridBagLayout());
         formPanel.setBackground(Color.decode(Values.BG_COLOR));
-//        formPanel.setBorder(BorderFactory.createTitledBorder(
-//                //BorderFactory.createLineBorder(Color.white, 2),
-//                "Add New Employee",
-//                0, 0, new Font(Values.LABEL_FONT, Font.BOLD, 16)
-//        ));
+        formPanel.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2),
+                "Add New Employee",
+                0, 0, new Font(Values.LABEL_FONT, Font.BOLD, 16)
+        ));
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(4, 8, 4, 8); // Padding
@@ -38,17 +38,21 @@ public class AddEmployee {
         Font labelFont = new Font(Values.LABEL_FONT, Font.PLAIN, 14);
 
         // Employee Type
+        gbc.insets = new Insets(25, 8, 4, 8);
         addLabelAndComponent(formPanel, "Employee Type", labelFont, gbc, 0, 0);
         CustomComboBox employeeTypeComboBox = new CustomComboBox(new String[]{"Cashier", "Data Entry Operator"});
         gbc.gridx = 0;
         gbc.gridy = 1;
+        gbc.insets = new Insets(4, 8, 4, 8);
         formPanel.add(employeeTypeComboBox, gbc);
 
         // Employee Name
+        gbc.insets = new Insets(25, 8, 4, 8);
         addLabelAndComponent(formPanel, "Employee Name", labelFont, gbc, 1, 0);
         JTextField employeeNameField = createCustomTextField();
         gbc.gridx = 1;
         gbc.gridy = 1;
+        gbc.insets = new Insets(4, 8, 4, 8);
         formPanel.add(employeeNameField, gbc);
 
         // Email Address
@@ -58,19 +62,13 @@ public class AddEmployee {
         gbc.gridy = 3;
         formPanel.add(emailField, gbc);
 
-        // Branch Code
-        addLabelAndComponent(formPanel, "Branch Code", labelFont, gbc, 1, 2);
-        JTextField branchCodeField = createCustomTextField();
+        // Salary
+        addLabelAndComponent(formPanel, "Salary", labelFont, gbc, 1, 2);
+        JTextField salaryField = createCustomTextField();
         gbc.gridx = 1;
         gbc.gridy = 3;
-        formPanel.add(branchCodeField, gbc);
-
-        // Salary
-        addLabelAndComponent(formPanel, "Salary", labelFont, gbc, 0, 4);
-        JTextField salaryField = createCustomTextField();
-        gbc.gridx = 0;
-        gbc.gridy = 5;
         formPanel.add(salaryField, gbc);
+
 
         // Apply Button
         JButton applyButton = createApplyButton();
@@ -86,11 +84,10 @@ public class AddEmployee {
             String empType = employeeTypeComboBox.getSelectedItem().toString();
             String empName = employeeNameField.getText().trim();
             String email = emailField.getText().trim();
-            String branchCode = branchCodeField.getText().trim();
             String salary = salaryField.getText().trim();
 
             // Validate inputs
-            if (empName.isEmpty() || email.isEmpty() || branchCode.isEmpty() || salary.isEmpty()) {
+            if (empName.isEmpty() || email.isEmpty() || salary.isEmpty()) {
                 JOptionPane.showMessageDialog(contentPanel,
                         "All fields must be filled out.",
                         "Validation Error",
@@ -108,7 +105,14 @@ public class AddEmployee {
         });
 
         // Add form panel to content panel
-        contentPanel.add(formPanel);
+        GridBagConstraints parentGbc = new GridBagConstraints();
+        parentGbc.gridx = 0;
+        parentGbc.gridy = 0;
+        parentGbc.weightx = 1;
+        parentGbc.weighty = 1;
+        parentGbc.fill = GridBagConstraints.HORIZONTAL;
+
+        contentPanel.add(formPanel, parentGbc);
         contentPanel.revalidate();
         contentPanel.repaint();
     }

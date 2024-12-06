@@ -19,11 +19,11 @@ public class ViewUpdateDeleteEmployee {
 
     // Sample data
     private final String[][] employeeData = {
-            {"Cashier", "John Doe", "john.doe@example.com", "50000", "Update", "Delete"},
-            {"Data Entry Operator", "Jane Smith", "jane.smith@example.com", "45000", "Update", "Delete"},
-            {"Cashier", "Robert Brown", "robert.brown@example.com", "52000", "Update", "Delete"}
+            {"Cashier", "John Doe", "john.doe@example.com", "50000", "0","Update", "Delete"},
+            {"Data Entry Operator", "Jane Smith", "jane.smith@example.com", "45000","1", "Update", "Delete"},
+            {"Cashier", "Robert Brown", "robert.brown@example.com", "52000","0", "Update" ,"Delete"}
     };
-    private final String[] columnNames = {"Employee Type", "Employee Name", "Email Address", "Salary", "Update", "Delete"};
+    private final String[] columnNames = {"Employee Type", "Employee Name", "Email Address", "Salary", "Status", "Update", "Delete"};
 
     public void display(BranchManagerPanel branchManagerPanel) {
         JPanel contentPanel = branchManagerPanel.getContentPanel();
