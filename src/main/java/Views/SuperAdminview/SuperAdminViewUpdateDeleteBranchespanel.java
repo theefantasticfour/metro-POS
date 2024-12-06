@@ -120,7 +120,7 @@ public class SuperAdminViewUpdateDeleteBranchespanel extends JPanel {
 
         // Create table
         table = new JTable(tableModel);
-
+        ButtonRenderer buttonRenderer = new ButtonRenderer("Update", Color.decode(Values.BUTTON_COLOR));
         // Add custom button renderers and editors
         table.getColumn("Update").setCellRenderer(new ButtonRenderer("Update", Color.decode(Values.BUTTON_COLOR), e -> {
             int row = table.getSelectedRow();
@@ -134,7 +134,7 @@ public class SuperAdminViewUpdateDeleteBranchespanel extends JPanel {
             System.out.println("Delete clicked for row: " + row);
         }));
 // Example usage in table setup:
-        table.getColumn("Update").setCellEditor(new ButtonEditor(new JButton("Update"), row -> {
+       /* table.getColumn("Update").setCellEditor(new ButtonEditor(new JButton("Update"), row -> {
             // Handle update action here for the selected row
             System.out.println("Update clicked for row: " + row);
         }));
@@ -142,7 +142,7 @@ public class SuperAdminViewUpdateDeleteBranchespanel extends JPanel {
         table.getColumn("Delete").setCellEditor(new ButtonEditor(new JButton("Delete"), row -> {
             // Handle delete action here for the selected row
             System.out.println("Delete clicked for row: " + row);
-        }));
+        }));*/
         return table;
     }
 
@@ -156,6 +156,7 @@ public class SuperAdminViewUpdateDeleteBranchespanel extends JPanel {
             sorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText)); // Case-insensitive search
         }
     }
+
     public int getBranchIdtoUpdate() {
         int row = table.getSelectedRow();
         if (row != -1) {

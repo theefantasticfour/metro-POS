@@ -49,7 +49,7 @@ public class SuperAdmin {
     public int getUniqueManagerId() {
         // logic to get unique manager id either from DB or txt file
         int id =7001; //for manager id, the first manager id will be 7001
-        String query = "SELECT MAX(employee_id) FROM employee";
+        String query = "SELECT MAX(employee_id) FROM Employee";
         return getID(query,id);
     }
     // DB operations
@@ -83,7 +83,7 @@ public class SuperAdmin {
         // logic to create manager in DB
         Connection connection = ConnectionConfig.getConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO employee VALUES(?,?,?,?,?,?,?,?)");
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Employee VALUES(?,?,?,?,?,?,?,?)");
             preparedStatement.setInt(1,branchId);
             preparedStatement.setInt(2,managerId);
             preparedStatement.setString(3,name);
