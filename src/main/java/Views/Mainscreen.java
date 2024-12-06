@@ -72,10 +72,10 @@ public class Mainscreen extends JFrame {
 
     // show login screen
     public void showLogin(ActionListener loginListener) {
-        if (loginview == null) {
+
             loginview = new Loginview(loginListener);
             this.add(loginview, "Login");
-        }
+
         System.out.println("Reached here 1");
         c1.show(this.getContentPane(), "Login");
     }

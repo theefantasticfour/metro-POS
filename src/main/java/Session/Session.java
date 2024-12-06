@@ -16,8 +16,8 @@ public class Session {
     BranchManagerController branchManagerController;
     public Session() {
         System.out.println("Session initialized");
-        //showWelcomeScreen();
-        showSuperAdmin("danish61", "admin1122");
+        showWelcomeScreen();
+        //showSuperAdmin("danish61", "admin1122");
         Mainscreen mainscreen = Mainscreen.getInstance();
 
     }
@@ -33,7 +33,6 @@ public class Session {
 
     public void showLogin() {
         // Switch to login screen
-
         if (loginController == null)
         {
             loginController = new Logincontroller(this);
