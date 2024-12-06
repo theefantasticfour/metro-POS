@@ -50,10 +50,11 @@ public class SuperAdmin {
     }
     public int getUniqueManagerId() {
         // logic to get unique manager id either from DB or txt file
-//        int id =7001; //for manager id, the first manager id will be 7001
-//        String query = "SELECT MAX(employee_id) FROM employee";
-//        return getID(query,id);
-        return 0;
+
+        int id =7001; //for manager id, the first manager id will be 7001
+        String query = "SELECT MAX(employee_id) FROM Employee";
+        return getID(query,id);
+
     }
     // DB operations
     public Boolean RegisterBranch(int branchId,String name, String city,String Address,String phoneNo,int noOfEmployees,Boolean Status) {
@@ -82,29 +83,29 @@ public class SuperAdmin {
         return true;
     }
     public Boolean createManagerOfBranch(int branchId,int managerId,String name,Float Salary , String email,String password) {
-//        Boolean isCreated = false; // if duplicate exsits or due to some other reason we cannot create it
-//        System.out.println("reached in create manager methoddddddddddddddd");
-//        // logic to create manager in DB
-//        Connection connection = ConnectionConfig.getConnection();
-//        try {
-//            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO employee VALUES(?,?,?,?,?,?,?,?)");
-//            preparedStatement.setInt(1,branchId);
-//            preparedStatement.setInt(2,managerId);
-//            preparedStatement.setString(3,name);
-//            preparedStatement.setString(4,email);
-//            preparedStatement.setString(5,password);
-//            preparedStatement.setString(6, Values.BRANCH_MANAGER);
-//            preparedStatement.setFloat(7,Salary);
-//            preparedStatement.setBoolean(8,true);
-//            preparedStatement.executeUpdate();
-//            System.out.println("Manager Created Successfullyyyyyyy");
-//            isCreated = true;
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return isCreated;
-        return true;
+
+        Boolean isCreated = false; // if duplicate exsits or due to some other reason we cannot create it
+        System.out.println("reached in create manager methoddddddddddddddd");
+        // logic to create manager in DB
+        Connection connection = ConnectionConfig.getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Employee VALUES(?,?,?,?,?,?,?,?)");
+            preparedStatement.setInt(1,branchId);
+            preparedStatement.setInt(2,managerId);
+            preparedStatement.setString(3,name);
+            preparedStatement.setString(4,email);
+            preparedStatement.setString(5,password);
+            preparedStatement.setString(6, Values.BRANCH_MANAGER);
+            preparedStatement.setFloat(7,Salary);
+            preparedStatement.setBoolean(8,true);
+            preparedStatement.executeUpdate();
+            System.out.println("Manager Created Successfullyyyyyyy");
+            isCreated = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return isCreated;
     }
     public ArrayList<Branch> getBranches() {
 //        ArrayList<Branch> branches = new ArrayList<Branch>();
