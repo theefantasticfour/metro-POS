@@ -12,7 +12,7 @@ import java.util.List;
 public class LeftPanel extends JPanel {
     private JButton logoutButton; // Declare logoutButton at the class level for access during resizing
 
-    public LeftPanel(List<MenuPanel> menuPanels, ActionListener actionListener) {
+    public LeftPanel(List<MenuPanel> menuPanels, ActionListener actionListener,ActionListener logoutListener) {
         setLayout(null); // Using null layout for absolute positioning
         setBackground(Color.decode(Values.LEFT_PANEL_BG_COLOR)); // Left panel background color
         setPreferredSize(new Dimension(300, 0)); // Fixed width
@@ -23,7 +23,7 @@ public class LeftPanel extends JPanel {
         addButtons(menuPanels, actionListener);
 
         // Add Logout Button at the bottom of the panel
-        addLogoutButton(actionListener);
+        addLogoutButton(logoutListener);
 
         // Listen for component resize events to position the Logout button dynamically
         addComponentListener(new ComponentAdapter() {

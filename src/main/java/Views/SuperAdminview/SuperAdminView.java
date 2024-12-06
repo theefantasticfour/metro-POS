@@ -54,7 +54,7 @@ public class SuperAdminView extends JPanel {
                     openReportForm();
                     break;
             }
-        });
+        },superAdminListener);
 
 
         rightPanelHeader = new RightPanelHeader(Values.SUPER_ADMIN_ICON, "Super Admin Dashboard");

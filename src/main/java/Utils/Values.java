@@ -69,6 +69,11 @@ public class Values {
     public static final String STOCK_REPORT = "StockReport";
     public static final String PROFIT_REPORT = "ProfitReport";
     public static final String LOGOUT = "Logout";
+    public static final String CHANGE_PASSWORD = "ChangePassword";
+    // addemployee
+    public static final String ADD_EMPLOYEE = "AddEmployee";
+    public static final String UPDATE_EMPLOYEE = "UpdateEmployee";
+    public static final String DELETE_EMPLOYEE = "DeleteEmployee";
 
     // type of Users
     public static final String SUPER_ADMIN = "Super Admin";

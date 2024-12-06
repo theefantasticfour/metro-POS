@@ -69,7 +69,7 @@ public class SuperAdmin {
 //            preparedStatement.setString(3,city);
 //            preparedStatement.setString(4,Address);
 //            preparedStatement.setString(5,phoneNo);
-//            preparedStatement.setInt(6,noOfEmployees);
+//            preparedStatement.setInt(6,noOfEmployees); // we should set it to zero initially
 //            preparedStatement.setBoolean(7,Status);
 //            preparedStatement.executeUpdate();
 //            System.out.println("Branch Registered SUccessfullyyyyyyyyyy");
