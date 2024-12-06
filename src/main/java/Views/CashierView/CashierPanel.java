@@ -71,7 +71,8 @@ public class CashierPanel extends JPanel {
 
     private void openGenerateSale() {
         contentPanel.removeAll();
-        contentPanel.add(new JLabel("generate Sale")); // Replace with actual form panel
+        GenerateSale generateSale = new GenerateSale();
+        generateSale.display(contentPanel);
         contentPanel.revalidate();
         contentPanel.repaint();
     }
