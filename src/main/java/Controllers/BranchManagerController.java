@@ -19,13 +19,14 @@ public class BranchManagerController {
     Session session;
     BranchManager branchManagermodel;
     BranchManagerView branchManagerView;
-    ActionListener branchManagerListener; // can be access by the instance of this class
+   public ActionListener branchManagerListener; // can be access by the instance of this class
 
     public BranchManagerController(String username, String password, Session instance) {
         this.session = instance;
         System.out.println("Branch Manager Controller initialized");
         this.username = username;
         this.password = password;
+        setActionListeners();
 
     }
 
@@ -100,8 +101,6 @@ public class BranchManagerController {
             {
                 downloadProfitReport(branchManagerView.getType(), true);
             }
-
-
         };
     }
 

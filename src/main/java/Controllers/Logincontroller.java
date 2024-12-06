@@ -21,10 +21,11 @@ public class Logincontroller {
     }
 
     public void start() {
+        loginmodel = new Login();
         ActionListener loginListener = setActionListeners();
         Mainscreen.getInstance().showLogin(loginListener);
         //loginview = new Loginview(loginListener); // gui
-        loginmodel = new Login(); // db
+         // db
     }
 
     public ActionListener setActionListeners() {

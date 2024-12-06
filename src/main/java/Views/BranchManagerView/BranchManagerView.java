@@ -25,14 +25,17 @@ public class BranchManagerView extends JPanel {
 
     Boolean isPasswordChanged ; // this will automatically be set when constructor is called
     BranchManagerController branchManagerController;
+
     public BranchManagerView(BranchManagerController instance) {
         System.out.println("Branch Manager View initialized");
         branchManagerController = instance;
+
         setIsPasswordChanged(); // set the password changed status
          }
 
     public String getEmployeeType() {
         // from add employee panel
+
         return null;
     }
     public  String getEmployeeName() {

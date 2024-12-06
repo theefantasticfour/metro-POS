@@ -120,10 +120,7 @@ public class SuperAdminController {
         // logic to get all branch ids
         ArrayList<Integer> branches = SuperAdmin.getAllBranchIds();
         // simulation
-        branches.add(0);
-        branches.add(1);
-        branches.add(2);
-        branches.add(3);
+
         return branches;
     }
 
@@ -175,7 +172,7 @@ public class SuperAdminController {
                 //downloadProfitreport(superAdminView.getBranchidtoshowreports(),superAdminView.getTypetoShowReports(),true);
             } else if (e.getActionCommand().equals(Values.LOGOUT)) {
                 // logout and go to login screen
-                JOptionPane.showMessageDialog(null, "Logging out...");
+                JOptionPane.showMessageDialog(null, "Logging out......");
                 session.showLogin();
             }
         };
