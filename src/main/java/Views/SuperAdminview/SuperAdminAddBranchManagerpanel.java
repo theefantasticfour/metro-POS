@@ -106,7 +106,9 @@ public class SuperAdminAddBranchManagerpanel {
         gbc.insets = new Insets(30, 8, 4, 8);
         gbc.anchor = GridBagConstraints.EAST;
         formPanel.add(applyButton, gbc);
+        applyButton.setActionCommand(Values.CREATE_MANAGER);
         applyButton.addActionListener(superAdminListener);
+
         applyButton.addActionListener(e -> {
             managerId = managerIdField.getText().trim(); // Assign value to managerId
             branchId = (String) branchCodeComboBox.getSelectedItem(); // Assign selected branch ID
