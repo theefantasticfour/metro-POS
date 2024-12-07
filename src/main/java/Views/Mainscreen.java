@@ -90,11 +90,11 @@ public class Mainscreen extends JFrame {
     }
 
     // show branch manager screen
-    public void showBranchManager(BranchManagerController instance) {
+    public void showBranchManager(ActionListener LISTNER,BranchManagerController instance) {
         // Switch to manager screen
         if (branchManagerView == null)
         {
-            branchManagerView = new BranchManagerView(instance);
+            branchManagerView = new BranchManagerView(LISTNER,instance);
             this.add(branchManagerView, "BranchManager");
         }
         c1.show(this.getContentPane(), "BranchManager");
