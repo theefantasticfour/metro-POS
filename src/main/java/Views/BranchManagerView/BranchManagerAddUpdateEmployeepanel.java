@@ -31,12 +31,12 @@ public class BranchManagerAddUpdateEmployeepanel extends JPanel {
         this.branchManagerController = instance;
         contentPanel = branchManagerPanel.getContentPanel();
         System.out.println("Branch Manager Add Update Employee Panel initialized");
-        inIt();
+        //inIt();
     }
     public void display() {
         contentPanel.removeAll();
         contentPanel.setLayout(new BorderLayout());
-        contentPanel.setBackground(Color.decode("#F8F9FA"));
+        contentPanel.setBackground(Color.decode(Values.LEFT_PANEL_BG_COLOR));
 
         // Search Panel
         JPanel searchPanel = createSearchPanel();
