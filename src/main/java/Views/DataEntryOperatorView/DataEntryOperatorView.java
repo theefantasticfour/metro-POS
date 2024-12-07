@@ -33,7 +33,7 @@ public class DataEntryOperatorView extends JPanel {
     public DataEntryOperatorView(ActionListener LISTENER,DataEntryOperatorController instance) {
         dataEntryListener = LISTENER;
         dataEntryOperatorController =instance;
-        isPasswordChanged = dataEntryOperatorController.changePassword();
+        isPasswordChanged = dataEntryOperatorController.isPasswordChanged();
         setLayout(new BorderLayout());
         setBackground(Color.decode(Values.BG_COLOR));
 

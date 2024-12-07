@@ -16,6 +16,7 @@ public class DataEntryOperator {
         setBranchId();
         System.out.println("Data Entry Operator Model initialized");
     }
+
     public int getUniqueVendorId()
     {
         return 0;
@@ -81,4 +82,6 @@ public class DataEntryOperator {
     // update the vendor in the db
         return null;
     }
+
+
 }

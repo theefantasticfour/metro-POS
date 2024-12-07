@@ -1,10 +1,8 @@
 package Session;
 
-import Controllers.BranchManagerController;
-import Controllers.Logincontroller;
-import Controllers.SuperAdminController;
-import Controllers.Welcomecontroller;
+import Controllers.*;
 import Models.BranchManager;
+import Models.DataEntryOperator;
 import Views.Mainscreen;
 import Views.Welcomeview.Welcomeview;
 
@@ -14,6 +12,7 @@ public class Session {
     Welcomecontroller welcomecontroller;
     SuperAdminController superAdminController;
     BranchManagerController branchManagerController;
+    DataEntryOperatorController dataEntryOperatorController;
     public Session() {
         System.out.println("Session initialized");
        // showWelcomeScreen();
@@ -58,6 +57,12 @@ public class Session {
     }
 
     public void showDataEntry(String username, String password) {
+        if (dataEntryOperatorController == null) {
+            System.out.println("Data Entry Controller called.");
+            dataEntryOperatorController = new DataEntryOperatorController(username, password,this);
+        }
+        dataEntryOperatorController.start();
+
     }
 
     public void showCashier(String username, String password) {

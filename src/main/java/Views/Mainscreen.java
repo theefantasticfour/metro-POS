@@ -51,7 +51,9 @@ public class Mainscreen extends JFrame {
     public static BranchManagerView getBranchManagerView() {
         return instance.branchManagerView;
     }
-
+    public static DataEntryOperatorView getDataEntryOperatorView() {
+        return instance.dataEntryOperatorView;
+    }
     public static Mainscreen getInstance() {
         if (instance == null) {
             instance = new Mainscreen();
@@ -59,9 +61,7 @@ public class Mainscreen extends JFrame {
         return instance;
     }
 
-    public static DataEntryOperatorView getDataEntryOperatorView() {
-        return instance.dataEntryOperatorView;
-    }
+
 
     public CardLayout getLayout() {
         return c1;
@@ -108,7 +108,7 @@ public class Mainscreen extends JFrame {
         c1.show(this.getContentPane(), "BranchManager");
     }
     // show data entry operator screen
-    public void showDataEntryOperator(ActionListener LISTNER,DataEntryOperatorController instance) {
+    public void showDataEntryOperator(ActionListener LISTNER, DataEntryOperatorController instance) {
         // Switch to Data Entry Operator screen
         if (dataEntryOperatorView == null)
         {

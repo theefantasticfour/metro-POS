@@ -26,7 +26,13 @@ public class DataEntryOperatorController {
         this.password = password;
         this.session = instance;
         setActionListeners();
-        start();
+
+    }
+    public void start() {
+        dataEntryOperatorModel = new DataEntryOperator(username, password);
+        Mainscreen.getInstance().showDataEntryOperator(setActionListeners(),this);
+        Mainscreen.getInstance();
+        dataEntryOperatorView = Mainscreen.getDataEntryOperatorView();
     }
 
     public ActionListener setActionListeners() {
@@ -102,11 +108,7 @@ public class DataEntryOperatorController {
         return dataEntryListener;
     }
 
-    public void start() {
-        dataEntryOperatorModel = new DataEntryOperator(username, password);
-        Mainscreen.getInstance().showDataEntryOperator(setActionListeners(),this);
-        dataEntryOperatorView= Mainscreen.getDataEntryOperatorView();
-    }
+
     public Boolean changePassword() {
         // see if the passwords match
         String newPassword = dataEntryOperatorView.getNewPassword();
