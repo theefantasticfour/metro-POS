@@ -96,7 +96,9 @@ public class SuperAdmin {
             preparedStatement.executeUpdate();
             System.out.println("Manager Created Successfullyyyyyyy");
             isCreated = true;
-        } catch (SQLException e) {
+        }
+        catch (SQLException e)
+        {
             e.printStackTrace();
         }
 
