@@ -67,6 +67,8 @@ public class SuperAdminController {
         Boolean isCreated = superAdminModel.createManagerOfBranch(branchId, managerId, name, Salary, email, password);
         if (isCreated) {
             System.out.println("Manager Created");
+            JOptionPane.showMessageDialog(null, "Branch Manager added successfully!");
+
         } else {
             System.out.println("Manager Not Created");
         }
@@ -89,7 +91,8 @@ public class SuperAdminController {
         String Managername = superAdminView.getManagerNameToUpdate();
         Float ManagerSalary = Float.parseFloat(superAdminView.getManagerSalaryToUpdate());
         Boolean isUpdated = superAdminModel.updateBranch(branchid, city, Adress, phoneNo, noOfEmployees, status, Managername, ManagerSalary);
-        if (isUpdated) {
+        if (isUpdated)
+        {
             JOptionPane.showMessageDialog(null, "Branch Updated");
         } else {
             JOptionPane.showMessageDialog(null, "Branch Not Updated");

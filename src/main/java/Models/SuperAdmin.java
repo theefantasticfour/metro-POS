@@ -5,6 +5,7 @@ import Entites.Product;
 import Entites.Transactions;
 import Utils.Values;
 
+import javax.swing.*;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -78,13 +79,36 @@ public class SuperAdmin {
         System.out.println("isregistered value = "+isRegistered+"    wese true ani chahiye");
         return isRegistered;
     }
+    public boolean doesmanagerexist(int branchId)
+    {
+        Connection connection = ConnectionConfig.getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Employee WHERE branch_id = ? AND role = 'Branch Manager'");
+            preparedStatement.setInt(1,branchId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next())
+            {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
     public Boolean createManagerOfBranch(int branchId,int managerId,String name,Float Salary , String email,String password) {
+        if(doesmanagerexist(branchId))
+        {
+            //show joptionpane that manager already exists
+            JOptionPane.showMessageDialog(null,"Manager already exists for this branch");
+            return false;
+
+        }
         Boolean isCreated = false; // if duplicate exsits or due to some other reason we cannot create it
         System.out.println("reached in create manager methoddddddddddddddd");
         // logic to create manager in DB
         Connection connection = ConnectionConfig.getConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Employee VALUES(?,?,?,?,?,?,?,?)");
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Employee VALUES(?,?,?,?,?,?,?,?,?)");
             preparedStatement.setInt(1,branchId);
             preparedStatement.setInt(2,managerId);
             preparedStatement.setString(3,name);
@@ -92,7 +116,8 @@ public class SuperAdmin {
             preparedStatement.setString(5,password);
             preparedStatement.setString(6, Values.BRANCH_MANAGER);
             preparedStatement.setFloat(7,Salary);
-            preparedStatement.setBoolean(8,true);
+            preparedStatement.setBoolean(8,false);
+            preparedStatement.setBoolean(9,true);
             preparedStatement.executeUpdate();
             System.out.println("Manager Created Successfullyyyyyyy");
             isCreated = true;

@@ -22,6 +22,7 @@ public class BranchManagerAddEmployeepanel extends JPanel{
         this.branchManagerController = instance;
         this.branchManagerListener = listener;
         System.out.println("BranchManagerAddEmployeePanel initialized");
+
     }
 
     public void display(BranchManagerView branchManagerPanel) {
@@ -92,6 +93,8 @@ public class BranchManagerAddEmployeepanel extends JPanel{
         gbc.anchor = GridBagConstraints.EAST;
         formPanel.add(applyButton, gbc);
 
+        applyButton.setActionCommand(Values.ADD_EMPLOYEE);
+        applyButton.addActionListener(branchManagerListener);
         // Button Action Listener
         applyButton.addActionListener(e -> {
             empType = employeeTypeComboBox.getSelectedItem().toString();
