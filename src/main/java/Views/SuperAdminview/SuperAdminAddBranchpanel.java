@@ -138,7 +138,6 @@ public class SuperAdminAddBranchpanel extends JPanel {
             // to renew the branch id
             branchId = String.valueOf(superAdminController.getUniqueBranchId());
             branchCodeField.setText(branchId);
-
             cityField.setText("");
             addressField.setText("");
             phoneNumberField.setText("");

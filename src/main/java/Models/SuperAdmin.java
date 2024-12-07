@@ -50,9 +50,8 @@ public class SuperAdmin {
     public int getUniqueManagerId() {
          //logic to get unique manager id either from DB or txt file
         int id =7001; //for manager id, the first manager id will be 7001
-        String query = "SELECT MAX(employee_id) FROM employee";
+        String query = "SELECT MAX(employee_id) FROM Employee";
         return getID(query,id);
-
     }
     // DB operations
     public Boolean RegisterBranch(int branchId,String name, String city,String Address,String phoneNo,int noOfEmployees,Boolean Status) {
@@ -97,7 +96,9 @@ public class SuperAdmin {
             preparedStatement.executeUpdate();
             System.out.println("Manager Created Successfullyyyyyyy");
             isCreated = true;
-        } catch (SQLException e) {
+        }
+        catch (SQLException e)
+        {
             e.printStackTrace();
         }
 

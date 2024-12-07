@@ -114,52 +114,39 @@ public class SuperAdminViewUpdateDeleteBranchespanel extends JPanel {
         tableModel = new DefaultTableModel(branchData, columnNames) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column < 8; // Only data columns are editable
+                return column >= 0; // Make only "Update" and "Delete" columns editable
             }
         };
 
         // Create table
         table = new JTable(tableModel);
 
-
-
-// Example usage in table setup:
-        // Create buttons
-        JButton updateButton = new JButton("Update");
-        updateButton.setActionCommand(Values.UPDATE_BRANCH);
-        updateButton.addActionListener(superAdminListener);
-
-        JButton deleteButton = new JButton("Delete");
-        deleteButton.setActionCommand(Values.DELETE_BRANCH);
-        deleteButton.addActionListener(superAdminListener);
-
-
         // Add custom button renderers and editors
-        table.getColumn("Update").setCellRenderer(new ButtonRenderer("Update", Color.decode(Values.BUTTON_COLOR), e -> {
-            int row = table.getSelectedRow();
-            // Handle update action here for the selected row
+        table.getColumn("Update").setCellRenderer(new ButtonRenderer("Update", Color.decode(Values.BUTTON_COLOR)));
+        table.getColumn("Update").setCellEditor(new ButtonEditor("Update", row -> {
             System.out.println("Update clicked for row: " + row);
+            superAdminController.UpdateBranch(); // Call controller method
+            inIt(); // Refresh the table
         }));
 
-        table.getColumn("Delete").setCellRenderer(new ButtonRenderer("Delete", Color.decode(Values.BUTTON_COLOR), e -> {
-            int row = table.getSelectedRow();
-            // Handle delete action here for the selected row
+        table.getColumn("Delete").setCellRenderer(new ButtonRenderer("Delete", Color.decode(Values.BUTTON_COLOR)));
+        table.getColumn("Delete").setCellEditor(new ButtonEditor("Delete", row -> {
             System.out.println("Delete clicked for row: " + row);
+            int confirmation = JOptionPane.showConfirmDialog(
+                    null,
+                    "Are you sure you want to delete this branch?",
+                    "Confirm Deletion",
+                    JOptionPane.YES_NO_OPTION
+            );
+            if (confirmation == JOptionPane.YES_OPTION) {
+                superAdminController.DeleteBranch(); // Call controller method
+                inIt(); // Refresh the table
+            }
         }));
 
-
-        table.getColumn("Update").setCellEditor(new ButtonEditor(updateButton, row -> {
-
-            // Handle update action here for the selected row
-            System.out.println("Update clicked for row: " + row);
-        }));
-
-        table.getColumn("Delete").setCellEditor(new ButtonEditor(deleteButton, row -> {
-            // Handle delete action here for the selected row
-            System.out.println("Delete clicked for row: " + row);
-        }));
         return table;
     }
+
 
     private void filterTable(String searchText) {
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);

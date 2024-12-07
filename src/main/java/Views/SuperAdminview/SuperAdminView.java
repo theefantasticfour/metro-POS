@@ -120,7 +120,7 @@ public class SuperAdminView extends JPanel {
     }
 
     public int getBranchIdToShowReports() {
-        return superAdminView.getBranchIdToShowReports();
+        return superAdminView.getBranchIdToShowReports(); // will be -1 branci id if nothing is selected
     }
 
     public String getTypeToShowReports() {
