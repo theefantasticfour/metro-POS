@@ -29,7 +29,6 @@ public class BranchManagerView extends JPanel {
         branchManagerController = instance;
         branchMangerListener = LISTENER;
         System.out.println("Branch Manager View initialized");
-
         setLayout(new BorderLayout());
         setBackground(Color.decode(Values.BG_COLOR));
 
@@ -94,16 +93,17 @@ public class BranchManagerView extends JPanel {
     }
 
     private void openChangePasswordForm() {
-        CustomChangePassword changePasswordForm = new CustomChangePassword(() -> {
+        changePassword = new CustomChangePassword(() -> {
             // Callback when password is changed
             isPasswordChanged = true; // Allow other buttons to function
             JOptionPane.showMessageDialog(this,
                     "Password changed successfully. You can now access other features.",
                     "Success",
                     JOptionPane.INFORMATION_MESSAGE);
-        });
-        changePasswordForm.display(contentPanel);
+        },branchMangerListener);
+        changePassword.display(contentPanel);
     }
+
 
     private void openAddEmployeeForm() {
         contentPanel.removeAll();

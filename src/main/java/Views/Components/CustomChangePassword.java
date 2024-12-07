@@ -11,11 +11,15 @@ public class CustomChangePassword {
     private Runnable onPasswordChangedCallback;
     public String newPassword;
     public String confirmPassword;
+    public ActionListener saveButtonListener;
 
 
-    public CustomChangePassword(Runnable callback) {
+    public CustomChangePassword(Runnable callback,ActionListener listener) {
+        saveButtonListener = listener;
         this.onPasswordChangedCallback = callback;
+
     }
+
 
     public void display(JPanel parentPanel) {
         parentPanel.removeAll();
