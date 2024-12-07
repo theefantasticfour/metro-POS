@@ -304,7 +304,7 @@ public class BranchManager {
         Connection connection = ConnectionConfig.getConnection();
 
         // Define the SQL query to update employee details
-        String query = "UPDATE Employee SET name = ?, password = ?, role = ?, salary = ?, is_password_changed = ?, status = ? WHERE email = ?";
+        String query = "UPDATE Employee SET name = ?, password = ?, role = ?, salary = ?, status = ? WHERE email = ?";
 
         try {
             // Prepare the statement
@@ -315,8 +315,8 @@ public class BranchManager {
             preparedStatement.setString(2, employeePassword);    // employee_password
             preparedStatement.setString(3, employeeRole);        // employee_role
             preparedStatement.setFloat(4, employeeSalary);       // employee_salary
-            preparedStatement.setBoolean(6, status);             // employee status
-            preparedStatement.setString(7, employeeEmail);       // email (used as unique identifier)
+            preparedStatement.setBoolean(5, status);             // employee status
+            preparedStatement.setString(6, employeeEmail);       // email (used as unique identifier)
 
             // Execute the update query
             int rowsUpdated = preparedStatement.executeUpdate();
