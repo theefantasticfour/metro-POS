@@ -56,7 +56,7 @@ public class GenerateSale extends JPanel {
         JPanel cartPanelContainer = new JPanel(new BorderLayout());
         JScrollPane cartScrollPane = new JScrollPane(createCartPanel());
         cartPanelContainer.setBackground(Color.decode(Values.LEFT_PANEL_BG_COLOR));
-        cartPanelContainer.setBorder(BorderFactory.createEmptyBorder(0, 100, 0, 0)); // Add spacing between panels
+        cartPanelContainer.setBorder(BorderFactory.createEmptyBorder(0, 80, 0, 20)); // Add spacing between panels
         cartPanelContainer.add(cartScrollPane, BorderLayout.CENTER);
 
         add(cartPanelContainer, BorderLayout.EAST);
@@ -144,22 +144,21 @@ public class GenerateSale extends JPanel {
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBackground(Color.decode(Values.LEFT_PANEL_BG_COLOR));
 
-        JLabel cartHeader = new JLabel("Cart", JLabel.CENTER);
-        cartHeader.setFont(new Font(Values.LABEL_FONT, Font.BOLD, Values.LABEL_FONT_SIZE));
+        JLabel cartHeader = new JLabel("Cart", JLabel.LEFT);
+        cartHeader.setFont(new Font(Values.LABEL_FONT, Font.BOLD, 25));
         cartHeader.setForeground(Color.decode(Values.LABEL_COLOR));
         headerPanel.add(cartHeader, BorderLayout.CENTER);
 
         // Clear Cart button
-        ImageIcon brushIcon = new ImageIcon(Values.CLEAR_CART_ICON); // Replace with actual brush icon path
-        Image resizedImage = brushIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH); // Resize to 20x20 pixels
-        ImageIcon resizedIcon = new ImageIcon(resizedImage);
-
-        JButton clearCartButton = new JButton(new ImageIcon(Values.CLEAR_CART_ICON)); // Replace with actual brush icon path
+        ImageIcon logoIcon = new ImageIcon(Values.CLEAR_CART_ICON);
+        Image scaledLogo = logoIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        JButton clearCartButton = new JButton(new ImageIcon(scaledLogo)); // Replace with actual brush icon path
         clearCartButton.setBorder(BorderFactory.createEmptyBorder());
         clearCartButton.setContentAreaFilled(false);
         clearCartButton.addActionListener(e -> clearCart());
         headerPanel.add(clearCartButton, BorderLayout.EAST);
 
+        cartPanel.add(headerPanel, BorderLayout.NORTH);
 
         // Cart Table
         String[] cartColumns = {"Product", "Quantity", "Price"};
@@ -207,6 +206,7 @@ public class GenerateSale extends JPanel {
 
         return cartPanel;
     }
+
 
     // Clear Cart functionality
     private void clearCart() {
