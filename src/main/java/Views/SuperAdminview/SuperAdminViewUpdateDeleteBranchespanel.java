@@ -120,16 +120,23 @@ public class SuperAdminViewUpdateDeleteBranchespanel extends JPanel {
 
         // Create table
         table = new JTable(tableModel);
+        table.setRowHeight(30);
+        table.getTableHeader().setReorderingAllowed(false);
+        table.getTableHeader().setFont(new Font(Values.LABEL_FONT, Font.BOLD, Values.LABEL_FONT_SMALLSIZE));
+        table.getTableHeader().setBackground(Color.decode(Values.BUTTON_GCOLOR));
+        table.getTableHeader().setForeground(Color.decode(Values.BUTTON_TEXT_COLOR));
+        table.setFont(new Font(Values.TEXT_FIELD_FONT, Font.PLAIN, Values.TEXT_FIELD_FONT_SIZE));
+
 
         // Add custom button renderers and editors
-        table.getColumn("Update").setCellRenderer(new ButtonRenderer("Update", Color.decode(Values.BUTTON_COLOR)));
+        table.getColumn("Update").setCellRenderer(new ButtonRenderer("Update", Color.decode(Values.BUTTON_GCOLOR)));
         table.getColumn("Update").setCellEditor(new ButtonEditor("Update", row -> {
             System.out.println("Update clicked for row: " + row);
             superAdminController.UpdateBranch(); // Call controller method
             inIt(); // Refresh the table
         }));
 
-        table.getColumn("Delete").setCellRenderer(new ButtonRenderer("Delete", Color.decode(Values.BUTTON_COLOR)));
+        table.getColumn("Delete").setCellRenderer(new ButtonRenderer("Delete", Color.decode(Values.BUTTON_GCOLOR)));
         table.getColumn("Delete").setCellEditor(new ButtonEditor("Delete", row -> {
             System.out.println("Delete clicked for row: " + row);
             int confirmation = JOptionPane.showConfirmDialog(
