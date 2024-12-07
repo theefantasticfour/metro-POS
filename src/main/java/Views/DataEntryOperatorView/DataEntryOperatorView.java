@@ -25,6 +25,7 @@ public class DataEntryOperatorView extends JPanel {
         return "temporaryPassword";
     }
 
+
     public String getVendorName() {
         return "temporaryVendorName";
     }
