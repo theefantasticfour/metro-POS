@@ -39,11 +39,11 @@ public class DataEntryOperatorView extends JPanel {
 
         // Initialize Left Panel with dynamic menu items and actions
         leftPanel = new LeftPanel(Arrays.asList(
-                new MenuItem("Change Password", Values.CHANGE_PASSWORD_ICON),
-                new MenuItem("Add New Vendor", Values.CREATION_ICON),
-                new MenuItem("Add New Product", Values.CREATION_ICON),
-                new MenuItem("View Products", Values.VIEW_ICON),
-                new MenuItem("View Vendor", Values.VIEW_ICON)
+                new MenuPanel("Change Password", Values.CHANGE_PASSWORD_ICON),
+                new MenuPanel("Add New Vendor", Values.CREATION_ICON),
+                new MenuPanel("Add New Product", Values.CREATION_ICON),
+                new MenuPanel("View Products", Values.VIEW_ICON),
+                new MenuPanel("View Vendor", Values.VIEW_ICON)
         ), e -> {
             JButton source = (JButton) e.getSource();
             String buttonText = source.getText();
@@ -194,7 +194,7 @@ public class DataEntryOperatorView extends JPanel {
     public String getProductNameToAddProduct() {return addProduct.getProductName();}
 
 
-   
+
     public String getVendorNameToUpdate() {
         return "updatedVendorName";
     }
