@@ -8,8 +8,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class CustomChangePassword {
-    public void display(JPanel parentPanel) {
+    private Runnable onPasswordChangedCallback;
+    public String newPassword;
+    public String confirmPassword;
 
+
+    public CustomChangePassword(Runnable callback) {
+        this.onPasswordChangedCallback = callback;
+    }
+
+    public void display(JPanel parentPanel) {
         parentPanel.removeAll();
         parentPanel.setLayout(new GridBagLayout());
         parentPanel.setBackground(Color.decode(Values.BG_COLOR));
@@ -41,7 +49,7 @@ public class CustomChangePassword {
         gbc.insets = new Insets(4, 8, 4, 8);
         formPanel.add(nameField, gbc);
 
-        // New Password Label and Text Field (using CustomPasswordField)
+        // New Password Label and Text Field
         JLabel newPasswordLabel = new JLabel("New Password:");
         newPasswordLabel.setFont(labelFont);
         gbc.gridx = 0;
@@ -52,7 +60,7 @@ public class CustomChangePassword {
         gbc.gridy = 3;
         formPanel.add(newPasswordField, gbc);
 
-        // Confirm Password Label and Text Field (using CustomPasswordField)
+        // Confirm Password Label and Text Field
         JLabel confirmPasswordLabel = new JLabel("Confirm Password:");
         confirmPasswordLabel.setFont(labelFont);
         gbc.gridx = 0;
@@ -63,7 +71,7 @@ public class CustomChangePassword {
         gbc.gridy = 5;
         formPanel.add(confirmPasswordField, gbc);
 
-        // Save Button (using CustomButton)
+        // Save Button
         CustomButton saveButton = new CustomButton("Save");
         gbc.gridx = 0;
         gbc.gridy = 6;
@@ -75,8 +83,8 @@ public class CustomChangePassword {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String name = nameField.getText().trim();
-                String newPassword = newPasswordField.getPasswordString().trim();
-                String confirmPassword = confirmPasswordField.getPasswordString().trim();
+                 newPassword = newPasswordField.getPasswordString().trim();
+                 confirmPassword = confirmPasswordField.getPasswordString().trim();
 
                 if (name.isEmpty() || newPassword.isEmpty() || confirmPassword.isEmpty()) {
                     JOptionPane.showMessageDialog(parentPanel,
@@ -94,12 +102,18 @@ public class CustomChangePassword {
                     return;
                 }
 
+                // Successful password change
                 JOptionPane.showMessageDialog(parentPanel,
                         "Password changed successfully.",
                         "Success",
                         JOptionPane.INFORMATION_MESSAGE);
+                e.getActionCommand().equals(Values.CHANGE_PASSWORD);
+                // Invoke the callback
+                if (onPasswordChangedCallback != null) {
+                    onPasswordChangedCallback.run();
+                }
 
-
+                // Clear fields
                 nameField.setText("");
                 newPasswordField.setText("");
                 confirmPasswordField.setText("");
@@ -117,4 +131,9 @@ public class CustomChangePassword {
         parentPanel.revalidate();
         parentPanel.repaint();
     }
+    public String password()
+    {return newPassword;}
+    public String Confpassword()
+    {return confirmPassword;}
+
 }
