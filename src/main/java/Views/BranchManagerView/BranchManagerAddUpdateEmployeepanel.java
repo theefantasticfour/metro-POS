@@ -88,12 +88,14 @@ public class BranchManagerAddUpdateEmployeepanel extends JPanel {
         return searchPanel;
     }
 
-    private JTable createTable() {
+    private JTable createTable()
+    {
         // Fetch employee data from the controller
         ArrayList<Employee> employees = this.branchManagerController.getAllEmployees();
         Object[][] employeeData = new Object[employees.size()][columnNames.length];
 
-        for (int i = 0; i < employees.size(); i++) {
+        for (int i = 0; i < employees.size(); i++)
+        {
             Employee employee = employees.get(i);
             employeeData[i][0] = employee.getRole();         // Employee type
             employeeData[i][1] = employee.getName();         // Employee Name

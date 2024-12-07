@@ -299,7 +299,7 @@ public class BranchManager {
     }
 
 
-    public boolean updateEmployee(String employeeEmail, String employeeName, String employeePassword, String employeeRole, Float employeeSalary, Boolean isPasswordChanged, Boolean status) {
+    public boolean updateEmployee(String employeeEmail, String employeeName, String employeePassword, String employeeRole, Float employeeSalary, Boolean status) {
         // Establish database connection
         Connection connection = ConnectionConfig.getConnection();
 
@@ -315,7 +315,6 @@ public class BranchManager {
             preparedStatement.setString(2, employeePassword);    // employee_password
             preparedStatement.setString(3, employeeRole);        // employee_role
             preparedStatement.setFloat(4, employeeSalary);       // employee_salary
-            preparedStatement.setBoolean(5, isPasswordChanged);  // is_password_changed
             preparedStatement.setBoolean(6, status);             // employee status
             preparedStatement.setString(7, employeeEmail);       // email (used as unique identifier)
 
