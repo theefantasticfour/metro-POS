@@ -133,7 +133,7 @@ public class BranchManagerController {
         Float EmployeeSalary = branchManagerView.getEmployeeSalaryToUpdate();
         Boolean status = branchManagerView.getEmployeeStatusToUpdate();
 
-        if (branchManagermodel.updateEmployee(employeeType, EmployeeName, EmployeeEmail, EmployeeSalary, status)) {
+        if (branchManagermodel.updateEmployee(EmployeeEmail, EmployeeName,password, employeeType, EmployeeSalary,status)) {
             JOptionPane.showMessageDialog(null, EmployeeName + " - " + employeeType + "  updated successfully");
         } else {
             JOptionPane.showMessageDialog(null, "Error updating employee");
