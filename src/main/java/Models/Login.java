@@ -27,13 +27,24 @@ public class Login {
         Connection connection = ConnectionConfig.getConnection(); // Get the database connection
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        String query = "SELECT * FROM SuperAdmin WHERE email = ? AND password = ?";
 
+        String query;
+        if(typeOfUser.equals("SuperAdmin"))
+        {
+            query = "SELECT * FROM SuperAdmin WHERE username = ? AND password = ?"; // Query to validate the user
+        }
+        else {
+            query = "SELECT * FROM Employee WHERE email = ? AND password = ? AND role = ?"; // Query to validate the user
+        }
         try {
             // Prepare the statement to prevent SQL injection
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, username); // Set the username
             preparedStatement.setString(2, password); // Set the password
+            if(!typeOfUser.equals("SuperAdmin"))
+            {
+                preparedStatement.setString(3, typeOfUser); // Set the type of user
+            }
             // Execute the query
             resultSet = preparedStatement.executeQuery();
 
