@@ -82,5 +82,10 @@ public class Values {
     public static final String DATA_ENTRY = "Data Entry Operator";
 
 
-
+    public static final String ADD_NEW_VENDOR = "AddNewVendor";
+    public static final String ADD_NEW_PRODUCT = "AddNewProduct";
+    public static final String UPDATE_VENDOR = "UpdateVendor";
+    public static final String DELETE_VENDOR = "DeleteVendor";
+    ;
+    ;
 }

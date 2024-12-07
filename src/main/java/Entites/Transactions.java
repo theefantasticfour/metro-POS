@@ -6,45 +6,24 @@ public class Transactions {
     int transactionId;
     int branchId;
     int cashierId;
+    int vendorId;
     int productId;
     Date transactionDate;
-    float transactionAmount;
+    int quantity = 1;
+    float transactionAmount ; // selling price of the product
+    float transactionCost ; // cost price of the product
     public Transactions()
     {
 
     }
-    public Transactions(int transactionId,int branchId,int cashierId, int productId, Date transactionDate, float transactionAmount)
-    {
-        this.transactionId= transactionId;
+    public Transactions(int transactionId, int branchId, int cashierId, int vendorId, int productId, Date transactionDate, float transactionAmount, float transactionCost) {
+        this.transactionId = transactionId;
         this.branchId = branchId;
         this.cashierId = cashierId;
+        this.vendorId = vendorId;
         this.productId = productId;
         this.transactionDate = transactionDate;
         this.transactionAmount = transactionAmount;
+        this.transactionCost = transactionCost;
     }
-    public int getTransactionId() {
-        return transactionId;
-    }
-
-    public int getBranchId() {
-        return branchId;
-    }
-
-    public int getCashierId() {
-        return cashierId;
-    }
-
-    public int getProductId() {
-        return productId;
-    }
-
-    public Date getTransactionDate() {
-        return transactionDate;
-    }
-
-    public float getTransactionAmount() {
-        return transactionAmount;
-    }
-
-
 }

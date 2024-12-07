@@ -266,7 +266,7 @@ public class SuperAdmin {
                 Date transactionDate = resultSet.getDate("sale_date");
                 float transactionAmount = resultSet.getFloat("transaction_amount");
 
-                transactions.add(new Transactions(transactionId, branchId, cashierId, productId, transactionDate, transactionAmount));
+                // transactions.add(new Transactions(transactionId, branchId, cashierId, productId, transactionDate, transactionAmount));
             }
 
         } catch (SQLException e) {
