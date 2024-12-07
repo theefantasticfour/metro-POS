@@ -29,7 +29,7 @@ public class DataEntryOperatorController {
         start();
     }
 
-    public void setActionListeners() {
+    public ActionListener setActionListeners() {
     // for
         //changepassword apply
         // addnewvendor add
@@ -99,11 +99,12 @@ public class DataEntryOperatorController {
                 session.showLogin();
             }
         };
+        return dataEntryListener;
     }
 
     public void start() {
         dataEntryOperatorModel = new DataEntryOperator(username, password);
-        Mainscreen.getInstance().showDataEntryOperator(this);
+        Mainscreen.getInstance().showDataEntryOperator(setActionListeners(),this);
         dataEntryOperatorView= Mainscreen.getDataEntryOperatorView();
     }
     public Boolean changePassword() {
@@ -164,7 +165,7 @@ public class DataEntryOperatorController {
         float costByUnit = dataEntryOperatorView.getCostByUnitToAddProduct();
         float sellingPrice = dataEntryOperatorView.getSellingPriceToAddProduct();
         float cartonPrice = dataEntryOperatorView.getCartonPriceToAddProduct();
-        int cartonQty = dataEntryOperatorView.getCartonQtyToAddProduct();
+       int cartonQty = dataEntryOperatorView.getCartonQtyToAddProduct();
 
         if (dataEntryOperatorModel.addProduct(vendorId, productId, stockQty, categorie, costByUnit, sellingPrice, cartonPrice, cartonQty)) {
             JOptionPane.showMessageDialog(null, "Product added successfully");
