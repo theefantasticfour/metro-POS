@@ -195,8 +195,17 @@ public class BranchManagerAddUpdateEmployeepanel extends JPanel {
 
     public String getEmployeeStatus() {
         int row = table.getSelectedRow();
-        return (String) table.getValueAt(row, 4);
+        Object value = table.getValueAt(row, 4);
+
+        if (value instanceof Boolean) {
+            return ((Boolean) value) ? "Yes" : "No";  // Convert Boolean to Yes/No
+        } else if (value instanceof String) {
+            return (String) value;  // Return String values directly
+        } else {
+            throw new IllegalArgumentException("Unexpected value type in table: " + value.getClass());
+        }
     }
+
 
     public boolean getIsPasswordChanged() {
         int row = table.getSelectedRow();
