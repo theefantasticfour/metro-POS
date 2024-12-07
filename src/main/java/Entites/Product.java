@@ -3,16 +3,18 @@ package Entites;
 public class Product {
 // add the following attributes
     // name , stockQTy,categorie,costbyunit,sellingprice,cartonprice carton qty
-    String name;
-    int stockQty;
-    String categorie;
-    float costByUnit;
-    float sellingPrice;
-    float cartonPrice;
-    int cartonQty;
-    int branchId = -1; // by default
-    public Product(String name, int stockQty, String categorie, float costByUnit, float sellingPrice, float cartonPrice, int cartonQty) {
+public String name;
+public int vendorId;
+public int stockQty;
+    public String categorie;
+    public float costByUnit;
+    public float sellingPrice;
+    public float cartonPrice;
+    public int cartonQty;
+    public int branchId = -1; // by default
+    public Product(String name, int vendorId,int stockQty, String categorie, float costByUnit, float sellingPrice, float cartonPrice, int cartonQty) {
         this.name = name;
+        this.vendorId = vendorId;
         this.stockQty = stockQty;
         this.categorie = categorie;
         this.costByUnit = costByUnit;

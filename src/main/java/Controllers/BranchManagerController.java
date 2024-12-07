@@ -147,7 +147,6 @@ public class BranchManagerController {
             JOptionPane.showMessageDialog(null, "Error deleting employee");
         }
     }
-
     // Sales button
     public ArrayList<Transactions> downloadSalesReport(String type, Boolean isDownload) {
         // logic to get sales report and make it downloadable
