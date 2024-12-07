@@ -135,8 +135,9 @@ public class SuperAdminAddBranchpanel extends JPanel {
                     "Success",
                     JOptionPane.INFORMATION_MESSAGE
             );
-
-
+            // to renew the branch id
+            branchId = String.valueOf(superAdminController.getUniqueBranchId());
+            branchCodeField.setText(branchId);
             cityField.setText("");
             addressField.setText("");
             phoneNumberField.setText("");
@@ -210,5 +211,10 @@ public class SuperAdminAddBranchpanel extends JPanel {
 
     public String getStatus() {
         return status;
+    }
+    public String getBranchName()
+    {
+        // if we decide to name our branch
+        return "DHA branch";
     }
 }

@@ -114,7 +114,7 @@ public class SuperAdminViewUpdateDeleteBranchespanel extends JPanel {
         tableModel = new DefaultTableModel(branchData, columnNames) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column < 8; // Only data columns are editable
+                return column >= 0; // Make only "Update" and "Delete" columns editable
             }
         };
 
@@ -122,29 +122,31 @@ public class SuperAdminViewUpdateDeleteBranchespanel extends JPanel {
         table = new JTable(tableModel);
 
         // Add custom button renderers and editors
-        table.getColumn("Update").setCellRenderer(new ButtonRenderer("Update", Color.decode(Values.BUTTON_COLOR), e -> {
-            int row = table.getSelectedRow();
-            // Handle update action here for the selected row
+        table.getColumn("Update").setCellRenderer(new ButtonRenderer("Update", Color.decode(Values.BUTTON_COLOR)));
+        table.getColumn("Update").setCellEditor(new ButtonEditor("Update", row -> {
             System.out.println("Update clicked for row: " + row);
+            superAdminController.UpdateBranch(); // Call controller method
+            inIt(); // Refresh the table
         }));
 
-        table.getColumn("Delete").setCellRenderer(new ButtonRenderer("Delete", Color.decode(Values.BUTTON_COLOR), e -> {
-            int row = table.getSelectedRow();
-            // Handle delete action here for the selected row
+        table.getColumn("Delete").setCellRenderer(new ButtonRenderer("Delete", Color.decode(Values.BUTTON_COLOR)));
+        table.getColumn("Delete").setCellEditor(new ButtonEditor("Delete", row -> {
             System.out.println("Delete clicked for row: " + row);
-        }));
-// Example usage in table setup:
-        table.getColumn("Update").setCellEditor(new ButtonEditor(new JButton("Update"), row -> {
-            // Handle update action here for the selected row
-            System.out.println("Update clicked for row: " + row);
+            int confirmation = JOptionPane.showConfirmDialog(
+                    null,
+                    "Are you sure you want to delete this branch?",
+                    "Confirm Deletion",
+                    JOptionPane.YES_NO_OPTION
+            );
+            if (confirmation == JOptionPane.YES_OPTION) {
+                superAdminController.DeleteBranch(); // Call controller method
+                inIt(); // Refresh the table
+            }
         }));
 
-        table.getColumn("Delete").setCellEditor(new ButtonEditor(new JButton("Delete"), row -> {
-            // Handle delete action here for the selected row
-            System.out.println("Delete clicked for row: " + row);
-        }));
         return table;
     }
+
 
     private void filterTable(String searchText) {
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
@@ -155,5 +157,69 @@ public class SuperAdminViewUpdateDeleteBranchespanel extends JPanel {
         } else {
             sorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText)); // Case-insensitive search
         }
+    }
+
+    public int getBranchIdtoUpdate() {
+        int row = table.getSelectedRow();
+        if (row != -1) {
+            return (int) table.getValueAt(row, 0);
+        }
+        throw new IllegalStateException("No branch selected.");
+    }
+
+    public String getCityToUpdate() {
+        int row = table.getSelectedRow();
+        if (row != -1) {
+            return (String) table.getValueAt(row, 1);
+        }
+        throw new IllegalStateException("No branch selected.");
+    }
+
+    public String getPhonenoToUpdate() {
+        int row = table.getSelectedRow();
+        if (row != -1) {
+            return (String) table.getValueAt(row, 3);
+        }
+        throw new IllegalStateException("No branch selected.");
+    }
+
+    public String getAdressToUpdate() {
+        int row = table.getSelectedRow();
+        if (row != -1) {
+            return (String) table.getValueAt(row, 2);
+        }
+        throw new IllegalStateException("No branch selected.");
+    }
+
+    public int getNoofEmployeesToUpdate() {
+        int row = table.getSelectedRow();
+        if (row != -1) {
+            return (int) table.getValueAt(row, 5);
+        }
+        throw new IllegalStateException("No branch selected.");
+    }
+
+    public Boolean getStatusToUpdate() {
+        int row = table.getSelectedRow();
+        if (row != -1) {
+            return (Boolean) table.getValueAt(row, 4);
+        }
+        throw new IllegalStateException("No branch selected.");
+    }
+
+    public String getManagerNameToUpdate() {
+        int row = table.getSelectedRow();
+        if (row != -1) {
+            return (String) table.getValueAt(row, 6);
+        }
+        throw new IllegalStateException("No branch selected.");
+    }
+
+    public String getManagerSalaryToUpdate() {
+        int row = table.getSelectedRow();
+        if (row != -1) {
+            return table.getValueAt(row, 7).toString();
+        }
+        throw new IllegalStateException("No branch selected.");
     }
 }

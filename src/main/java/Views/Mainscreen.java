@@ -1,5 +1,6 @@
 package Views;
 
+import Controllers.BranchManagerController;
 import Controllers.SuperAdminController;
 import Models.BranchManager;
 import Models.SuperAdmin;
@@ -71,11 +72,11 @@ public class Mainscreen extends JFrame {
 
     // show login screen
     public void showLogin(ActionListener loginListener) {
-        if (loginview == null) {
+
             loginview = new Loginview(loginListener);
             this.add(loginview, "Login");
-        }
-        System.out.println("Reached here1");
+
+        System.out.println("Reached here 1");
         c1.show(this.getContentPane(), "Login");
     }
 
@@ -89,11 +90,11 @@ public class Mainscreen extends JFrame {
     }
 
     // show branch manager screen
-    public void showBranchManager() {
+    public void showBranchManager(BranchManagerController instance) {
         // Switch to manager screen
         if (branchManagerView == null)
         {
-            branchManagerView = new BranchManagerView();
+            branchManagerView = new BranchManagerView(instance);
             this.add(branchManagerView, "BranchManager");
         }
         c1.show(this.getContentPane(), "BranchManager");

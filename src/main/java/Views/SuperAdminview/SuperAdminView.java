@@ -99,8 +99,8 @@ public class SuperAdminView extends JPanel {
 
     private void openReportForm() {
         contentPanel.removeAll();
-        reports = new SuperAdminReportsGraphspanel(superAdminListener,superAdminController);
-         reports.display(contentPanel);
+        reports = new SuperAdminReportsGraphspanel();
+        // reports.display(contentPanel);
         contentPanel.revalidate();
         contentPanel.repaint();
     }
@@ -119,17 +119,12 @@ public class SuperAdminView extends JPanel {
         return superAdminView.getBranchIdToUpdate();
     }
 
-    public int   getBranchIdToShowReports() {return Integer.parseInt(reports.getBranchIdToShowreports());}
-    //If both date fields (startDate and endDate) are filled, the slider will be null.
-    //If the slider is moved, the date fields will be null.
-    public String getTypeToShowReports() {
-        return reports.getReportType();
-    } //(Today,Weekly,Monthly,Yearly)
-    public String getTypeToShowReportsStartDate() {
-        return reports.getStartDate();
+    public int getBranchIdToShowReports() {
+        return superAdminView.getBranchIdToShowReports();
     }
-    public String getTypeToShowReportsEndDate() {
-        return reports.getEndDate();
+
+    public String getTypeToShowReports() {
+        return superAdminView.getTypeToShowReports();
     }
 
     public int getManagerId() {

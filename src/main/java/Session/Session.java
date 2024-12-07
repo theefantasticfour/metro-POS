@@ -17,10 +17,12 @@ public class Session {
     public Session() {
         System.out.println("Session initialized");
         showWelcomeScreen();
+        //showSuperAdmin("danish61", "admin1122");
         Mainscreen mainscreen = Mainscreen.getInstance();
 
     }
     private void showWelcomeScreen() {
+
         if (welcomecontroller == null) {
             welcomecontroller = new Welcomecontroller(this);
         }
@@ -31,7 +33,8 @@ public class Session {
 
     public void showLogin() {
         // Switch to login screen
-        if (loginController == null) {
+        if (loginController == null)
+        {
             loginController = new Logincontroller(this);
         }
         loginController.start();
@@ -46,6 +49,11 @@ public class Session {
     }
 
     public void showBranchManager(String username, String password) {
+        if (branchManagerController == null) {
+            System.out.println("Branch Manager Controller called.");
+            branchManagerController = new BranchManagerController(username, password,this);
+        }
+        branchManagerController.start();
 
     }
 

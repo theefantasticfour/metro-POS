@@ -10,6 +10,10 @@ public class Branch {
     int managerId ;
     String managerName = "";
     Float managerSalary = 0.0f;
+    public Branch()
+    {
+
+    }
     public Branch(int branchId, String city, String address, String phoneNo, int noOfEmployees, Boolean status) {
         this.branchId = branchId;
         this.city = city;
@@ -60,4 +64,40 @@ public class Branch {
     public Float getManagerSalary() {
         return managerSalary;
     }
+
+    //make all setters
+    public void setBranchId(int branchId) {
+        this.branchId = branchId;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setPhone(String phone) {
+        this.phoneNo = phone;
+    }
+
+    public void setName(String name) {
+        this.managerName = name;
+    }
+
+    public void setAddress(String address) {
+        Address = address;
+    }
+
+    public void setPhoneNo(String phoneNo) {
+        this.phoneNo = phoneNo;
+    }
+
+    public void setNoOfEmployees(int noOfEmployees) {
+        this.noOfEmployees = noOfEmployees;
+    }
+
+    public void setActive(Boolean status)
+    {
+        Status = status;
+    }
+
+
 }

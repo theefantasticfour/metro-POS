@@ -69,12 +69,17 @@ public class Values {
     public static final String STOCK_REPORT = "StockReport";
     public static final String PROFIT_REPORT = "ProfitReport";
     public static final String LOGOUT = "Logout";
+    public static final String CHANGE_PASSWORD = "ChangePassword";
+    // addemployee
+    public static final String ADD_EMPLOYEE = "AddEmployee";
+    public static final String UPDATE_EMPLOYEE = "UpdateEmployee";
+    public static final String DELETE_EMPLOYEE = "DeleteEmployee";
 
     // type of Users
-    public static final String SUPER_ADMIN = "SuperAdmin";
-    public static final String BRANCH_MANAGER = "BranchManager";
+    public static final String SUPER_ADMIN = "Super Admin";
+    public static final String BRANCH_MANAGER = "Branch Manager";
     public static final String CASHIER = "Cashier";
-    public static final String DATA_ENTRY = "DataEntry";
+    public static final String DATA_ENTRY = "Data Entry Operator";
 
 
 

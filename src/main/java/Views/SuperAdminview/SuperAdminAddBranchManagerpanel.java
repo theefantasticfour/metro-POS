@@ -61,7 +61,7 @@ public class SuperAdminAddBranchManagerpanel {
         // Branch Manager ID (Read-only)
         addLabel(formPanel, "Branch Manager ID", labelFont, gbc, 0, 0);
         JTextField managerIdField = createDisabledTextField(
-                String.valueOf(superAdminController.getUniqueBranchId()) // Auto-generated Branch ID
+                String.valueOf(superAdminController.getUniqueManagerId()) // Auto-generated Branch ID
         );
         gbc.gridx=0;
         gbc.gridy=1;
@@ -99,12 +99,15 @@ public class SuperAdminAddBranchManagerpanel {
 
         // Apply Button
         JButton applyButton = createApplyButton();
+
         gbc.gridx = 1;
         gbc.gridy = 6;
         gbc.gridwidth = 2;
         gbc.insets = new Insets(30, 8, 4, 8);
         gbc.anchor = GridBagConstraints.EAST;
         formPanel.add(applyButton, gbc);
+        applyButton.setActionCommand(Values.CREATE_MANAGER);
+        applyButton.addActionListener(superAdminListener);
 
         applyButton.addActionListener(e -> {
             managerId = managerIdField.getText().trim(); // Assign value to managerId
