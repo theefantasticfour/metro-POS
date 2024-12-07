@@ -36,11 +36,21 @@ public class AddNewProduct {
         gbc.insets = new Insets(4, 8, 4, 8);
         formPanel.add(vendorComboBox, gbc);
 
-        // Product Name Field
+        // Product Name Field as Editable ComboBox
         addLabelAndComponent(formPanel, "Product Name:", labelFont, gbc, 0, 2);
-        JTextField productNameField = createCustomTextField();
+
+// Create a JComboBox with sample product names
+        String[] productNames = {"Product A", "Product B", "Product C", "Product D"};
+        JComboBox<String> productNameComboBox = new JComboBox<>(productNames);
+        productNameComboBox.setFont(labelFont); // Set the font to match the design
+
+// Make the JComboBox editable to allow custom input
+        productNameComboBox.setEditable(true);
+
+// Configure grid bag constraints and add the combo box to the panel
         gbc.gridy = 3;
-        formPanel.add(productNameField, gbc);
+        formPanel.add(productNameComboBox, gbc);
+
 
         // Product Category
         addLabelAndComponent(formPanel, "Product Category:", labelFont, gbc, 0, 4);
@@ -92,14 +102,14 @@ public class AddNewProduct {
             public void actionPerformed(ActionEvent e) {
                 // Collecting data
                 String vendor = (String) vendorComboBox.getSelectedItem();
-                String productName = productNameField.getText().trim();
+                String productName = (String)productNameComboBox.getSelectedItem();
                 String category = categoryField.getText().trim();
                 String quantity = quantityField.getText().trim();
                 String originalPrice = originalPriceField.getText().trim();
                 String salePrice = salePriceField.getText().trim();
                 String priceByUnit = priceByUnitField.getText().trim();
                 String priceByCarton = priceByCartonField.getText().trim();
-
+                System.out.println("Selected/Typed Product Name: " + productName);
                 if (productName.isEmpty() || category.isEmpty() || quantity.isEmpty() || originalPrice.isEmpty()
                         || salePrice.isEmpty() || priceByUnit.isEmpty() || priceByCarton.isEmpty()) {
                     JOptionPane.showMessageDialog(parentPanel,
@@ -116,7 +126,8 @@ public class AddNewProduct {
                         JOptionPane.INFORMATION_MESSAGE);
 
                 // Clear the form
-                productNameField.setText("");
+                //productNameField.setText("");
+
                 categoryField.setText("");
                 quantityField.setText("");
                 originalPriceField.setText("");
