@@ -5,6 +5,7 @@ import Entites.Product;
 import Entites.Transactions;
 import Models.SuperAdmin;
 import Session.Session;
+import Utils.ReportUtils;
 import Utils.Values;
 import Views.Mainscreen;
 import Views.SuperAdminview.SuperAdminView;
@@ -126,18 +127,24 @@ public class SuperAdminController {
 
     public ArrayList<Transactions> downloadSalesReport(int branchId, String type, Boolean isDownload) {
         // logic to get sales report and make it downloadable
+        ArrayList<Transactions> sales = SuperAdmin.getTransactions(branchId, type);
         if (isDownload) {
-            // download the report
+            String fileName = "Sales_Report_Branch_" + branchId + ".xlsx";
+            ReportUtils.createSalesReportExcel(sales, fileName);
         }
-        return SuperAdmin.getTransactions(branchId, type);
+        return sales;
     }
 
     public ArrayList<Product> downloadProductsReport(int branchId, Boolean isDownload) {
-        // logic to get remaining products
+        // Fetch remaining stock
+        ArrayList<Product> products = SuperAdmin.getRemainingStock(branchId);
         if (isDownload) {
-            // download the report
+            // Generate and download the report
+            String fileName = "Products_Report_Branch_" + branchId + ".xlsx";
+            ReportUtils.createProductsReportExcel(products, fileName);
         }
-        return SuperAdmin.getRemainingStock(branchId);
+
+        return products;
     }
 
     public Float downloadProfitreport(int branchId, String type, Boolean isDownload) {

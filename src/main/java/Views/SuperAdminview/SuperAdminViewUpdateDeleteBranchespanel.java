@@ -127,36 +127,33 @@ public class SuperAdminViewUpdateDeleteBranchespanel extends JPanel {
         // Create buttons
         JButton updateButton = new JButton("Update");
         updateButton.setActionCommand(Values.UPDATE_BRANCH);
-        updateButton.addActionListener(superAdminListener);
+       // updateButton.addActionListener(superAdminListener);
 
         JButton deleteButton = new JButton("Delete");
         deleteButton.setActionCommand(Values.DELETE_BRANCH);
-        deleteButton.addActionListener(superAdminListener);
+       // deleteButton.addActionListener(superAdminListener);
 
 
         // Add custom button renderers and editors
         table.getColumn("Update").setCellRenderer(new ButtonRenderer("Update", Color.decode(Values.BUTTON_COLOR), e -> {
             int row = table.getSelectedRow();
-            // Handle update action here for the selected row
+            superAdminController.UpdateBranch();
             System.out.println("Update clicked for row: " + row);
         }));
 
         table.getColumn("Delete").setCellRenderer(new ButtonRenderer("Delete", Color.decode(Values.BUTTON_COLOR), e -> {
             int row = table.getSelectedRow();
-            // Handle delete action here for the selected row
+            superAdminController.DeleteBranch();
             System.out.println("Delete clicked for row: " + row);
         }));
-
-
         table.getColumn("Update").setCellEditor(new ButtonEditor(updateButton, row -> {
-
-            // Handle update action here for the selected row
             System.out.println("Update clicked for row: " + row);
+            superAdminController.UpdateBranch();
         }));
 
         table.getColumn("Delete").setCellEditor(new ButtonEditor(deleteButton, row -> {
-            // Handle delete action here for the selected row
             System.out.println("Delete clicked for row: " + row);
+            superAdminController.DeleteBranch();
         }));
         return table;
     }
