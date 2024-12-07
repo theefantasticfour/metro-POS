@@ -26,4 +26,40 @@ public class Transactions {
         this.transactionAmount = transactionAmount;
         this.transactionCost = transactionCost;
     }
+
+    public int getTransactionId() {
+        return transactionId;
+    }
+
+    public int getBranchId() {
+        return branchId;
+    }
+
+    public int getCashierId() {
+        return cashierId;
+    }
+
+    public int getVendorId() {
+        return vendorId;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public Date getTransactionDate() {
+        return transactionDate;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public float getTransactionAmount() {
+        return transactionAmount;
+    }
+
+    public float getTransactionCost() {
+        return transactionCost;
+    }
 }
