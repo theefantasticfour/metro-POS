@@ -31,7 +31,7 @@ public class BranchManagerAddUpdateEmployeepanel extends JPanel {
         this.branchManagerController = instance;
         contentPanel = branchManagerPanel.getContentPanel();
         System.out.println("Branch Manager Add Update Employee Panel initialized");
-        inIt();
+        display();
     }
     public void display() {
         contentPanel.removeAll();
