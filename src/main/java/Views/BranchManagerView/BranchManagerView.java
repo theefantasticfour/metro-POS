@@ -31,7 +31,6 @@ public class BranchManagerView extends JPanel {
         branchMangerListener = LISTENER;
         isPasswordChanged = branchManagerController.isPasswordChanged();
         System.out.println("Branch Manager View initialized");
-
         setLayout(new BorderLayout());
         setBackground(Color.decode(Values.BG_COLOR));
 
@@ -107,6 +106,7 @@ public class BranchManagerView extends JPanel {
         changePassword.display(contentPanel);
     }
 
+
     private void openAddEmployeeForm() {
         contentPanel.removeAll();
         addEmployeeForm = new BranchManagerAddEmployeepanel(branchMangerListener, branchManagerController);
@@ -118,7 +118,8 @@ public class BranchManagerView extends JPanel {
     private void openViewUpdateDeleteForm() {
         contentPanel.removeAll();
        viewUpdateDeleteEmployee = new BranchManagerAddUpdateEmployeepanel(branchMangerListener, branchManagerController,this);
-        contentPanel.revalidate();
+        viewUpdateDeleteEmployee.display();
+       contentPanel.revalidate();
         contentPanel.repaint();
     }
 

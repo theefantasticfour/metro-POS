@@ -108,11 +108,11 @@ public class Mainscreen extends JFrame {
         c1.show(this.getContentPane(), "BranchManager");
     }
     // show data entry operator screen
-    public void showDataEntryOperator(DataEntryOperatorController instance) {
+    public void showDataEntryOperator(ActionListener LISTNER,DataEntryOperatorController instance) {
         // Switch to Data Entry Operator screen
         if (dataEntryOperatorView == null)
         {
-            dataEntryOperatorView = new DataEntryOperatorView(instance);
+            dataEntryOperatorView = new DataEntryOperatorView(LISTNER,instance);
             this.add(dataEntryOperatorView, "DataEntryOperator");
         }
         c1.show(this.getContentPane(), "DataEntryOperator");

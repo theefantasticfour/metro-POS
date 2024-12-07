@@ -20,6 +20,7 @@ public class CustomChangePassword {
 
     }
 
+
     public void display(JPanel parentPanel) {
         parentPanel.removeAll();
         parentPanel.setLayout(new GridBagLayout());
