@@ -3,6 +3,8 @@ package Models;
 import Entites.Employee;
 import Entites.Product;
 import Entites.Transactions;
+import Utils.Values;
+
 import java.sql.*;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -140,12 +142,12 @@ public class BranchManager {
         }
     }
     // DB operations
-    public Boolean changePassword(String Password)
-    {
+    public Boolean changePassword(String Password) {
         System.out.println("Branch Manager Password changed");
-        // sirf update karna hai against the id no checks to be performed
         Connection connection = ConnectionConfig.getConnection();
+
         try {
+            // Update the password for the Branch Manager
             String query = "UPDATE Employee SET password = ? WHERE employee_id = ? AND role = 'Branch Manager'";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, Password);
@@ -154,15 +156,29 @@ public class BranchManager {
             int rowsUpdated = preparedStatement.executeUpdate();
             if (rowsUpdated > 0) {
                 System.out.println("Password updated successfully.");
-                return true;
+
+                // Set is_password_changed to true
+                String updateFlagQuery = "UPDATE Employee SET is_password_changed = true WHERE employee_id = ?";
+                PreparedStatement flagStatement = connection.prepareStatement(updateFlagQuery);
+                flagStatement.setInt(1, this.managerId);
+
+                int flagRowsUpdated = flagStatement.executeUpdate();
+                if (flagRowsUpdated > 0) {
+                    System.out.println("is_password_changed flag set to true.");
+                    return true;
+                } else {
+                    System.out.println("Failed to update is_password_changed flag.");
+                }
             } else {
-                System.out.println("BM model,   Error updating password. rowaffected = " + rowsUpdated);
+                System.out.println("BM model, Error updating password. rows affected = " + rowsUpdated);
             }
         } catch (SQLException e) {
             System.err.println("Error updating password: " + e.getMessage());
         }
+
         return false;
     }
+
     public boolean isPasswordChanged() {
         Connection connection = ConnectionConfig.getConnection();
         try {
@@ -252,9 +268,36 @@ public class BranchManager {
     }
 
     public ArrayList<Employee> getAllEmployees() {
-        // get all employees from the db where branch id is this.branchId
-        return new ArrayList<Employee>();
+        System.out.println("All Employees will be fetched here");
+        ArrayList<Employee> employees = new ArrayList<Employee>();
+        Connection connection = ConnectionConfig.getConnection(); // Assume this provides a valid DB connection
+
+        String query = "SELECT * FROM employees WHERE branch_id = ? and role = ? or role = ?"; // Adjust table and column names as necessary
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, this.branchId); // Bind the branchId value to the query
+            stmt.setString(2, Values.CASHIER);
+            stmt.setString(3,Values.DATA_ENTRY);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Employee employee = new Employee();
+                    employee.setEmployee_id(rs.getInt("id")); // Replace with actual column name
+                    employee.setName(rs.getString("name")); // Replace with actual column name
+                    employee.setRole(rs.getString("designation")); // Replace with actual column name
+                    employee.setSalary(rs.getFloat("salary")); // Replace with actual column name
+                    employee.setBranch_id(rs.getInt("branch_id")); // Replace with actual column name
+
+                    employees.add(employee); // Add the employee to the list
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Log or handle the SQL exception
+        }
+
+        return employees;
     }
+
 
     public boolean updateEmployee(String employeeType, String employeeName, String employeeEmail, Float employeeSalary,Boolean status) {
         // update employee

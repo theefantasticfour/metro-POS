@@ -194,18 +194,35 @@ public class SuperAdminViewUpdateDeleteBranchespanel extends JPanel {
     public int getNoofEmployeesToUpdate() {
         int row = table.getSelectedRow();
         if (row != -1) {
-            return (int) table.getValueAt(row, 5);
+            Object value = table.getValueAt(row, 5);
+            if (value instanceof Integer) {
+                return (Integer) value; // Cast directly if it's an Integer
+            } else if (value instanceof String) {
+                return Integer.parseInt((String) value); // Parse if it's a String
+            } else {
+                throw new IllegalStateException("Unexpected data type for no. of employees: " + value.getClass());
+            }
         }
         throw new IllegalStateException("No branch selected.");
     }
 
+
     public Boolean getStatusToUpdate() {
         int row = table.getSelectedRow();
+
         if (row != -1) {
-            return (Boolean) table.getValueAt(row, 4);
+            Object value = table.getValueAt(row, 4); // Get the value at column 4
+            if (value instanceof Boolean) {
+                return (Boolean) value; // Directly cast to Boolean if it is a Boolean
+            } else if (value instanceof String) {
+                return Boolean.parseBoolean((String) value); // Convert from String if necessary
+            } else {
+                throw new IllegalStateException("Unexpected data type for status: " + value.getClass());
+            }
         }
         throw new IllegalStateException("No branch selected.");
     }
+
 
     public String getManagerNameToUpdate() {
         int row = table.getSelectedRow();

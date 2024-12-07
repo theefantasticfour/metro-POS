@@ -10,7 +10,7 @@ public class ConnectionConfig {
 
     // Database credentials
 
-   /* private static final String DB_URL = "jdbc:mysql://srv1553.hstgr.io:3306/u628307016_DanishDB?autoReconnect=true";
+   /*private static final String DB_URL = "jdbc:mysql://srv1553.hstgr.io:3306/u628307016_DanishDB?autoReconnect=true";
     private static final String DB_USER = "u628307016_user" ;
     private static final String DB_PASSWORD = "!@#Nm123456!@#";*/
     private static final String DB_URL = "jdbc:mysql://localhost:3306/metropos";

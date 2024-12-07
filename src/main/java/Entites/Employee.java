@@ -9,7 +9,10 @@ public class Employee {
     private String role;
     private float salary;
     private boolean is_password_changed;
+    public Employee()
+    {
 
+    }
     public Employee(int branch_id, int employee_id, String name, String email, String password, String role, float salary, boolean is_password_changed) {
         this.branch_id = branch_id;
         this.employee_id = employee_id;

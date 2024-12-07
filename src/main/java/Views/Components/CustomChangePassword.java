@@ -11,10 +11,13 @@ public class CustomChangePassword {
     private Runnable onPasswordChangedCallback;
     public String newPassword;
     public String confirmPassword;
+    public ActionListener saveButtonListener;
 
 
-    public CustomChangePassword(Runnable callback) {
+    public CustomChangePassword(Runnable callback,ActionListener listener) {
+        saveButtonListener = listener;
         this.onPasswordChangedCallback = callback;
+
     }
 
     public void display(JPanel parentPanel) {
@@ -78,7 +81,8 @@ public class CustomChangePassword {
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.insets = new Insets(25, 8, 8, 8);
         formPanel.add(saveButton, gbc);
-
+        saveButton.setActionCommand(Values.CHANGE_PASSWORD);
+        saveButton.addActionListener(saveButtonListener);
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
