@@ -107,7 +107,7 @@ public class CustomChangePassword {
                         "Password changed successfully.",
                         "Success",
                         JOptionPane.INFORMATION_MESSAGE);
-
+                e.getActionCommand().equals(Values.CHANGE_PASSWORD);
                 // Invoke the callback
                 if (onPasswordChangedCallback != null) {
                     onPasswordChangedCallback.run();

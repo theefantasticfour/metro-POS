@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 
 import static Views.Components.CustomTextFieldDashboard.createCustomTextField;
 
-public class BranchManagerAddEmployeepanel {
+public class BranchManagerAddEmployeepanel extends JPanel{
     private final ActionListener branchManagerListener;
     private final BranchManagerController branchManagerController;
     private String empType;
@@ -107,13 +107,13 @@ public class BranchManagerAddEmployeepanel {
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
+            e.getActionCommand().equals(Values.ADD_EMPLOYEE);
             JOptionPane.showMessageDialog(contentPanel,
                     "Employee added successfully!",
                     "Success",
                     JOptionPane.INFORMATION_MESSAGE);
 
-            // Logic to save data to a database or file (Placeholder)
+
         });
 
         // Add form panel to content panel

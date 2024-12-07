@@ -35,7 +35,7 @@ public class BranchManagerController {
         // setting up the model
         branchManagermodel = new BranchManager(username, password);
         // setting up this panel in the mainscreen
-        Mainscreen.getInstance().showBranchManager(this);
+        Mainscreen.getInstance().showBranchManager(setActionListeners(), this);
         // getting instance for further use
         branchManagerView = Mainscreen.getBranchManagerView();
 
@@ -59,7 +59,7 @@ public class BranchManagerController {
     }
 
     // Action Listeners
-    public void setActionListeners() {
+    public ActionListener setActionListeners() {
         branchManagerListener = e -> {
             // logout
             // apply for changepassword
@@ -91,7 +91,7 @@ public class BranchManagerController {
             }
             else if (e.getActionCommand().equals(Values.SALES_REPORT))
             {
-                downloadSalesReport(branchManagerView.getType(), true);
+               downloadSalesReport(branchManagerView.getType(), true);
             }
             else if (e.getActionCommand().equals(Values.STOCK_REPORT))
             {
@@ -102,6 +102,7 @@ public class BranchManagerController {
                 downloadProfitReport(branchManagerView.getType(), true);
             }
         };
+        return branchManagerListener;
     }
 
     // OPERATIONS

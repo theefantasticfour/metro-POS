@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Hashtable;
 
-public class BranchManagerReportsPanel {
+public class BranchManagerReportsPanel extends JPanel{
     private ActionListener branchManagerListener;
     private final BranchManagerController branchManagerController;
     private JPanel mainPanel;
