@@ -299,16 +299,65 @@ public class BranchManager {
     }
 
 
-    public boolean updateEmployee(String employeeType, String employeeName, String employeeEmail, Float employeeSalary,Boolean status) {
-        // update employee
-        System.out.println("Employee updated");
-        return true;
+    public boolean updateEmployee(String employeeEmail, String employeeName, String employeePassword, String employeeRole, Float employeeSalary, Boolean isPasswordChanged, Boolean status) {
+        // Establish database connection
+        Connection connection = ConnectionConfig.getConnection();
+
+        // Define the SQL query to update employee details
+        String query = "UPDATE Employee SET name = ?, password = ?, role = ?, salary = ?, is_password_changed = ?, status = ? WHERE email = ?";
+
+        try {
+            // Prepare the statement
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+            // Set the parameters for the query
+            preparedStatement.setString(1, employeeName);        // employee_name
+            preparedStatement.setString(2, employeePassword);    // employee_password
+            preparedStatement.setString(3, employeeRole);        // employee_role
+            preparedStatement.setFloat(4, employeeSalary);       // employee_salary
+            preparedStatement.setBoolean(5, isPasswordChanged);  // is_password_changed
+            preparedStatement.setBoolean(6, status);             // employee status
+            preparedStatement.setString(7, employeeEmail);       // email (used as unique identifier)
+
+            // Execute the update query
+            int rowsUpdated = preparedStatement.executeUpdate();
+
+            // If any row was updated, return true, otherwise return false
+            if (rowsUpdated > 0) {
+                System.out.println("Employee updated successfully.");
+                return true;
+            } else {
+                System.out.println("No rows updated. Please check the employee details.");
+            }
+
+        } catch (SQLException e) {
+            // Print any SQL exceptions that occur
+            System.err.println("Error updating employee: " + e.getMessage());
+        }
+
+        return false;
     }
+
     public boolean deleteEmployee( String employeeEmail) {
         // delete employee
         updateTotalEmployees(false); // decrease by 1
         System.out.println("Employee deleted");
         // set status to inactive;
+        Connection connection = ConnectionConfig.getConnection();
+        try {
+            String query = "UPDATE Employee SET Status = false WHERE email = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, employeeEmail);
+            int rowsUpdated = preparedStatement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Employee deleted successfully.");
+                return true;
+            } else {
+                System.out.println("Error deleting employee.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error deleting employee: " + e.getMessage());
+        }
         return true;
     }
 
