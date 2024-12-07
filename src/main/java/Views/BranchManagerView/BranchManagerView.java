@@ -1,99 +1,152 @@
 package Views.BranchManagerView;
 
 import Controllers.BranchManagerController;
+import Controllers.SuperAdminController;
+import Views.Components.CustomChangePassword;
+import Utils.Values;
+import Views.SideBarAndHeader.LeftPanel;
+import Views.SideBarAndHeader.RightPanelHeader;
+import Views.SideBarAndHeader.MenuPanel;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 public class BranchManagerView extends JPanel {
+    private Boolean isPasswordChanged = false; // Other buttons only work once the password is changed
+    private BranchManagerController branchManagerController;
+    private LeftPanel leftPanel;
+    private RightPanelHeader rightPanelHeader;
+    private JPanel contentPanel;
+    private BranchManagerAddEmployeepanel addEmployeeForm;
+    private ActionListener branchMangerListener;
+    private BranchManagerAddUpdateEmployeepanel viewUpdateDeleteEmployee;
+    private BranchManagerReportsPanel reports;
+    private CustomChangePassword changePassword;
 
-    // set from db
-     // other buttons will only work once password is changed
-    // you can try some disabled colours like light grey or something and change it once
-    // isPasswordChanged is true
-    // only allow change of panels it the password is changed
-    // ----------------------- ACTION LISTNER TO BES USED IN -------------
-            // logout
-            // apply for changepassword
-            // add employee
-            // update
-            // delete
-            // sales
-            // stock
-            // profit
-    // -------------------------------------------------------------------
-
-
-    Boolean isPasswordChanged ; // this will automatically be set when constructor is called
-    BranchManagerController branchManagerController;
-
-    public BranchManagerView(BranchManagerController instance) {
-        System.out.println("Branch Manager View initialized");
+    public BranchManagerView(ActionListener LISTENER, BranchManagerController instance) {
         branchManagerController = instance;
+        branchMangerListener = LISTENER;
+        System.out.println("Branch Manager View initialized");
 
-        setIsPasswordChanged(); // set the password changed status
-         }
+        setLayout(new BorderLayout());
+        setBackground(Color.decode(Values.BG_COLOR));
 
-    public String getEmployeeType() {
-        // from add employee panel
+        // Initialize Left Panel with dynamic menu items and actions
+        leftPanel = new LeftPanel(Arrays.asList(
+                new MenuPanel("Change Password", Values.CHANGE_PASSWORD_ICON),
+                new MenuPanel("Add Employee", Values.CREATION_ICON),
+                new MenuPanel("View/Update/Delete", Values.VIEW_ICON),
+                new MenuPanel("Report", Values.REPORT_ICON)
+        ), e -> {
+            JButton source = (JButton) e.getSource();
+            String buttonText = source.getText();
 
-        return null;
-    }
-    public  String getEmployeeName() {
-        // from add employee panel
-    return null;
-    }
+            // Conditional logic based on isPasswordChanged
+            if (!isPasswordChanged && !buttonText.equals("Change Password")) {
+                JOptionPane.showMessageDialog(this,
+                        "Please change your password first.",
+                        "Action Restricted",
+                        JOptionPane.WARNING_MESSAGE);
+                return; // Prevent other buttons from functioning
+            }
 
-    public  String getEmployeeEmail() {
-        // from add employee panel
-        return null;
-    }
+            // Handle button actions
+            switch (buttonText) {
+                case "Change Password":
+                    openChangePasswordForm();
+                    break;
+                case "Add Employee":
+                    openAddEmployeeForm();
+                    break;
+                case "View/Update/Delete":
+                    openViewUpdateDeleteForm();
+                    break;
+                case "Report":
+                    openReportForm();
+                    break;
+            }
+        },branchMangerListener);
 
-    public  Float getEmployeeSalary() {
-        // from add employee panel
-        return null;
-    }
+        rightPanelHeader = new RightPanelHeader(Values.BRANCH_MANAGER_ICON, "Branch Manager");
 
-    public  String getEmployeeTypeToUpdate() {
-     // from view/update/delete employee panel
-        return null;
-    }
+        contentPanel = new JPanel();
+        contentPanel.setBackground(Color.decode(Values.BG_COLOR));
+        contentPanel.setLayout(new CardLayout());
 
-    public  String getEmployeeNameToUpdate() {
-        // from view/update/delete employee panel
-        return null;
-    }
+        add(leftPanel, BorderLayout.WEST);
+        add(createRightPanel(), BorderLayout.CENTER);
 
-    public  String getEmployeeEmailToUpdate() {
-        // from view/update/delete employee panel
-        return null;
-    }
-
-    public  Float getEmployeeSalaryToUpdate() {
-        // from view/update/delete employee panel
-        return null;
-    }
-
-    public  Boolean getEmployeeStatusToUpdate() {
-        // from view/update/delete employee panel
-        return null;
-    }
-    public String getType() {
-        // from reports employee panel
-        return null;
-    }
-    public void setIsPasswordChanged()
-    {
-        isPasswordChanged = branchManagerController.isPasswordChanged();
+        // Initially display the Change Password form
+        openChangePasswordForm();
     }
 
+    private JPanel createRightPanel() {
+        JPanel rightPanel = new JPanel();
+        rightPanel.setLayout(new BorderLayout());
+        rightPanel.setBackground(Color.decode(Values.BG_COLOR)); // Match main panel background
 
-    public String getNewPassword() {
-        // from change password panel
-        return null;
+        rightPanel.add(rightPanelHeader, BorderLayout.NORTH);
+        rightPanel.add(contentPanel, BorderLayout.CENTER);
+
+        return rightPanel;
     }
 
-    public String getConfirmPassword() {
-        // from change password panel
-        return null;
+    private void openChangePasswordForm() {
+        CustomChangePassword changePasswordForm = new CustomChangePassword(() -> {
+            // Callback when password is changed
+            isPasswordChanged = true; // Allow other buttons to function
+            JOptionPane.showMessageDialog(this,
+                    "Password changed successfully. You can now access other features.",
+                    "Success",
+                    JOptionPane.INFORMATION_MESSAGE);
+        });
+        changePasswordForm.display(contentPanel);
     }
+
+    private void openAddEmployeeForm() {
+        contentPanel.removeAll();
+        addEmployeeForm = new BranchManagerAddEmployeepanel(branchMangerListener, branchManagerController);
+        addEmployeeForm.display(this);
+        contentPanel.revalidate();
+        contentPanel.repaint();
+    }
+
+    private void openViewUpdateDeleteForm() {
+        contentPanel.removeAll();
+      //  viewUpdateDeleteEmployee = new BranchManagerAddUpdateEmployeepanel(branchMangerListener, branchManagerController);
+      //  viewUpdateDeleteEmployee.display(this); // Pass the parent panel for the form
+        contentPanel.revalidate();
+        contentPanel.repaint();
+    }
+
+    private void openReportForm() {
+        contentPanel.removeAll();
+        contentPanel.revalidate();
+        contentPanel.repaint();
+        reports = new BranchManagerReportsPanel(branchMangerListener, branchManagerController);
+        reports.display(contentPanel);
+    }
+    public JPanel getContentPanel() {
+        return contentPanel;
+    }
+   public String getEmployeeType()
+   {return addEmployeeForm.getEmpType();}
+    public String getEmployeeName()
+    {return addEmployeeForm.getEmpName();}
+    public String getEmployeeEmail()
+    {return addEmployeeForm.getEmail();}
+    public Float getEmployeeSalary()
+    {return Float.parseFloat(addEmployeeForm.getSalary());}
+    public String getNewPassword()
+    {return changePassword.password(); }
+    public String getConfirmPassword()
+    {return changePassword.Confpassword();}
+//    public String getEmployeeTypeToUpdate(){}
+//    public String getEmployeeNameToUpdate(){}
+//    public String getEmployeeEmailToUpdate(){}
+//    public Float getEmployeeSalaryToUpdate(){}
+//    public Boolean getEmployeeStatusToUpdate(){}
+
 }

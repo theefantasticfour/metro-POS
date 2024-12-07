@@ -26,7 +26,7 @@ public class SuperAdminView extends JPanel {
 
     public SuperAdminView(ActionListener LISTNER,SuperAdminController instance) {
         this.superAdminController = instance;
-         superAdminListener = LISTNER;
+        superAdminListener = LISTNER;
         setLayout(new BorderLayout());
         setBackground(Color.decode(Values.BG_COLOR));
 
@@ -99,8 +99,8 @@ public class SuperAdminView extends JPanel {
 
     private void openReportForm() {
         contentPanel.removeAll();
-        reports = new SuperAdminReportsGraphspanel();
-        // reports.display(contentPanel);
+        reports = new SuperAdminReportsGraphspanel(superAdminListener,superAdminController);
+         reports.display(contentPanel);
         contentPanel.revalidate();
         contentPanel.repaint();
     }
@@ -120,94 +120,91 @@ public class SuperAdminView extends JPanel {
     }
 
     public int getBranchIdToShowReports() {
-        return superAdminView.getBranchIdToShowReports(); // will be -1 branci id if nothing is selected
+        return  Integer.parseInt(reports.getBranchIdToShowreports()); // will be -1 branci id if nothing is selected
     }
-
+    // only one input at a time
+    //if date fields are filled, slider input is null.
+    //If slider is moved,  date fields are null.
     public String getTypeToShowReports() {
-        return superAdminView.getTypeToShowReports();
+        return reports.getReportType();
+    }
+    public String getTypeToShowReportStartDate()
+    {
+        return reports.getStartDate();
+    }
+    public String getTypeToShowReportEndDate()
+    {
+        return reports.getEndDate();
     }
 
     public int getManagerId() {
-        if (createBranchManager != null) {
+
             return Integer.parseInt(createBranchManager.getmanagerId());
-        }
-        throw new IllegalStateException("Create Branch Manager form is not initialized.");
+
     }
 
     public String getManagerName() {
-        if (createBranchManager != null) {
+
             return createBranchManager.getmanagerName();
-        }
-        throw new IllegalStateException("Create Branch Manager form is not initialized.");
+
     }
 
     public Float getManagerSalary() {
-        if (createBranchManager != null) {
+
             return Float.parseFloat(createBranchManager.getSalary());
-        }
-        throw new IllegalStateException("Create Branch Manager form is not initialized.");
+
     }
 
     public String getManagerEmail() {
-        if (createBranchManager != null) {
+
             return createBranchManager.getEmail();
-        }
-        throw new IllegalStateException("Create Branch Manager form is not initialized.");
+
     }
 
     public int getBranchIdtoCreateManager() {
-        if (createBranchManager != null) {
+
             return Integer.parseInt(createBranchManager.BranchIdtoCreatemanager());
-        }
-        throw new IllegalStateException("Create Branch Manager form is not initialized.");
+
     }
     public int getBranchidtoRegister() {
-        if (createBranch != null) {
+
             return  Integer.parseInt(createBranch.getBranchId());
-        }
-        throw new IllegalStateException("Create Branch form is not initialized.");
+
     }
 
     public String getCity() {
-        if (createBranch != null) {
+
             return createBranch.getCity();
-        }
-        throw new IllegalStateException("Create Branch form is not initialized.");
+
     }
 
     public String getAddress() {
-        if (createBranch != null) {
+
             return createBranch.getAddress();
-        }
-        throw new IllegalStateException("Create Branch form is not initialized.");
+
     }
 
     public String getPhoneNo() {
-        if (createBranch != null) {
+
             return createBranch.getPhoneNumber();
-        }
-        throw new IllegalStateException("Create Branch form is not initialized.");
+
     }
 
     public int getNoOfEmployees() {
-        if (createBranch != null) {
+
             return Integer.parseInt(createBranch.getNumberOfEmployees());
-        }
-        throw new IllegalStateException("Create Branch form is not initialized.");
+
     }
 
     public Boolean getStatus() {
-        if (createBranch != null) {
+
             return Boolean.parseBoolean(createBranch.getStatus());
-        }
-        throw new IllegalStateException("Create Branch form is not initialized.");
+
     }
     public String getbranchName()
     {
-        if (createBranch != null) {
             return createBranch.getBranchName();
-        }
-        throw new IllegalStateException("Create Branch form is not initialized.");
+
     }
 
 
@@ -216,7 +213,7 @@ public class SuperAdminView extends JPanel {
     }
 
     public String getPhonenoToUpdate() {
-      return  viewUpdateDelete.getPhonenoToUpdate();
+        return  viewUpdateDelete.getPhonenoToUpdate();
     }
 
     public String getAdressToUpdate() {
