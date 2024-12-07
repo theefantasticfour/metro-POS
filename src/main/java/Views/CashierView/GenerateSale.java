@@ -12,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.util.HashMap;
 import java.util.Map;
 
+import static Utils.Values.CLEAR_CART_ICON;
+
 public class GenerateSale extends JPanel {
     private JTable productTable;
     private JTable cartTable;
@@ -138,11 +140,28 @@ public class GenerateSale extends JPanel {
         JPanel cartPanel = new JPanel(new BorderLayout());
         cartPanel.setBackground(Color.decode(Values.LEFT_PANEL_BG_COLOR));
 
+        // Cart Header with "Cart" text and "Clear Cart" button
+        JPanel headerPanel = new JPanel(new BorderLayout());
+        headerPanel.setBackground(Color.decode(Values.LEFT_PANEL_BG_COLOR));
+
         JLabel cartHeader = new JLabel("Cart", JLabel.CENTER);
         cartHeader.setFont(new Font(Values.LABEL_FONT, Font.BOLD, Values.LABEL_FONT_SIZE));
         cartHeader.setForeground(Color.decode(Values.LABEL_COLOR));
-        cartPanel.add(cartHeader, BorderLayout.NORTH);
+        headerPanel.add(cartHeader, BorderLayout.CENTER);
 
+        // Clear Cart button
+        ImageIcon brushIcon = new ImageIcon(Values.CLEAR_CART_ICON); // Replace with actual brush icon path
+        Image resizedImage = brushIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH); // Resize to 20x20 pixels
+        ImageIcon resizedIcon = new ImageIcon(resizedImage);
+
+        JButton clearCartButton = new JButton(new ImageIcon(Values.CLEAR_CART_ICON)); // Replace with actual brush icon path
+        clearCartButton.setBorder(BorderFactory.createEmptyBorder());
+        clearCartButton.setContentAreaFilled(false);
+        clearCartButton.addActionListener(e -> clearCart());
+        headerPanel.add(clearCartButton, BorderLayout.EAST);
+
+
+        // Cart Table
         String[] cartColumns = {"Product", "Quantity", "Price"};
         cartTableModel = new DefaultTableModel(cartColumns, 0);
         cartTable = new JTable(cartTableModel);
@@ -152,12 +171,27 @@ public class GenerateSale extends JPanel {
         JScrollPane cartScrollPane = new JScrollPane(cartTable);
         cartPanel.add(cartScrollPane, BorderLayout.CENTER);
 
+        // Footer Panel with Total Label and Buttons
         JPanel footerPanel = new JPanel(new BorderLayout());
         footerPanel.setBackground(Color.decode(Values.LEFT_PANEL_BG_COLOR));
 
+        // Total Label
         totalLabel = new JLabel("Total: 0 Rs", JLabel.RIGHT);
         totalLabel.setFont(new Font(Values.LABEL_FONT, Font.BOLD, Values.LABEL_FONT_SMALLSIZE));
         totalLabel.setForeground(Color.decode(Values.LABEL_COLOR));
+        footerPanel.add(totalLabel, BorderLayout.NORTH);
+
+        // Buttons Panel
+        JPanel buttonsPanel = new JPanel(new GridLayout(1, 2, 10, 10));
+        buttonsPanel.setBackground(Color.decode(Values.LEFT_PANEL_BG_COLOR));
+
+        JButton removeFromCartButton = new JButton("Remove from Cart");
+        removeFromCartButton.setBackground(Color.decode(Values.BUTTON_COLOR));
+        removeFromCartButton.setForeground(Color.decode(Values.BUTTON_TEXT_COLOR));
+        removeFromCartButton.setFont(new Font(Values.BUTTON_FONT, Font.BOLD, Values.BUTTON_FONT_SIZE));
+        removeFromCartButton.setBorder(BorderFactory.createLineBorder(Color.decode(Values.BUTTON_BORDER_COLOR)));
+        removeFromCartButton.addActionListener(e -> removeSelectedFromCart());
+        buttonsPanel.add(removeFromCartButton);
 
         JButton generateBillButton = new JButton("Generate Bill");
         generateBillButton.setBackground(Color.decode(Values.BUTTON_COLOR));
@@ -165,14 +199,35 @@ public class GenerateSale extends JPanel {
         generateBillButton.setFont(new Font(Values.BUTTON_FONT, Font.BOLD, Values.BUTTON_FONT_SIZE));
         generateBillButton.setBorder(BorderFactory.createLineBorder(Color.decode(Values.BUTTON_BORDER_COLOR)));
         generateBillButton.addActionListener(e -> generateBill());
+        buttonsPanel.add(generateBillButton);
 
-        footerPanel.add(totalLabel, BorderLayout.CENTER);
-        footerPanel.add(generateBillButton, BorderLayout.SOUTH);
+        footerPanel.add(buttonsPanel, BorderLayout.SOUTH);
 
         cartPanel.add(footerPanel, BorderLayout.SOUTH);
 
         return cartPanel;
     }
+
+    // Clear Cart functionality
+    private void clearCart() {
+        cartTableModel.setRowCount(0); // Clear all cart entries
+        cartItems.clear(); // Reset cart data
+        totalLabel.setText("Total: 0 Rs"); // Reset total label
+    }
+
+    // Remove selected row from cart functionality
+    private void removeSelectedFromCart() {
+        int selectedRow = cartTable.getSelectedRow();
+        if (selectedRow >= 0) {
+            String productName = cartTableModel.getValueAt(selectedRow, 0).toString();
+            cartTableModel.removeRow(selectedRow); // Remove row from table
+            cartItems.entrySet().removeIf(entry -> entry.getKey().equals(productName)); // Remove from cart map
+            updateTotal(); // Update the total label
+        } else {
+            JOptionPane.showMessageDialog(this, "No item selected!", Values.APP_NAME, JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
 
     private void addSelectedProductsToCart() {
         for (int row = 0; row < productTable.getRowCount(); row++) {

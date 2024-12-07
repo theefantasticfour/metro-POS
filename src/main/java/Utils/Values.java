@@ -47,6 +47,7 @@ public class Values {
     public static final String LOGOUT_ICON = "src/imgs/logout.png";
     public static final String CHANGE_PASSWORD_ICON = "src/imgs/ChangePassword.png";
     public static final String PRINT_ICON = "src/imgs/Print.png";
+    public static final String CLEAR_CART_ICON = "src/imgs/clearCart.png";
 
 
     public static final String LOGOUT_BUTTON_COLOR = "#D32F2F"; // Red color for logout button
