@@ -18,8 +18,9 @@ public class Vendor {
     int creator_id;
     Date StartDate;
     Date EndDate;
-
-    public Vendor(int vendor_id, String name, String address, String phone, int branch_id, int creator_id, Date startDate, Date endDate) {
+    Float totalAmount;
+    int totalProducts;
+    public Vendor(int vendor_id, String name, String address, String phone, int branch_id, int creator_id, Date startDate, Date endDate, Float totalAmount, int totalProducts) {
         this.vendor_id = vendor_id;
         this.name = name;
         this.address = address;
@@ -28,5 +29,7 @@ public class Vendor {
         this.creator_id = creator_id;
         StartDate = startDate;
         EndDate = endDate;
+        this.totalAmount = totalAmount;
+        this.totalProducts = totalProducts;
     }
 }

@@ -1,12 +1,14 @@
 package Views;
 
 import Controllers.BranchManagerController;
+import Controllers.CashierController;
 import Controllers.DataEntryOperatorController;
 import Controllers.SuperAdminController;
 import Models.BranchManager;
 import Models.SuperAdmin;
 import Session.Session;
 import Views.BranchManagerView.BranchManagerView;
+import Views.CashierView.CashierPanelView;
 import Views.DataEntryOperatorView.DataEntryOperatorView;
 import Views.SuperAdminview.SuperAdminView;
 import Views.Welcomeview.Welcomeview;
@@ -25,6 +27,7 @@ public class Mainscreen extends JFrame {
     SuperAdminView superAdminView;
     BranchManagerView branchManagerView;
     DataEntryOperatorView dataEntryOperatorView;
+    CashierPanelView cashierPanelView;
 
 
     private Mainscreen() {
@@ -61,6 +64,9 @@ public class Mainscreen extends JFrame {
         return instance;
     }
 
+    public static CashierPanelView getCashierPanelView() {
+        return instance.cashierPanelView;
+    }
 
 
     public CardLayout getLayout() {
@@ -116,6 +122,15 @@ public class Mainscreen extends JFrame {
             this.add(dataEntryOperatorView, "DataEntryOperator");
         }
         c1.show(this.getContentPane(), "DataEntryOperator");
+    }
+    public void showCashier(ActionListener LISTNER, CashierController instance) {
+        // Switch to Cashier screen
+        if (cashierPanelView == null)
+        {
+            cashierPanelView = new CashierPanelView(LISTNER,instance);
+            this.add(cashierPanelView, "Cashier");
+        }
+        c1.show(this.getContentPane(), "Cashier");
     }
 }
 
