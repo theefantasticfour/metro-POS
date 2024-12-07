@@ -10,17 +10,18 @@ public class Vendor {
 //            branch_id (INT, Foreign Key): Links to the Branch table.
 //            Creator_id(INT, Foreign Key): Links to EMployee Table, for the reference which Data entry operator added the respective vendor
 
-    int vendor_id;
-    String name;
-    String address;
-    String phone;
+    public int vendor_id;
+    public String name;
+    public String address;
+    public String phone;
     int branch_id;
     int creator_id;
-    Date StartDate;
-    Date EndDate;
-    Float totalAmount;
-    int totalProducts;
-    public Vendor(int vendor_id, String name, String address, String phone, int branch_id, int creator_id, Date startDate, Date endDate, Float totalAmount, int totalProducts) {
+    public Date StartDate;
+    public Date EndDate;
+    public Float totalPayment;
+    public int Totalproduct;
+
+    public Vendor(int vendor_id, String name, String address, String phone, int branch_id, int creator_id, Date startDate, Date endDate) {
         this.vendor_id = vendor_id;
         this.name = name;
         this.address = address;
@@ -29,7 +30,5 @@ public class Vendor {
         this.creator_id = creator_id;
         StartDate = startDate;
         EndDate = endDate;
-        this.totalAmount = totalAmount;
-        this.totalProducts = totalProducts;
     }
 }
