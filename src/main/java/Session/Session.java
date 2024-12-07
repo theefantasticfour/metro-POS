@@ -17,7 +17,7 @@ public class Session {
     public Session() {
         System.out.println("Session initialized");
        // showWelcomeScreen();
-        showBranchManager("rana123", "111");
+        showBranchManager("zohi123", "111");
         Mainscreen mainscreen = Mainscreen.getInstance();
 
     }

@@ -235,8 +235,9 @@ public class BranchManager {
         String query = "INSERT INTO Employee (branch_id, employee_id, name, email, password, role, salary, is_password_changed, Status) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection connection = ConnectionConfig.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try  {
+            Connection connection = ConnectionConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
 
             // Set values for the prepared statement
             preparedStatement.setInt(1, branchId); // branch_id
