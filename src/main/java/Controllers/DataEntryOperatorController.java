@@ -168,9 +168,10 @@ public class DataEntryOperatorController {
         float costByUnit = dataEntryOperatorView.getCostByUnitToAddProduct();
         float sellingPrice = dataEntryOperatorView.getSellingPriceToAddProduct();
         float cartonPrice = dataEntryOperatorView.getCartonPriceToAddProduct();
-      String name = dataEntryOperatorView.getProductNameToAddProduct();
+        int cartonQty = dataEntryOperatorView.getCartonQtyToAddProduct();
+        String name = dataEntryOperatorView.getProductNameToAddProduct();
 
-        if (dataEntryOperatorModel.addProduct(vendorId, productId, stockQty, categorie, costByUnit, sellingPrice, cartonPrice, name)) {
+        if (dataEntryOperatorModel.addProduct(vendorId, productId, stockQty, categorie, costByUnit, sellingPrice, cartonPrice, cartonQty)) {
             JOptionPane.showMessageDialog(null, "Product added successfully");
             return true;
         }

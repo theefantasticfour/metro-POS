@@ -1,5 +1,6 @@
 package Models;
 
+import Entites.Product;
 import Entites.Vendor;
 import Utils.Values;
 
@@ -186,25 +187,6 @@ public class DataEntryOperator {
     }
 
 
-    public boolean addProduct(int vendorId, int productId, int stockQty, String categorie, float costByUnit, float sellingPrice, float cartonPrice, int cartonQty) {
-        if (productId == -1) {
-            productId = getUniqueProductId(); // new product
-        }
-
-        // branch id from attribute
-        // add the product to the db
-        return false;
-    }
-
-    private int getUniqueProductId() {
-        return 0;
-    }
-
-    public Map<Integer, String> getProductNames() {
-        // you have to return all the unique product ids name in a map
-        return null;
-    }
-
     public ArrayList<Integer> getVendorIds()
     {
         // you have to return all the unique vendor ids in a branch (from attribute)
@@ -234,20 +216,152 @@ public class DataEntryOperator {
     }
 
     public ArrayList<Vendor> getVendors() {
+        ArrayList<Vendor> vendors = new ArrayList<>();
+        Connection connection = ConnectionConfig.getConnection();
 
-        // you have to return all the vendors in a branch (from attribute)
-        return null;
+        // SQL query to fetch vendor details along with total payment and total products
+        String query = "SELECT v.vendor_id, v.name, v.phone, v.address, v.StartDate, v.EndDate, " +
+                "IFNULL(SUM(p.payment_amount), 0) AS totalPayment, " +
+                "IFNULL(COUNT(pr.product_id), 0) AS TotalProduct " +
+                "FROM Vendor v " +
+                "LEFT JOIN Payment p ON v.vendor_id = p.vendor_id " +
+                "LEFT JOIN Product pr ON v.vendor_id = pr.vendor_id " +
+                "WHERE v.branch_id = ? AND v.creator_id = ? " +  // Added creator_id condition
+                "GROUP BY v.vendor_id";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            // Set the branch_id and creator_id parameters
+            preparedStatement.setInt(1, this.BranchId);  // Assuming this.BranchId refers to the current branch of the data entry operator
+            preparedStatement.setInt(2, this.CreatorId); // Assuming this.CreatorId refers to the creator (data entry operator)
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                // Process the results from the query
+                while (resultSet.next()) {
+                    // Create a new Vendor object
+                    Vendor vendor = new Vendor();
+
+                    // Populate the Vendor object with data from the result set
+                    vendor.setVendor_id(resultSet.getInt("vendor_id"));
+                    vendor.setName(resultSet.getString("name"));
+                    vendor.setPhone(resultSet.getString("phone"));
+                    vendor.setAddress(resultSet.getString("address"));
+                    vendor.setStartDate(resultSet.getDate("StartDate"));
+                    vendor.setEndDate(resultSet.getDate("EndDate"));
+                    vendor.setTotalPayment(resultSet.getFloat("totalPayment"));
+                    vendor.setTotalProduct(resultSet.getInt("TotalProduct"));
+
+                    // Add the Vendor object to the vendors list
+                    vendors.add(vendor);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // Return the list of vendors
+        return vendors;
     }
+
 
     public Boolean deleteVendor(int vendorId) {
-        // delete the vendor from the db permanently
-        return null;
+        Connection connection = ConnectionConfig.getConnection();
+        String query = "DELETE FROM Vendor WHERE vendor_id = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, vendorId);
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
+
 
     public Boolean updateVendor(int vendorId, String name, String phone) {
-    // update the vendor in the db
+        Connection connection = ConnectionConfig.getConnection();
+        String query = "UPDATE Vendor SET name = ?, phone = ? WHERE vendor_id = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, phone);
+            preparedStatement.setInt(3, vendorId);
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private int getUniqueProductId()
+    {
+        int id=10001;
+        Connection connection = ConnectionConfig.getConnection();
+        String query = "SELECT MAX(product_id) FROM Product";
+        try (
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(query)) {
+            if (resultSet.next()) {
+                id = resultSet.getInt(1) + 1;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error getting unique product id: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return id;
+    }
+
+    public Map<Integer, String> getProductNames() {
+        // you have to return all the unique product ids name in a map
+        return null;
+    }
+
+    public boolean addProduct(int vendorId, int productId, int stockQty, String categorie, float costByUnit, float sellingPrice, float cartonPrice, int cartonQty) {
+        if (productId == -1)
+        {
+            productId = getUniqueProductId(); // new product
+        }
+
+        // branch id from attribute
+        // add the product to the db
+        return false;
+    }
+    public Boolean updateProduct(int productId, String name, int stockQty, String category, float costByUnit, float sellingPrice, float cartonPrice, int vendorid)
+    {
+        // update the product in the db
         return null;
     }
 
 
+
+    public ArrayList<Product> getProducts()
+    {
+        // you have to return all the products in a branch (from attribute)
+
+        return null;
+    }
+
+
+    public Boolean deleteProduct(int productId)
+    {
+        // delete the product from the db permanently
+        return null;
+    }
 }

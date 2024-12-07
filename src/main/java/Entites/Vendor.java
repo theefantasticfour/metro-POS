@@ -16,16 +16,14 @@ public class Vendor {
     public String phone;
     int branch_id;
     int creator_id;
-
-    Date StartDate;
-    Date EndDate;
-    public Vendor() {
-    }
     public Date StartDate;
     public Date EndDate;
     public Float totalPayment;
     public int Totalproduct;
+    public Vendor()
+    {
 
+    }
     public Vendor(int vendor_id, String name, String address, String phone, int branch_id, int creator_id, Date startDate, Date endDate) {
         this.vendor_id = vendor_id;
         this.name = name;
@@ -67,6 +65,14 @@ public class Vendor {
 
     public void setEndDate(Date endDate) {
         EndDate = endDate;
+    }
+
+    public void setTotalPayment(Float totalPayment) {
+        this.totalPayment = totalPayment;
+    }
+
+    public void setTotalProduct(int totalproduct) {
+        Totalproduct = totalproduct;
     }
 
 
