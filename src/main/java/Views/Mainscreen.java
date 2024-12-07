@@ -1,11 +1,13 @@
 package Views;
 
 import Controllers.BranchManagerController;
+import Controllers.DataEntryOperatorController;
 import Controllers.SuperAdminController;
 import Models.BranchManager;
 import Models.SuperAdmin;
 import Session.Session;
 import Views.BranchManagerView.BranchManagerView;
+import Views.DataEntryOperatorView.DataEntryOperatorView;
 import Views.SuperAdminview.SuperAdminView;
 import Views.Welcomeview.Welcomeview;
 import Views.loginview.Loginview;
@@ -22,6 +24,7 @@ public class Mainscreen extends JFrame {
     Welcomeview welcomeview;
     SuperAdminView superAdminView;
     BranchManagerView branchManagerView;
+    DataEntryOperatorView dataEntryOperatorView;
 
 
     private Mainscreen() {
@@ -54,6 +57,10 @@ public class Mainscreen extends JFrame {
             instance = new Mainscreen();
         }
         return instance;
+    }
+
+    public static DataEntryOperatorView getDataEntryOperatorView() {
+        return instance.dataEntryOperatorView;
     }
 
     public CardLayout getLayout() {
@@ -96,8 +103,19 @@ public class Mainscreen extends JFrame {
         {
             branchManagerView = new BranchManagerView(instance);
             this.add(branchManagerView, "BranchManager");
+
         }
         c1.show(this.getContentPane(), "BranchManager");
+    }
+    // show data entry operator screen
+    public void showDataEntryOperator(DataEntryOperatorController instance) {
+        // Switch to Data Entry Operator screen
+        if (dataEntryOperatorView == null)
+        {
+            dataEntryOperatorView = new DataEntryOperatorView(instance);
+            this.add(dataEntryOperatorView, "DataEntryOperator");
+        }
+        c1.show(this.getContentPane(), "DataEntryOperator");
     }
 }
 
