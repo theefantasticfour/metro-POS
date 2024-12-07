@@ -271,8 +271,8 @@ public class BranchManager {
         System.out.println("All Employees will be fetched here");
         ArrayList<Employee> employees = new ArrayList<Employee>();
         Connection connection = ConnectionConfig.getConnection(); // Assume this provides a valid DB connection
-
-        String query = "SELECT * FROM employees WHERE branch_id = ? and role = ? or role = ?"; // Adjust table and column names as necessary
+        System.out.println("idhar tk agya ");
+        String query = "SELECT * FROM Employee WHERE branch_id = ? AND (role = ? OR role = ?)"; // Adjust table and column names as necessary
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, this.branchId); // Bind the branchId value to the query
@@ -282,11 +282,11 @@ public class BranchManager {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     Employee employee = new Employee();
-                    employee.setEmployee_id(rs.getInt("id")); // Replace with actual column name
+                    employee.setRole(rs.getString("role")); // Replace with actual column name
                     employee.setName(rs.getString("name")); // Replace with actual column name
-                    employee.setRole(rs.getString("designation")); // Replace with actual column name
+                    employee.setEmail(rs.getString("email")); // Replace with actual column name
                     employee.setSalary(rs.getFloat("salary")); // Replace with actual column name
-                    employee.setBranch_id(rs.getInt("branch_id")); // Replace with actual column name
+                    employee.setStatus(rs.getBoolean("Status")); // Replace with actual column name
 
                     employees.add(employee); // Add the employee to the list
                 }
@@ -294,7 +294,7 @@ public class BranchManager {
         } catch (SQLException e) {
             e.printStackTrace(); // Log or handle the SQL exception
         }
-
+        System.out.println("All Employees fetched, method end heereeee");
         return employees;
     }
 

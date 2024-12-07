@@ -24,13 +24,14 @@ public class BranchManagerAddUpdateEmployeepanel extends JPanel {
     private DefaultTableModel tableModel;
     public JPanel parentPanel;
     JPanel contentPanel;
-    private final String[] columnNames = {"Employee Type", "Employee Name", "Email Address", "Salary", "Status", "Update", "Delete"};
+    private final String[] columnNames = {"Employee Type", "Employee Name", "Email Address", "Salary", "Status","is_pass_chnaged", "Update", "Delete"};
 
     public BranchManagerAddUpdateEmployeepanel(ActionListener branchManagerListener, BranchManagerController instance,BranchManagerView branchManagerPanel) {
         this.branchManagerListener = branchManagerListener;
         this.branchManagerController = instance;
         contentPanel = branchManagerPanel.getContentPanel();
         System.out.println("Branch Manager Add Update Employee Panel initialized");
+        inIt();
     }
     public void inIt() {
         contentPanel.removeAll();
@@ -94,11 +95,11 @@ public class BranchManagerAddUpdateEmployeepanel extends JPanel {
 
         for (int i = 0; i < employees.size(); i++) {
             Employee employee = employees.get(i);
-            employeeData[i][0] = employee.getEmployee_id();  // Employee ID
+            employeeData[i][0] = employee.getRole();         // Employee type
             employeeData[i][1] = employee.getName();         // Employee Name
             employeeData[i][2] = employee.getEmail();        // Employee Email
-            employeeData[i][3] = employee.getRole();         // Employee Role
-            employeeData[i][4] = employee.getSalary();       // Employee Salary
+            employeeData[i][3] = employee.getSalary();       // Employee Salary
+            employeeData[i][4] = employee.getStatus();        // Employee Status
             employeeData[i][5] = employee.isIs_password_changed() ? "Yes" : "No";  // Password changed status
             employeeData[i][6] = "Update";                   // Update action
             employeeData[i][7] = "Delete";                   // Delete action
@@ -180,13 +181,36 @@ public class BranchManagerAddUpdateEmployeepanel extends JPanel {
 
     public String getEmployeeSalary() {
         int row = table.getSelectedRow();
-        return (String) table.getValueAt(row, 3);
+        Object value = table.getValueAt(row, 3);
+
+        if (value instanceof Float) {
+            return String.valueOf(value); // Convert Float to String
+        } else if (value instanceof String) {
+            return (String) value; // Return String values directly
+        } else {
+            throw new IllegalArgumentException("Unexpected value type in table: " + value.getClass());
+        }
     }
+
 
     public String getEmployeeStatus() {
         int row = table.getSelectedRow();
         return (String) table.getValueAt(row, 4);
     }
+
+    public boolean getIsPasswordChanged() {
+        int row = table.getSelectedRow();
+        Object value = table.getValueAt(row, 5);
+
+        if (value instanceof Boolean) {
+            return (Boolean) value;
+        } else if (value instanceof String) {
+            return ((String) value).equalsIgnoreCase("Yes");
+        } else {
+            throw new IllegalArgumentException("Unexpected value type in table: " + value.getClass());
+        }
+    }
+
 
 }
 
