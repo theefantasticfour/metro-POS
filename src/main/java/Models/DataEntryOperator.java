@@ -1,5 +1,6 @@
 package Models;
 
+import Entites.Product;
 import Entites.Vendor;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class DataEntryOperator {
         return true;
     }
 
-    public boolean addProduct(int vendorId, int productId, int stockQty, String categorie, float costByUnit, float sellingPrice, float cartonPrice, int cartonQty) {
+    public boolean addProduct(int vendorId, int productId, int stockQty, String categorie, float costByUnit, float sellingPrice, float cartonPrice, String name) {
         if (productId == -1) {
             productId = getUniqueProductId(); // new product
         }
@@ -71,6 +72,11 @@ public class DataEntryOperator {
         // you have to return all the vendors in a branch (from attribute)
         return null;
     }
+    public ArrayList<Product> getProducts() {
+
+        // you have to return all the products in a branch (from attribute)
+        return null;
+    }
 
     public Boolean deleteVendor(int vendorId) {
         // delete the vendor from the db permanently
@@ -81,4 +87,9 @@ public class DataEntryOperator {
     // update the vendor in the db
         return null;
     }
+    public Boolean deleteProduct(int productId) {
+        // delete the vendor from the db permanently
+        return null;
+    }
+
 }

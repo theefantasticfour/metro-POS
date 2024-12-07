@@ -33,7 +33,7 @@ public class DataEntryOperatorView extends JPanel {
     public DataEntryOperatorView(ActionListener LISTENER,DataEntryOperatorController instance) {
         dataEntryListener = LISTENER;
         dataEntryOperatorController =instance;
-        isPasswordChanged = dataEntryOperatorController.changePassword();
+        isPasswordChanged = dataEntryOperatorController.isPasswordChanged();
         setLayout(new BorderLayout());
         setBackground(Color.decode(Values.BG_COLOR));
 
@@ -124,13 +124,13 @@ public class DataEntryOperatorView extends JPanel {
     }
 
     private void openViewProductsForm() {
-        //viewProduct =new DataEntryOperatorViewProduct(dataEntryListener,dataEntryOperatorController);
-       // viewProduct.display(contentPanel);
+        viewProduct =new DataEntryOperatorViewProduct(dataEntryListener,dataEntryOperatorController,this);
+       viewProduct.display();
     }
 
     private void openViewVendorForm() {
-        // viewVendor=new DataEntryOperatorViewVendor(dataEntryListener,dataEntryOperatorController);
-       // viewVendor.display(contentPanel);
+         viewVendor=new DataEntryOperatorViewVendor(dataEntryListener,dataEntryOperatorController,this);
+        viewVendor.display();
     }
 
     public JPanel getContentPanel() {
@@ -193,17 +193,51 @@ public class DataEntryOperatorView extends JPanel {
     public int getCartonQtyToAddProduct() {return 10;}
     public String getProductNameToAddProduct() {return addProduct.getProductName();}
 
+    public int getProductIdToUpdate() {
+        return Integer.parseInt(viewProduct.getProductId());
+    }
 
+    // Fetch the product name to update
+    public String getProductNameToUpdate() {
+        return viewProduct.getProductName();
+    }
 
+    // Fetch the stock quantity to update
+    public int getProductStockQtyToUpdate() {
+        return Integer.parseInt(viewProduct.getProductQuantityInStock());
+    }
+
+    // Fetch the product category to update
+    public String getProductCategoryToUpdate() {
+        return viewProduct.getProductCategory();
+    }
+
+    // Fetch the cost per unit to update
+    public float getProductCostByUnitToUpdate() {
+        return Float.parseFloat(viewProduct.getProductOriginalPrice());
+    }
+
+    // Fetch the selling price per unit to update
+    public float getProductSellingPriceToUpdate() {
+        return Float.parseFloat(viewProduct.getProductSalePricePerUnit());
+    }
+
+    // Fetch the selling price per carton to update
+    public float getProductCartonPriceToUpdate() {
+        return Float.parseFloat(viewProduct.getProductSalePricePerCarton());
+    }
+    public int getProductVendorToUpdate() {
+        return Integer.parseInt(viewProduct.getProductVendor());
+    }
     public String getVendorNameToUpdate() {
-        return "updatedVendorName";
+        return viewVendor.getVendorName();
     }
 
     public String getVendorPhoneToUpdate() {
-        return "0987654321";
+        return viewVendor.getPhone();
     }
 
     public int getVendorIdToUpdateVendor() {
-        return 200;
+        return Integer.parseInt(viewVendor.getVendorId());
     }
 }
