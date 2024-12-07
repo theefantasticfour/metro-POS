@@ -1,5 +1,7 @@
 package Models;
 
+import Utils.Values;
+
 import java.sql.*;
 
 public class Login {
@@ -29,9 +31,9 @@ public class Login {
         ResultSet resultSet = null;
 
         String query;
-        if(typeOfUser.equals("SuperAdmin"))
+        if(typeOfUser.equals(Values.SUPER_ADMIN))
         {
-            query = "SELECT * FROM SuperAdmin WHERE username = ? AND password = ?"; // Query to validate the user
+            query = "SELECT * FROM SuperAdmin WHERE email = ? AND password = ?"; // Query to validate the user
         }
         else {
             query = "SELECT * FROM Employee WHERE email = ? AND password = ? AND role = ?"; // Query to validate the user
@@ -41,7 +43,7 @@ public class Login {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, username); // Set the username
             preparedStatement.setString(2, password); // Set the password
-            if(!typeOfUser.equals("SuperAdmin"))
+            if(!typeOfUser.equals(Values.SUPER_ADMIN))
             {
                 preparedStatement.setString(3, typeOfUser); // Set the type of user
             }

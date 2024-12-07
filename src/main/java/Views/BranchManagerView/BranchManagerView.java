@@ -143,10 +143,29 @@ public class BranchManagerView extends JPanel {
     {return changePassword.password(); }
     public String getConfirmPassword()
     {return changePassword.Confpassword();}
-//    public String getEmployeeTypeToUpdate(){}
-//    public String getEmployeeNameToUpdate(){}
-//    public String getEmployeeEmailToUpdate(){}
-//    public Float getEmployeeSalaryToUpdate(){}
-//    public Boolean getEmployeeStatusToUpdate(){}
+    public String getEmployeeTypeToUpdate() {
+        return "Full-Time"; // Example: Return a dummy employee type
+    }
+
+    public String getEmployeeNameToUpdate() {
+        return "John Doe"; // Example: Return a dummy employee name
+    }
+
+    public String getEmployeeEmailToUpdate() {
+        return "john.doe@example.com"; // Example: Return a dummy email
+    }
+
+    public Float getEmployeeSalaryToUpdate() {
+        return 50000.0f; // Example: Return a dummy salary
+    }
+
+    public Boolean getEmployeeStatusToUpdate() {
+        return true; // Example: Return a dummy status (active/inactive)
+    }
+    public String getType()
+    {
+        return
+                "sd";
+    }
 
 }

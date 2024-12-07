@@ -35,7 +35,7 @@ public class BranchManagerController {
         // setting up the model
         branchManagermodel = new BranchManager(username, password);
         // setting up this panel in the mainscreen
-        Mainscreen.getInstance().showBranchManager(this);
+        Mainscreen.getInstance().showBranchManager(branchManagerListener,this);
         // getting instance for further use
         branchManagerView = Mainscreen.getBranchManagerView();
 

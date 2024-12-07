@@ -200,18 +200,18 @@ public class SuperAdminReportsGraphspanel {
       JButton stockButton = createIconButton("Remaining Stock", Values.PRINT_ICON);
       JButton profitButton = createIconButton("Profit", Values.PRINT_ICON);
 
-      salesButton.addActionListener(e -> {
-         e.getActionCommand().equals(Values.SALES_REPORT);
-         JOptionPane.showMessageDialog(null, "Sales Report Downloading ");
-      });
+      salesButton.setActionCommand(Values.SALES_REPORT);
+      stockButton.setActionCommand(Values.STOCK_REPORT);
+      profitButton.setActionCommand(Values.PROFIT_REPORT);
+      salesButton.addActionListener(superAdminListener);
+      stockButton.addActionListener(superAdminListener);
+      profitButton.addActionListener(superAdminListener);
 
       stockButton.addActionListener(e -> {
-         e.getActionCommand().equals(Values.STOCK_REPORT);
          JOptionPane.showMessageDialog(null, "Stock Report Downloading " );
       });
 
       profitButton.addActionListener(e -> {
-         e.getActionCommand().equals(Values.PROFIT_REPORT);
          JOptionPane.showMessageDialog(null, "Profit Report Downloading" );
       });
 
