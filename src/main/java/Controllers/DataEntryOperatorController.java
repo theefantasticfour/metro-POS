@@ -1,5 +1,6 @@
 package Controllers;
 
+import Entites.Product;
 import Entites.Vendor;
 import Models.DataEntryOperator;
 import Session.Session;
@@ -167,9 +168,9 @@ public class DataEntryOperatorController {
         float costByUnit = dataEntryOperatorView.getCostByUnitToAddProduct();
         float sellingPrice = dataEntryOperatorView.getSellingPriceToAddProduct();
         float cartonPrice = dataEntryOperatorView.getCartonPriceToAddProduct();
-       int cartonQty = dataEntryOperatorView.getCartonQtyToAddProduct();
+      String name = dataEntryOperatorView.getProductNameToAddProduct();
 
-        if (dataEntryOperatorModel.addProduct(vendorId, productId, stockQty, categorie, costByUnit, sellingPrice, cartonPrice, cartonQty)) {
+        if (dataEntryOperatorModel.addProduct(vendorId, productId, stockQty, categorie, costByUnit, sellingPrice, cartonPrice, name)) {
             JOptionPane.showMessageDialog(null, "Product added successfully");
             return true;
         }
@@ -192,6 +193,12 @@ public class DataEntryOperatorController {
         return dataEntryOperatorModel.getVendors();
 
     }
+    public ArrayList<Product>getProductsTodisplay() {
+        return dataEntryOperatorModel.getProducts();
+
+    }
+
+
     public Boolean UpdateVendor()
     {
         // get vendor id
@@ -208,5 +215,27 @@ public class DataEntryOperatorController {
         // get vendor id and delete permanently
         return dataEntryOperatorModel.deleteVendor(vendorId);
     }
+    public Boolean UpdateProduct() {
+        // Get product details from the view
+        int productId = dataEntryOperatorView.getProductIdToUpdate();  // Fetch the product ID
+        String name = dataEntryOperatorView.getProductNameToUpdate();  // Fetch the product name
+        int stockQty = dataEntryOperatorView.getProductStockQtyToUpdate();  // Fetch the stock quantity
+        String category = dataEntryOperatorView.getProductCategoryToUpdate();  // Fetch the category
+        float costByUnit = dataEntryOperatorView.getProductCostByUnitToUpdate();  // Fetch the cost per unit
+        float sellingPrice = dataEntryOperatorView.getProductSellingPriceToUpdate();  // Fetch the selling price
+        float cartonPrice = dataEntryOperatorView.getProductCartonPriceToUpdate();  // Fetch the carton price
+        int vendorid = dataEntryOperatorView.getProductVendorToUpdate();  // Fetch the vender id
+
+        // Call model method to update product
+        return dataEntryOperatorModel.updateProduct(productId, name, stockQty, category, costByUnit, sellingPrice, cartonPrice, vendorid);
+    }
+    public Boolean DeleteProduct() {
+        // Get product ID to delete
+        int productId = dataEntryOperatorView.getProductIdToUpdate();  // Fetch the product ID
+
+        // Call model method to delete product
+        return dataEntryOperatorModel.deleteProduct(productId);
+    }
+
 
 }

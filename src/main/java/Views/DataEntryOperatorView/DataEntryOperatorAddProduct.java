@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class DataEntryOperatorAddProduct extends JPanel {
     private final ActionListener dataEntryOperatorListener;
@@ -50,13 +52,19 @@ public class DataEntryOperatorAddProduct extends JPanel {
 
         // Vendor Dropdown
         addLabelAndComponent(formPanel, "Vendor:", labelFont, gbc, 0, 0);
-        CustomComboBox vendorComboBox = new CustomComboBox(new String[]{"Vendor 1", "Vendor 2", "Vendor 3"});
+        // Fetch Vendor IDs and names using the controller
+        ArrayList<Integer> vendorIds = dataEntryOperatorController.getVendorIds();
+        CustomComboBox vendorComboBox = new CustomComboBox(vendorIds.stream()
+                .map(id -> "Vendor " + id)
+                .toArray(String[]::new));
         gbc.gridy = 1;
         formPanel.add(vendorComboBox, gbc);
 
         // Product Name Field
         addLabelAndComponent(formPanel, "Product Name:", labelFont, gbc, 0, 2);
-        JComboBox<String> productNameComboBox = new JComboBox<>(new String[]{"Product A", "Product B", "Product C"});
+        // Fetch Product Names using the controller
+        Map<Integer, String> productNames = dataEntryOperatorController.getProductNames();
+        JComboBox<String> productNameComboBox = new JComboBox<>(productNames.values().toArray(new String[0]));
         productNameComboBox.setEditable(true);
         gbc.gridy = 3;
         formPanel.add(productNameComboBox, gbc);

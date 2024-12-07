@@ -4,7 +4,7 @@ public class Product {
 // add the following attributes
     // name , stockQTy,categorie,costbyunit,sellingprice,cartonprice carton qty
     public String name;
-    int productId;
+    public int productId;
     public int vendorId;
     public int stockQty;
     public String categorie;
