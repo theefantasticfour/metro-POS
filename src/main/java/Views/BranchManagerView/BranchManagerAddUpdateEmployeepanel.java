@@ -32,7 +32,7 @@ public class BranchManagerAddUpdateEmployeepanel extends JPanel {
         contentPanel = branchManagerPanel.getContentPanel();
         System.out.println("Branch Manager Add Update Employee Panel initialized");
     }
-    public void inIt() {
+    public void display() {
         contentPanel.removeAll();
         contentPanel.setLayout(new BorderLayout());
         contentPanel.setBackground(Color.decode("#F8F9FA"));
@@ -121,7 +121,7 @@ public class BranchManagerAddUpdateEmployeepanel extends JPanel {
         table.getColumn("Update").setCellEditor(new ButtonEditor("Update", row -> {
             System.out.println("Update clicked for row: " + row);
             branchManagerController.UpdateEmployee(); // Call controller method
-            inIt(); // Refresh the table
+            display(); // Refresh the table
         }));
 
         table.getColumn("Delete").setCellRenderer(new ButtonRenderer("Delete", Color.decode(Values.BUTTON_COLOR)));
@@ -135,7 +135,7 @@ public class BranchManagerAddUpdateEmployeepanel extends JPanel {
             );
             if (confirmation == JOptionPane.YES_OPTION) {
                 branchManagerController.deleteEmployee(); // Call controller method
-                inIt(); // Refresh the table
+                display(); // Refresh the table
             }
         }));
 

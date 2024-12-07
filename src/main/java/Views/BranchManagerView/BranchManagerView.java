@@ -116,7 +116,8 @@ public class BranchManagerView extends JPanel {
     private void openViewUpdateDeleteForm() {
         contentPanel.removeAll();
        viewUpdateDeleteEmployee = new BranchManagerAddUpdateEmployeepanel(branchMangerListener, branchManagerController,this);
-        contentPanel.revalidate();
+        viewUpdateDeleteEmployee.display();
+       contentPanel.revalidate();
         contentPanel.repaint();
     }
 
