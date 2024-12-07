@@ -204,23 +204,51 @@ public class BranchManager {
         return id;
     }
 
-    public Boolean addNewEmployee(String employeeType,String EmployeeName, String EmployeeEmail, Float EmployeeSalary) {
-        // add new employee
-
+    public Boolean addNewEmployee(String employeeType, String employeeName, String employeeEmail, Float employeeSalary) {
+        // Add new employee
         System.out.println("New Employee added");
 
         // 4 data to be included coming from parameters
-        // branch id from class attribute
-        String password = "123";
-        int employeeId = getUniqueEmployeeId();
+        String password = "123"; // default password
+        int employeeId = getUniqueEmployeeId(); // Assuming this method exists to generate a unique employee ID
         Boolean isPasswordChanged = false;
-        if (true) // if added successfully
-        {
-            updateTotalEmployees(true); // increase by 1
 
+        // Get branchId from the class attribute (assuming it's already set)
+        int branchId = this.branchId; // Replace with the actual attribute if needed
+        // SQL query to insert new employee into the Employee table
+        String query = "INSERT INTO Employee (branch_id, employee_id, name, email, password, role, salary, is_password_changed, Status) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection connection = ConnectionConfig.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            // Set values for the prepared statement
+            preparedStatement.setInt(1, branchId); // branch_id
+            preparedStatement.setInt(2, employeeId); // employee_id
+            preparedStatement.setString(3, employeeName); // employee name
+            preparedStatement.setString(4, employeeEmail); // employee email
+            preparedStatement.setString(5, password); // employee password
+            preparedStatement.setString(6, employeeType); // role
+            preparedStatement.setFloat(7, employeeSalary); // salary
+            preparedStatement.setBoolean(8, isPasswordChanged); // password change status
+            preparedStatement.setBoolean(9, true); // employee status (active)
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Employee added successfully.");
+
+                // If employee is added successfully, update the total number of employees in the branch
+                updateTotalEmployees(true); // Increase the total employees by 1
+                return true; // Return true if employee was added successfully
+            } else {
+                System.out.println("Failed to add new employee.");
+                return false; // Return false if insert was unsuccessful
+            }
+        } catch (SQLException e) {
+            System.err.println("Error adding new employee: " + e.getMessage());
+            return false; // Return false in case of any SQL exception
         }
-        return true;
-
     }
 
     public ArrayList<Employee> getAllEmployees() {

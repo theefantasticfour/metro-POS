@@ -115,8 +115,7 @@ public class BranchManagerView extends JPanel {
 
     private void openViewUpdateDeleteForm() {
         contentPanel.removeAll();
-      //  viewUpdateDeleteEmployee = new BranchManagerAddUpdateEmployeepanel(branchMangerListener, branchManagerController);
-      //  viewUpdateDeleteEmployee.display(this); // Pass the parent panel for the form
+       viewUpdateDeleteEmployee = new BranchManagerAddUpdateEmployeepanel(branchMangerListener, branchManagerController,this);
         contentPanel.revalidate();
         contentPanel.repaint();
     }
@@ -131,7 +130,24 @@ public class BranchManagerView extends JPanel {
     public JPanel getContentPanel() {
         return contentPanel;
     }
-   public String getEmployeeType()
+
+    // only one input at a time
+    //if date fields are filled, slider input is null.
+    //If slider is moved,  date fields are null.
+    public String getType() {
+        return reports.getReportRangeType();
+    }
+    public String getTypeToShowReportStartDate()
+    {
+        return reports.getStartDate();
+    }
+    public String getTypeToShowReportEndDate()
+    {
+        return reports.getEndDate();
+    }
+
+
+    public String getEmployeeType()
    {return addEmployeeForm.getEmpType();}
     public String getEmployeeName()
     {return addEmployeeForm.getEmpName();}
@@ -143,29 +159,12 @@ public class BranchManagerView extends JPanel {
     {return changePassword.password(); }
     public String getConfirmPassword()
     {return changePassword.Confpassword();}
-    public String getEmployeeTypeToUpdate() {
-        return "Full-Time"; // Example: Return a dummy employee type
-    }
 
-    public String getEmployeeNameToUpdate() {
-        return "John Doe"; // Example: Return a dummy employee name
-    }
 
-    public String getEmployeeEmailToUpdate() {
-        return "john.doe@example.com"; // Example: Return a dummy email
-    }
-
-    public Float getEmployeeSalaryToUpdate() {
-        return 50000.0f; // Example: Return a dummy salary
-    }
-
-    public Boolean getEmployeeStatusToUpdate() {
-        return true; // Example: Return a dummy status (active/inactive)
-    }
-    public String getType()
-    {
-        return
-                "sd";
-    }
+    public String getEmployeeTypeToUpdate(){return viewUpdateDeleteEmployee.getEmployeeType();}
+    public String getEmployeeNameToUpdate(){return viewUpdateDeleteEmployee.getEmployeeName();}
+    public String getEmployeeEmailToUpdate(){return viewUpdateDeleteEmployee.getEmployeeEmail();}
+    public Float getEmployeeSalaryToUpdate(){return Float.parseFloat(viewUpdateDeleteEmployee.getEmployeeSalary());}
+    public Boolean getEmployeeStatusToUpdate(){return Boolean.parseBoolean(viewUpdateDeleteEmployee.getEmployeeStatus());}
 
 }

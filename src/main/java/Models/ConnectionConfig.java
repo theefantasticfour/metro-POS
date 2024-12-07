@@ -9,12 +9,14 @@ public class ConnectionConfig {
     private static Connection connection = null;
 
     // Database credentials
-    private static final String DB_URL = "jdbc:mysql://srv1553.hstgr.io:3306/u628307016_DanishDB?autoReconnect=true";
+
+   /* private static final String DB_URL = "jdbc:mysql://srv1553.hstgr.io:3306/u628307016_DanishDB?autoReconnect=true";
     private static final String DB_USER = "u628307016_user" ;
-    private static final String DB_PASSWORD = "!@#Nm123456!@#";
-//    private static final String DB_URL = "jdbc:mysql://localhost:3306/metropos";
-//    private static final String DB_USER = "root";
-//    private static final String DB_PASSWORD = "123456";
+    private static final String DB_PASSWORD = "!@#Nm123456!@#";*/
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/metropos";
+    private static final String DB_USER = "root";
+    private static final String DB_PASSWORD = "12345678";
+
 
     // Private constructor to prevent instantiation
     private ConnectionConfig() { }
