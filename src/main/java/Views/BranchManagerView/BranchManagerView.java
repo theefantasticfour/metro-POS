@@ -26,8 +26,10 @@ public class BranchManagerView extends JPanel {
     private CustomChangePassword changePassword;
 
     public BranchManagerView(ActionListener LISTENER, BranchManagerController instance) {
+
         branchManagerController = instance;
         branchMangerListener = LISTENER;
+        isPasswordChanged = branchManagerController.isPasswordChanged();
         System.out.println("Branch Manager View initialized");
         setLayout(new BorderLayout());
         setBackground(Color.decode(Values.BG_COLOR));

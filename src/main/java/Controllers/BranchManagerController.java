@@ -45,6 +45,7 @@ public class BranchManagerController {
     // to change password
     public Boolean changePassword() {
         // see if the passwords match
+        System.out.println("Boss idahr agya hun chnage pass main");
         String newPassword = branchManagerView.getNewPassword();
         String confirmPassword = branchManagerView.getConfirmPassword();
         if (!newPassword.equals(confirmPassword)) {

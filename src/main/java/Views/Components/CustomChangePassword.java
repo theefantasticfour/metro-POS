@@ -82,7 +82,8 @@ public class CustomChangePassword {
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.insets = new Insets(25, 8, 8, 8);
         formPanel.add(saveButton, gbc);
-
+        saveButton.setActionCommand(Values.CHANGE_PASSWORD);
+        saveButton.addActionListener(saveButtonListener);
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

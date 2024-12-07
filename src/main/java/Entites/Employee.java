@@ -9,7 +9,11 @@ public class Employee {
     private String role;
     private float salary;
     private boolean is_password_changed;
+    private boolean Status = true;
+    public Employee()
+    {
 
+    }
     public Employee(int branch_id, int employee_id, String name, String email, String password, String role, float salary, boolean is_password_changed) {
         this.branch_id = branch_id;
         this.employee_id = employee_id;
@@ -84,4 +88,14 @@ public class Employee {
     public void setIs_password_changed(boolean is_password_changed) {
         this.is_password_changed = is_password_changed;
     }
+
+    public void setStatus(boolean status) {
+        Status = status;
+    }
+    public boolean getStatus()
+    {
+        return Status;
+    }
+
+
 }

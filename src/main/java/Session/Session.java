@@ -16,8 +16,8 @@ public class Session {
     BranchManagerController branchManagerController;
     public Session() {
         System.out.println("Session initialized");
-        showWelcomeScreen();
-        //showSuperAdmin("danish61", "admin1122");
+       // showWelcomeScreen();
+        showBranchManager("rana123", "111");
         Mainscreen mainscreen = Mainscreen.getInstance();
 
     }

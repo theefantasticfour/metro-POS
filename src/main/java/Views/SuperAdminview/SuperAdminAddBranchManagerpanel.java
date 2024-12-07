@@ -125,7 +125,6 @@ public class SuperAdminAddBranchManagerpanel {
                 );
                 return;
             }
-            JOptionPane.showMessageDialog(formPanel, "Branch Manager added successfully!");
 
             e.getActionCommand().equals(Values.CREATE_MANAGER);
 
