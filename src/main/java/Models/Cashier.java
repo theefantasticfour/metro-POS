@@ -58,7 +58,16 @@ public class Cashier {
 
     }
 
-    public void RecordTransaction(Map<String, Integer> cartDetails) {
 
+    public Boolean isPasswordChanged() {
+        // check if the password is changed for the first time
+        return false;
+    }
+
+    public boolean changePassword(String newPassword) {
+        // change the password
+        // update the password in the database
+        // set password status to true
+        return true;
     }
 }
