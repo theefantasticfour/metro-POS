@@ -330,7 +330,7 @@ public class CashierGenerateSalePanel extends JPanel {
         return total;
     }
 
-    public static Map<String, Integer> getCartDetails() {
+    public  static Map<String, Integer> getCartDetails() {
         return cartItems;
     }
 }

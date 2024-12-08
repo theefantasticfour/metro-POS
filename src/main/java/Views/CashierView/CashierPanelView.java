@@ -95,7 +95,7 @@ public class CashierPanelView extends JPanel {
         changePasswordPanel.display(contentPanel);
     }
 
-    private void openGenerateSaleForm() {
+    public void openGenerateSaleForm() {
         contentPanel.removeAll();
         generateSalePanel = new CashierGenerateSalePanel(cashierListener, cashierController);
         generateSalePanel.display();
@@ -111,6 +111,9 @@ public class CashierPanelView extends JPanel {
     public String getConfirmPassword() {
         return changePasswordPanel != null ? changePasswordPanel.Confpassword() : null;
     }
+    public String getCashierName()
+    {return changePasswordPanel.Name();}
+
 
     public Map<String, Integer> getSaleDetails() {
         return generateSalePanel != null ? CashierGenerateSalePanel.getCartDetails() : null;
