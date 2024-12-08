@@ -162,16 +162,16 @@ public class DataEntryOperatorController {
                 break; // Exit the loop once the product is found
             }
         }
-         int vendorId = dataEntryOperatorView.getVendorIdToaddProduct();
-        int stockQty = dataEntryOperatorView.getStockQtyToAddProduct();
-        String categorie = dataEntryOperatorView.getCategorieToAddProduct();
-        float costByUnit = dataEntryOperatorView.getCostByUnitToAddProduct();
+        int vendorId = dataEntryOperatorView.getVendorIdToaddProduct();
+        int piecesPerCarton = dataEntryOperatorView.getPiecesPerCartonToAddProduct();
+        //name oper lelia hoa
         float sellingPrice = dataEntryOperatorView.getSellingPriceToAddProduct();
+        String categorie = dataEntryOperatorView.getCategorieToAddProduct();
         float cartonPrice = dataEntryOperatorView.getCartonPriceToAddProduct();
         int cartonQty = dataEntryOperatorView.getCartonQtyToAddProduct();
-        String name = dataEntryOperatorView.getProductNameToAddProduct();
 
-        if (dataEntryOperatorModel.addProduct(vendorId, productId, stockQty, categorie, costByUnit, sellingPrice, cartonPrice,cartonQty,name)) {
+
+        if (dataEntryOperatorModel.addProduct(productId, vendorId, productName, categorie, sellingPrice, cartonPrice, cartonQty, piecesPerCarton)) {
 
             JOptionPane.showMessageDialog(null, "Product added successfully");
             return true;

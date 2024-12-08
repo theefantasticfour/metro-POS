@@ -350,53 +350,58 @@ public class DataEntryOperator {
 
     }
 
-    public boolean addProduct(int vendorId, int productId, int stockQty, String category, float costByUnit, float sellingPrice, float cartonPrice, int cartonQty, String name) {
+    public boolean addProduct(int productId, int vendorId, String name, String category,
+                              float sellingPrice, float cartonPrice, int cartonQty, int piecesPerCarton) {
+
         // If productId is -1, generate a new product ID
-            productId = getUniqueProductId(); // Dummy new product ID (you need to implement this method)
+        if (productId == -1) {
+            productId = getUniqueProductId(); // Generate new product ID if -1 is provided
+        }
 
+        // Calculate missing values based on given parameters
+        int stockQuantity = cartonQty * piecesPerCarton;  // Calculate total stock quantity
+        float originalPricePerUnit = cartonPrice / piecesPerCarton;  // Calculate original price per unit
+        float sellingPricePerCarton = sellingPrice* piecesPerCarton;  // Calculate selling price per carton
 
-        // SQL query to insert or update product in the database
-        String query = "INSERT INTO Product (product_id, branch_id, name, category, original_price_per_unit, price_per_unit, price_per_carton, vendor_id, stock_quantity, carton_qty) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
-                + "ON DUPLICATE KEY UPDATE "
-                + "name = VALUES(name), "
-                + "category = VALUES(category), "
-                + "original_price_per_unit = VALUES(original_price_per_unit), "
-                + "price_per_unit = VALUES(price_per_unit), "
-                + "price_per_carton = VALUES(price_per_carton), "
-                + "stock_quantity = stock_quantity + VALUES(stock_quantity), "
-                + "carton_qty = VALUES(carton_qty)";
+        // Define the SQL query to insert the product into the Product table
+        String query = "INSERT INTO Product (product_id, vendor_id, branch_id, name, category, " +
+                "original_price_per_unit, sale_price_per_unit, stock_quantity, original_price_per_carton, " +
+                "sale_price_per_carton, carton_quantity, pieces_per_carton) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        // Get branchId from current session (you need to fetch this from your context or method)
-        int branchId = this.BranchId; // Assuming this.BranchId holds the current branch ID
+        // Replace with actual branch ID (you can get it from the current session or other methods)
+        int branchId = 1;  // Example branch ID, change as per your application's context
 
-        try (Connection connection = ConnectionConfig.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        // Establish connection to the database
+        try  {
+            Connection connection = ConnectionConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
 
-            // Set parameters for the insert query
-            preparedStatement.setInt(1, productId);
-            preparedStatement.setInt(2, branchId); // Assuming branch_id is obtained
-            preparedStatement.setString(3, name);
-            preparedStatement.setString(4, category);
-            preparedStatement.setFloat(5, costByUnit);
-            preparedStatement.setFloat(6, sellingPrice);
-            preparedStatement.setFloat(7, cartonPrice);
-            preparedStatement.setInt(8, vendorId);
-            preparedStatement.setInt(9, stockQty);
-            preparedStatement.setInt(10, cartonQty);
+            // Set parameters for the query
+            preparedStatement.setInt(1, productId);  // Product ID
+            preparedStatement.setInt(2, vendorId);   // Vendor ID
+            preparedStatement.setInt(3, branchId);   // Branch ID
+            preparedStatement.setString(4, name);    // Product Name
+            preparedStatement.setString(5, category); // Product Category
+            preparedStatement.setFloat(6, originalPricePerUnit); // Original Price Per Unit
+            preparedStatement.setFloat(7, sellingPrice);  // Sale Price Per Unit
+            preparedStatement.setInt(8, stockQuantity);   // Stock Quantity
+            preparedStatement.setFloat(9, cartonPrice); // Original Price Per Carton
+            preparedStatement.setFloat(10, cartonPrice);  // Sale Price Per Carton
+            preparedStatement.setInt(11, cartonQty);     // Carton Quantity
+            preparedStatement.setInt(12, piecesPerCarton); // Pieces Per Carton
 
-            // Execute the insert or update
-            int rowsAffected = preparedStatement.executeUpdate();
-
-            if (rowsAffected > 0) {
-                System.out.println("Product added/updated successfully: " + name);
+            // Execute the insert statement
+            int rowsInserted = preparedStatement.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("Product added successfully.");
                 return true;
             } else {
-                System.out.println("Failed to add/update product: " + name);
+                System.out.println("Failed to add product.");
                 return false;
             }
         } catch (SQLException e) {
-            System.err.println("Error adding/updating product: " + e.getMessage());
+            System.err.println("Error adding product: " + e.getMessage());
             e.printStackTrace();
             return false;
         }

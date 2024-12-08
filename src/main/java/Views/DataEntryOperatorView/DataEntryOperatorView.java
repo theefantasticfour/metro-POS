@@ -173,7 +173,7 @@ public class DataEntryOperatorView extends JPanel {
     //no need for this getter
     public int getProductIdtoAddProduct() {return 1;}
 
-    public int getVendorIdToaddProduct() {return Integer.parseInt(addProduct.getVendor());}
+    public int getVendorIdToaddProduct() {return addProduct.getVendor();}
     public int getStockQtyToAddProduct() {return Integer.parseInt(addProduct.getQuantity());}
     public String getCategorieToAddProduct() {
         return addProduct.getCategory();
@@ -239,5 +239,10 @@ public class DataEntryOperatorView extends JPanel {
 
     public int getVendorIdToUpdateVendor() {
         return Integer.parseInt(viewVendor.getVendorId());
+    }
+
+    public int getPiecesPerCartonToAddProduct()
+    {
+        return Integer.parseInt(addProduct.getPiecesPerCarton());
     }
 }
