@@ -47,41 +47,50 @@ public class ReportUtils {
             e.printStackTrace();
         }
     }
-    public static void createProductsReportExcel(ArrayList<Product> products, String fileName) {
-      /*  try (Workbook workbook = new XSSFWorkbook()) {
-            Sheet sheet = workbook.createSheet("Products Report");
 
-            // Create header row
-            Row headerRow = sheet.createRow(0);
-            String[] headers = {"Name", "Stock Quantity", "Category", "Cost By Unit", "Selling Price", "Carton Price", "Carton Quantity", "Branch ID"};
-            for (int i = 0; i < headers.length; i++) {
-                Cell cell = headerRow.createCell(i);
-                cell.setCellValue(headers[i]);
-            }
+    public static void createProductsReportExcel(ArrayList<Product> products, String fileName, int branchId) {
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Branch " + branchId + " Report");
+        // Create header row
+        Row headerRow = sheet.createRow(0);
+        String[] headers = {"Product ID", "Product Name", "Quantity", "Branch ID"};
+        for (int i = 0; i < headers.length; i++) {
+            Cell cell = headerRow.createCell(i);
+            cell.setCellValue(headers[i]);
+            CellStyle headerStyle = workbook.createCellStyle();
+            Font font = workbook.createFont();
+            font.setBold(true);
+            headerStyle.setFont(font);
+            cell.setCellStyle(headerStyle);
+        }
 
-            // Populate data rows
-            for (int i = 0; i < products.size(); i++) {
-                Product product = products.get(i);
-                Row row = sheet.createRow(i + 1); // Start at row 1 (0-based index)
+        // Fill data rows
+        int rowIdx = 1;
+        for (Product product : products) {
+            Row row = sheet.createRow(rowIdx++);
+            row.createCell(0).setCellValue(product.productId); // Product ID
+            row.createCell(1).setCellValue(product.name); // Product Name
+            row.createCell(2).setCellValue(product.stockQuantity); // Quantity
+            row.createCell(3).setCellValue(branchId); // Branch ID
+        }
 
-                row.createCell(0).setCellValue(product.name);
-                row.createCell(1).setCellValue(product.stockQty);
-                row.createCell(2).setCellValue(product.categorie);
-                row.createCell(3).setCellValue(product.costByUnit);
-                row.createCell(4).setCellValue(product.sellingPrice);
-                row.createCell(5).setCellValue(product.cartonPrice);
-                row.createCell(6).setCellValue(product.cartonQty);
-                row.createCell(7).setCellValue(product.branchId); // if Its all branch product report than branch id will be -1
-            }
+        // Autosize columns for better readability
+        for (int i = 0; i < headers.length; i++) {
+            sheet.autoSizeColumn(i);
+        }
 
-            // Write to file
-            try (FileOutputStream fileOut = new FileOutputStream(fileName)) {
-                workbook.write(fileOut);
-                System.out.println("Products report created: " + fileName);
-                JOptionPane.showMessageDialog(null, "Products report created: " + fileName);
-            }
+        // Write to file
+        try (FileOutputStream fileOut = new FileOutputStream(fileName)) {
+            workbook.write(fileOut);
+            System.out.println("Excel report created successfully: " + fileName);
         } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+            System.err.println("Error writing Excel file: " + e.getMessage());
+        } finally {
+            try {
+                workbook.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

@@ -259,6 +259,9 @@ public class SuperAdminReportsGraphspanel {
       contentPanel.repaint();
    }
    public String getBranchIdToShowreports() {
+      if (Branchid == null) {
+         return "-1";
+      }
       return Branchid;
    }
    public String getReportType() {

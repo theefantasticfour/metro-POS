@@ -235,4 +235,12 @@ public class SuperAdminView extends JPanel {
     public String getManagerSalaryToUpdate() {
         return viewUpdateDelete.getManagerSalaryToUpdate();
     }
+
+    public int getBranchidtoshowreports() {
+        return Integer.parseInt(reports.getBranchIdToShowreports());
+    }
+
+    public String getTypetoShowReports() {
+        return reports.getReportType();
+    }
 }
