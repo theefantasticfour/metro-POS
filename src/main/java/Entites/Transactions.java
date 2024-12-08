@@ -99,4 +99,40 @@ public class Transactions {
     public float getTransactionCost() {
         return transactionCost;
     }
+
+    public void setTransactionId(int transactionId) {
+        this.transactionId = transactionId;
+    }
+
+    public void setBranchId(int branchId) {
+        this.branchId = branchId;
+    }
+
+    public void setCashierId(int cashierId) {
+        this.cashierId = cashierId;
+    }
+
+    public void setVendorId(int vendorId) {
+        this.vendorId = vendorId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
+
+    public void setTransactionDate(Date transactionDate) {
+        this.transactionDate = transactionDate;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public void setTransactionAmount(float transactionAmount) {
+        this.transactionAmount = transactionAmount;
+    }
+
+    public void setTransactionCost(float transactionCost) {
+        this.transactionCost = transactionCost;
+    }
 }
