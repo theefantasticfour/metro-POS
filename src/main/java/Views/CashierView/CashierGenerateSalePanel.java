@@ -31,10 +31,15 @@ public class CashierGenerateSalePanel extends JPanel {
         this.cashierController = instance;
         this.actionListener = Listener;
         this.cartItems = new HashMap<>();
+        init();
 
     }
-
-    public void display() {
+    public void display(JPanel parentPanel)
+    {
+        parentPanel.setLayout(new BorderLayout());
+        parentPanel.add(this, BorderLayout.CENTER);
+    }
+    public void init() {
         setLayout(new BorderLayout());
         setBackground(Color.decode(Values.LEFT_PANEL_BG_COLOR));
 
@@ -52,7 +57,7 @@ public class CashierGenerateSalePanel extends JPanel {
         addToCartButton.setBackground(Color.decode(Values.BUTTON_COLOR));
         addToCartButton.setForeground(Color.decode(Values.BUTTON_TEXT_COLOR));
         addToCartButton.setFont(new Font(Values.BUTTON_FONT, Font.BOLD, Values.BUTTON_FONT_SIZE));
-        addToCartButton.setBorder(BorderFactory.createLineBorder(Color.decode(Values.BUTTON_BORDER_COLOR)));
+       // addToCartButton.setBorder(BorderFactory.createLineBorder(Color.decode(Values.BUTTON_BORDER_COLOR)));
         addToCartButton.addActionListener(e -> addSelectedProductsToCart());
         productPanel.add(addToCartButton, BorderLayout.SOUTH);
 
@@ -160,8 +165,15 @@ public class CashierGenerateSalePanel extends JPanel {
                 String input = (String) productTableModel.getValueAt(row, column);
                 var product = products.get(row);
 
+                // Skip processing if input is blank
+                if (input == null || input.trim().isEmpty()) {
+                    return;
+                }
+
                 try {
                     int quantity = Integer.parseInt(input);
+
+                    // Validate quantity range
                     if (quantity <= 0 || quantity > product.getStockQuantity()) {
                         JOptionPane.showMessageDialog(
                                 this,
@@ -182,6 +194,7 @@ public class CashierGenerateSalePanel extends JPanel {
                 }
             }
         });
+
 
         return productTable;
     }
@@ -237,7 +250,7 @@ public class CashierGenerateSalePanel extends JPanel {
         removeFromCartButton.setBackground(Color.decode(Values.BUTTON_COLOR));
         removeFromCartButton.setForeground(Color.decode(Values.BUTTON_TEXT_COLOR));
         removeFromCartButton.setFont(new Font(Values.BUTTON_FONT, Font.BOLD, Values.BUTTON_FONT_SIZE));
-        removeFromCartButton.setBorder(BorderFactory.createLineBorder(Color.decode(Values.BUTTON_BORDER_COLOR)));
+        //removeFromCartButton.setBorder(BorderFactory.createLineBorder(Color.decode(Values.BUTTON_BORDER_COLOR)));
         removeFromCartButton.addActionListener(e -> removeSelectedFromCart());
         buttonsPanel.add(removeFromCartButton);
 
@@ -245,7 +258,7 @@ public class CashierGenerateSalePanel extends JPanel {
         generateBillButton.setBackground(Color.decode(Values.BUTTON_COLOR));
         generateBillButton.setForeground(Color.decode(Values.BUTTON_TEXT_COLOR));
         generateBillButton.setFont(new Font(Values.BUTTON_FONT, Font.BOLD, Values.BUTTON_FONT_SIZE));
-        generateBillButton.setBorder(BorderFactory.createLineBorder(Color.decode(Values.BUTTON_BORDER_COLOR)));
+        //generateBillButton.setBorder(BorderFactory.createLineBorder(Color.decode(Values.BUTTON_BORDER_COLOR)));
         generateBillButton.addActionListener(e -> generateBill());
         buttonsPanel.add(generateBillButton);
 

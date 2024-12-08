@@ -98,7 +98,7 @@ public class CashierPanelView extends JPanel {
     private void openGenerateSaleForm() {
         contentPanel.removeAll();
         generateSalePanel = new CashierGenerateSalePanel(cashierListener, cashierController);
-        generateSalePanel.display();
+        generateSalePanel.display(contentPanel);
         contentPanel.revalidate();
         contentPanel.repaint();
     }

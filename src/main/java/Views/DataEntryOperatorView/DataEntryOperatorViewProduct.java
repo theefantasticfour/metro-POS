@@ -106,7 +106,7 @@ public class DataEntryOperatorViewProduct {
         tableModel = new DefaultTableModel(productTableData, columnNames) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column >= 1 && column < 8; // Make only data fields editable (excluding id , "Update" and "Delete")
+                return column >= 1 && column < 10; // Make only data fields editable (excluding id , "Update" and "Delete")
             }
         };
 
@@ -120,6 +120,7 @@ public class DataEntryOperatorViewProduct {
         table.setFont(new Font(Values.TEXT_FIELD_FONT, Font.PLAIN, Values.TEXT_FIELD_FONT_SIZE));
 
         // Add custom button renderers and editors
+
         table.getColumn("Update").setCellRenderer(new ButtonRenderer("Update", Color.decode(Values.BUTTON_COLOR)));
         table.getColumn("Update").setCellEditor(new ButtonEditor("Update", row -> {
             System.out.println("Update clicked for row: " + row);

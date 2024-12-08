@@ -13,12 +13,13 @@ public class Session {
     SuperAdminController superAdminController;
     BranchManagerController branchManagerController;
     DataEntryOperatorController dataEntryOperatorController;
+    CashierController cashierController;
     public Session() {
         System.out.println("Session initialized");
        // showWelcomeScreen();
         Mainscreen mainscreen = Mainscreen.getInstance();
 
-        showDataEntry("qwerty111", "1122");
+        showCashier("cubi123", "1122");
     }
     private void showWelcomeScreen() {
 
@@ -64,6 +65,14 @@ public class Session {
 
     }
 
-    public void showCashier(String username, String password) {
+    public void showCashier(String username, String password)
+    {
+        if(cashierController == null)
+        {
+            System.out.println("Cashier Controller called.");
+            cashierController = new CashierController(username, password, this);
+
+        }
+        cashierController.start();
     }
 }

@@ -237,8 +237,9 @@ public class DataEntryOperator {
     public ArrayList<Vendor> getVendors()
     {
         ArrayList<Vendor> vendors = new ArrayList<>();
+        System.out.println("reached here in getvendor");
         Connection connection = ConnectionConfig.getConnection();
-
+        System.out.println("Reached here and connection is = " +  connection);
         // SQL query to fetch vendor details along with total payment and total products
         String query = "SELECT v.vendor_id, v.name, v.phone, v.address, v.start_date, v.end_date, " +
                 "COALESCE(v.total_payment, 0) AS totalPayment, " +
@@ -247,7 +248,8 @@ public class DataEntryOperator {
                 "JOIN Employee e ON v.creator_id = e.employee_id " + // Ensuring creator_id links to Employee table
                 "WHERE v.branch_id = ? AND v.creator_id = ?";
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
             // Set the branch_id and creator_id parameters
             preparedStatement.setInt(1, this.BranchId);  // Assuming this.BranchId refers to the branch of the data entry operator
             preparedStatement.setInt(2, this.CreatorId); // Assuming this.CreatorId refers to the creator (data entry operator)
@@ -281,26 +283,24 @@ public class DataEntryOperator {
     }
 
 
-    public Boolean deleteVendor(int vendorId) {
+    public Boolean deleteVendor(int vendorId)
+    {
         Connection connection = ConnectionConfig.getConnection();
-        String query = "DELETE FROM Vendor WHERE vendor_id = ?";
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, vendorId);
-            int rowsAffected = preparedStatement.executeUpdate();
-            return rowsAffected > 0;
-        } catch (SQLException e) {
+        String query = "UPDATE Vendor SET status = ? WHERE vendor_id = ? AND branch_id = ?";
+        try  {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setBoolean(1, false);
+            preparedStatement.setInt(2, vendorId);
+            preparedStatement.setInt(3, this.BranchId);
+            int rowsUpdated = preparedStatement.executeUpdate();
+            return rowsUpdated > 0;
+        }
+        catch (SQLException e)
+        {
             e.printStackTrace();
             return false;
-        } finally {
-            try {
-                if (connection != null && !connection.isClosed()) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
+
     }
 
 
@@ -317,14 +317,6 @@ public class DataEntryOperator {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
-        } finally {
-            try {
-                if (connection != null && !connection.isClosed()) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -424,6 +416,7 @@ public class DataEntryOperator {
 
         // If the product is new, calculate missing values and insert it
         int stockQuantity = cartonQty * piecesPerCarton;  // Calculate total stock quantity
+        System.out.println("stock quantity = "+ stockQuantity);
         float originalPricePerUnit = cartonPrice / piecesPerCarton;  // Calculate original price per unit
         float salePricePerCarton = sellingPrice * piecesPerCarton;  // Calculate sale price per carton
 
@@ -457,6 +450,20 @@ public class DataEntryOperator {
             int rowsInserted = preparedStatement.executeUpdate();
             if (rowsInserted > 0) {
                 System.out.println("Product added successfully.");
+                //also add the total payment and total products in the vendor table
+                query = "UPDATE Vendor SET total_payment = COALESCE(total_payment, 0) + ?, total_products = COALESCE(total_products, 0) + 1 WHERE vendor_id = ? AND branch_id = ?";
+                try (PreparedStatement updateStatement = connection.prepareStatement(query)) {
+                    updateStatement.setFloat(1, salePricePerCarton*cartonQty);
+                    updateStatement.setInt(2, vendorId);
+                    updateStatement.setInt(3, this.BranchId);
+                    int rowsUpdated = updateStatement.executeUpdate();
+                    if (rowsUpdated > 0) {
+                        System.out.println("Vendor updated successfully.");
+                    } else {
+                        System.out.println("Failed to update vendor.");
+                    }
+                }
+
                 return true;
             } else {
                 System.out.println("Failed to add product.");
@@ -501,8 +508,22 @@ public class DataEntryOperator {
 
     public Boolean updateProduct(int productId, String name, int stockQty, String category, float costByUnit, float sellingPrice, float cartonPrice, int vendorid)
     {
-        System.out.println("Product updated: " + productId);
-        return true; // Dummy update status
+        //update seeling price
+        Connection connection = ConnectionConfig.getConnection();
+        String query = "UPDATE Product SET sale_price_per_unit = ? WHERE product_id = ? AND branch_id = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setFloat(1, sellingPrice);
+            preparedStatement.setInt(2, productId);
+            preparedStatement.setInt(3, this.BranchId);
+            int rowsUpdated = preparedStatement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+
     }
 
 
