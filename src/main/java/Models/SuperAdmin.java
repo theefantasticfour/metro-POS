@@ -311,7 +311,7 @@ public class SuperAdmin {
         return transactions;
     }
 
-    public static  ArrayList<Product> getRemainingStock(int branchId) {
+   /* public static  ArrayList<Product> getRemainingStock(int branchId) {
         ArrayList<Product> products = new ArrayList<Product>();
         // if branch id is -1 then we will get the remaining stock of the product
         // phir ham sirf product id ki base pai search karien ga
@@ -323,7 +323,62 @@ public class SuperAdmin {
         // branch ki nikalni hai
         // agar branch id -1 hai to hamain sari branches ki stock nikalni hai in that case branch id set hi nahi karien ga
         return products;
+    }*/
+
+    public static ArrayList<Product> getRemainingStock(int branchId)
+    {
+
+        ArrayList<Product> products = new ArrayList<>();
+        Connection connection = ConnectionConfig.getConnection();
+
+        // SQL query to get the remaining stock of products
+        String query;
+        if (branchId == -1) {
+            // Get stock for all branches
+            query = "SELECT p.product_id, p.name, p.stock_quantity, p.sale_price_per_unit, p.original_price_per_unit "
+                    + "FROM Product p GROUP BY p.product_id";
+        } else {
+            // Get stock for a specific branch
+            query = "SELECT p.product_id, p.name, p.stock_quantity, p.sale_price_per_unit, p.original_price_per_unit "
+                    + "FROM Product p WHERE p.branch_id = ?";
+        }
+
+        try
+        {
+                  PreparedStatement stmt = connection.prepareStatement(query);
+
+            // Set the branch ID if it's not -1
+            if (branchId != -1) {
+                stmt.setInt(1, branchId);
+            }
+
+            // Execute the query
+            ResultSet rs = stmt.executeQuery();
+
+            // Process the result set and add products to the list
+            while (rs.next()) {
+                int productId = rs.getInt("product_id");
+                String name = rs.getString("name");
+                int stockQuantity = rs.getInt("stock_quantity");
+                float salePricePerUnit = rs.getFloat("sale_price_per_unit");
+                float originalPricePerUnit = rs.getFloat("original_price_per_unit");
+
+                // Create a Product object and add it to the list
+                Product product = new Product();
+                product.setProductId(productId);
+                product.setName(name);
+                product.setStockQuantity(stockQuantity);
+                product.setSalePricePerUnit(salePricePerUnit);
+                product.setOriginalPricePerUnit(originalPricePerUnit);
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return products;
     }
+
     public static ArrayList<Integer> getAllBranchIds() {
         ArrayList<Integer> branches = new ArrayList<Integer>();
         // logic to get all branch ids

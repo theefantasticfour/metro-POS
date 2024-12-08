@@ -9,6 +9,7 @@ import Views.Mainscreen;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Map;
@@ -35,6 +36,9 @@ public class CashierController {
         cashierPanelView = Mainscreen.getCashierPanelView();
 
     }
+    public void RecordTransactions(Map<String, Integer> cartDetails) throws SQLException {
+        cashierModel.RecordTransactions(cartDetails);
+    }
 
     private void setActionListeners() {
         actionListener = e -> {
@@ -45,7 +49,12 @@ public class CashierController {
                 // process the details and store the transations.
                 // Also Print the bill
                 // by giving command to the printer
-                cashierModel.RecordTransactions(cartDetails);
+                /*try {
+                    cashierModel.RecordTransactions(cartDetails);
+                } catch (SQLException ex)
+                {
+                    throw new RuntimeException(ex);
+                }*/
             } else if (e.getActionCommand().equals(Values.CHANGE_PASSWORD)) {
                 if (changePassword()) {
 
