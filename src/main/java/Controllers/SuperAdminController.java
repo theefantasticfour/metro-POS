@@ -13,6 +13,11 @@ import Views.SuperAdminview.SuperAdminView;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class SuperAdminController {
     SuperAdmin superAdminModel;
@@ -140,11 +145,20 @@ public class SuperAdminController {
 
     public ArrayList<Product> downloadProductsReport(int branchId, Boolean isDownload) {
         // Fetch remaining stock
+        System.out.println("Reached here");
         ArrayList<Product> products = SuperAdmin.getRemainingStock(branchId);
+        System.out.println("Reached here after getting stocks");
+        System.out.println(products);
+        for (Product product : products) {
+            System.out.println(product.productId);
+            System.out.println(product.name);
+            System.out.println(product.stockQuantity);
+        }
+        System.out.println(branchId);
         if (isDownload) {
             // Generate and download the report
             String fileName = "Products_Report_Branch_" + branchId + ".xlsx";
-            ReportUtils.createProductsReportExcel(products, fileName);
+            ReportUtils.createProductsReportExcel(products, fileName, branchId);
         }
 
         return products;
@@ -175,11 +189,11 @@ public class SuperAdminController {
             } else if (e.getActionCommand().equals(Values.DELETE_BRANCH)) {
                 DeleteBranch();
             } else if (e.getActionCommand().equals(Values.SALES_REPORT)) {
-                //  downloadSalesReport(superAdminView.getBranchidtoshowreports(),superAdminView.getTypetoShowReports(),true);
+                 downloadSalesReport(superAdminView.getBranchidtoshowreports(),superAdminView.getTypetoShowReports(),true);
             } else if (e.getActionCommand().equals(Values.STOCK_REPORT)) {
-                //downloadProductsReport(superAdminView.getBranchidtoshowreports(),true);
+                downloadProductsReport(superAdminView.getBranchidtoshowreports(),true);
             } else if (e.getActionCommand().equals(Values.PROFIT_REPORT)) {
-                //downloadProfitreport(superAdminView.getBranchidtoshowreports(),superAdminView.getTypetoShowReports(),true);
+                downloadProfitreport(superAdminView.getBranchidtoshowreports(),superAdminView.getTypetoShowReports(),true);
             } else if (e.getActionCommand().equals(Values.LOGOUT)) {
                 // logout and go to login screen
                 JOptionPane.showMessageDialog(null, "Logging out......");
