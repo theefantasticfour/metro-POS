@@ -158,9 +158,20 @@ public class DataEntryOperatorController {
         // Iterate through the map to find the product ID
         for (Map.Entry<Integer, String> entry : productNames.entrySet()) {
             if (entry.getValue().equals(productName)) {
+
                 productId = entry.getKey();
                 break; // Exit the loop once the product is found
             }
+        }
+        boolean isProductNew;
+        if(productId!=-1)
+        {
+            isProductNew=false;
+        }
+        else
+        {
+            isProductNew=true;
+
         }
         int vendorId = dataEntryOperatorView.getVendorIdToaddProduct();
         int piecesPerCarton = dataEntryOperatorView.getPiecesPerCartonToAddProduct();
@@ -171,7 +182,7 @@ public class DataEntryOperatorController {
         int cartonQty = dataEntryOperatorView.getCartonQtyToAddProduct();
 
 
-        if (dataEntryOperatorModel.addProduct(productId, vendorId, productName, categorie, sellingPrice, cartonPrice, cartonQty, piecesPerCarton)) {
+        if (dataEntryOperatorModel.addProduct(productId, vendorId, productName, categorie, sellingPrice, cartonPrice, cartonQty, piecesPerCarton,isProductNew)) {
 
             JOptionPane.showMessageDialog(null, "Product added successfully");
             return true;

@@ -351,17 +351,81 @@ public class DataEntryOperator {
     }
 
     public boolean addProduct(int productId, int vendorId, String name, String category,
-                              float sellingPrice, float cartonPrice, int cartonQty, int piecesPerCarton) {
+                              float sellingPrice, float cartonPrice, int cartonQty, int piecesPerCarton,
+                              boolean isNewProduct) {
 
         // If productId is -1, generate a new product ID
         if (productId == -1) {
             productId = getUniqueProductId(); // Generate new product ID if -1 is provided
         }
 
-        // Calculate missing values based on given parameters
+        // If the product is not new, update the product
+        if (!isNewProduct) {
+            // Extract stock quantity, original price per unit, and sale price per carton from the db
+            String query = "SELECT stock_quantity, original_price_per_unit, sale_price_per_carton FROM Product WHERE product_id = ? and branch_id = ?";
+            try {
+                Connection connection = ConnectionConfig.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+                preparedStatement.setInt(1, productId);
+                preparedStatement.setInt(2, this.BranchId);
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                if (resultSet.next()) {
+                    int stockQuantity = resultSet.getInt("stock_quantity");
+                    float originalPricePerUnit = resultSet.getFloat("original_price_per_unit");
+                    float salePricePerCarton = resultSet.getFloat("sale_price_per_carton");
+
+                    // Calculate the new stock quantity
+                    int newStockQuantity = stockQuantity + (cartonQty * piecesPerCarton);
+                    // Calculate the new original price per unit
+                    float newOriginalPricePerUnit = cartonPrice / piecesPerCarton;
+                    // Calculate the new selling price per carton
+                    float newSellingPricePerCarton = sellingPrice * piecesPerCarton;
+
+                    // Update the product details in the database
+                    query = "UPDATE Product SET name = ?, category = ?, original_price_per_unit = ?, " +
+                            "sale_price_per_unit = ?, stock_quantity = ?, original_price_per_carton = ?, " +
+                            "sale_price_per_carton = ?, carton_quantity = ?, pieces_per_carton = ? " +
+                            "WHERE product_id = ? AND branch_id = ?";
+
+                    try (PreparedStatement updateStatement = connection.prepareStatement(query)) {
+                        updateStatement.setString(1, name);
+                        updateStatement.setString(2, category);
+                        updateStatement.setFloat(3, newOriginalPricePerUnit);
+                        updateStatement.setFloat(4, sellingPrice);
+                        updateStatement.setInt(5, newStockQuantity);
+                        updateStatement.setFloat(6, cartonPrice);
+                        updateStatement.setFloat(7, newSellingPricePerCarton);
+                        updateStatement.setInt(8, cartonQty);
+                        updateStatement.setInt(9, piecesPerCarton);
+                        updateStatement.setInt(10, productId);
+                        updateStatement.setInt(11, this.BranchId);
+
+                        int rowsUpdated = updateStatement.executeUpdate();
+                        if (rowsUpdated > 0) {
+                            System.out.println("Product updated successfully.");
+                            return true;
+                        } else {
+                            System.out.println("Failed to update product.");
+                            return false;
+                        }
+                    }
+                } else {
+                    System.out.println("Product not found.");
+                    return false;
+                }
+            } catch (SQLException e) {
+                System.err.println("Error updating product: " + e.getMessage());
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        // If the product is new, calculate missing values and insert it
         int stockQuantity = cartonQty * piecesPerCarton;  // Calculate total stock quantity
         float originalPricePerUnit = cartonPrice / piecesPerCarton;  // Calculate original price per unit
-        float sellingPricePerCarton = sellingPrice* piecesPerCarton;  // Calculate selling price per carton
+        float salePricePerCarton = sellingPrice * piecesPerCarton;  // Calculate sale price per carton
 
         // Define the SQL query to insert the product into the Product table
         String query = "INSERT INTO Product (product_id, vendor_id, branch_id, name, category, " +
@@ -369,27 +433,25 @@ public class DataEntryOperator {
                 "sale_price_per_carton, carton_quantity, pieces_per_carton) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        // Replace with actual branch ID (you can get it from the current session or other methods)
-        int branchId = 1;  // Example branch ID, change as per your application's context
-
         // Establish connection to the database
-        try  {
+        try {
             Connection connection = ConnectionConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
 
             // Set parameters for the query
             preparedStatement.setInt(1, productId);  // Product ID
             preparedStatement.setInt(2, vendorId);   // Vendor ID
-            preparedStatement.setInt(3, branchId);   // Branch ID
+            preparedStatement.setInt(3, this.BranchId);   // Branch ID
             preparedStatement.setString(4, name);    // Product Name
             preparedStatement.setString(5, category); // Product Category
             preparedStatement.setFloat(6, originalPricePerUnit); // Original Price Per Unit
             preparedStatement.setFloat(7, sellingPrice);  // Sale Price Per Unit
             preparedStatement.setInt(8, stockQuantity);   // Stock Quantity
             preparedStatement.setFloat(9, cartonPrice); // Original Price Per Carton
-            preparedStatement.setFloat(10, cartonPrice);  // Sale Price Per Carton
+            preparedStatement.setFloat(10, salePricePerCarton);  // Sale Price Per Carton
             preparedStatement.setInt(11, cartonQty);     // Carton Quantity
             preparedStatement.setInt(12, piecesPerCarton); // Pieces Per Carton
+            //preparedStatement.setInt(13, this.BranchId); // Branch ID
 
             // Execute the insert statement
             int rowsInserted = preparedStatement.executeUpdate();
@@ -408,12 +470,33 @@ public class DataEntryOperator {
     }
 
 
-
     public Map<Integer, String> getProductNames() {
         Map<Integer, String> productNames = new HashMap<>();
-        productNames.put(2001, "Product A");
-        productNames.put(2002, "Product B");
-        return productNames; // Dummy product names
+
+        // SQL query to select product_id and name from the Product table
+        String query = "SELECT product_id, name FROM Product";
+        System.out.println("current branch in getproductnamemethod() = "+ BranchId);
+
+        try {
+            Connection connection = ConnectionConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            //preparedStatement.setInt(1, BranchId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Loop through the result set and populate the map with product_id as the key and name as the value
+            while (resultSet.next()) {
+                int productId = resultSet.getInt("product_id");
+                String productName = resultSet.getString("name");
+
+                // Adding the product ID and name to the map
+                productNames.put(productId, productName);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return productNames;
     }
 
     public Boolean updateProduct(int productId, String name, int stockQty, String category, float costByUnit, float sellingPrice, float cartonPrice, int vendorid)
@@ -429,11 +512,49 @@ public class DataEntryOperator {
         return true; // Dummy deletion status
     }
 
-    public ArrayList<Product> getProducts()
-    {
+    public ArrayList<Product> getProducts() {
         ArrayList<Product> products = new ArrayList<>();
 
-        return products; // Dummy product data
+        // SQL query to fetch the necessary fields in the specified sequence
+        String query = "SELECT product_id, name, category, original_price_per_unit, sale_price_per_unit, sale_price_per_carton, stock_quantity, vendor_id FROM Product WHERE branch_id = ?";
 
+        try  {
+
+            Connection connection = ConnectionConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, BranchId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                // Extract data in the required order and create Product object
+                int productId = resultSet.getInt("product_id");
+                String productName = resultSet.getString("name");
+                String category = resultSet.getString("category");
+                float originalPricePerUnit = resultSet.getFloat("original_price_per_unit");
+                float salePricePerUnit = resultSet.getFloat("sale_price_per_unit");
+                float salePricePerCarton = resultSet.getFloat("sale_price_per_carton");
+                int stockQuantity = resultSet.getInt("stock_quantity");
+                int vendorId = resultSet.getInt("vendor_id");
+
+
+                // Create a Product object and add it to the list
+                Product product = new Product();
+                product.setProductId(productId);
+                product.setVendorId(vendorId);
+                product.setName(productName);
+                product.setCategory(category);
+                product.setOriginalPricePerUnit(originalPricePerUnit);
+                product.setSalePricePerUnit(salePricePerUnit);
+                product.setStockQuantity(stockQuantity);
+                product.setOriginalPricePerCarton(salePricePerCarton);
+                product.setSalePricePerCarton(salePricePerCarton);
+                products.add(product);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return products;
     }
 }
