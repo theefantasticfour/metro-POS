@@ -12,13 +12,13 @@ public class Session {
     Welcomecontroller welcomecontroller;
     SuperAdminController superAdminController;
     BranchManagerController branchManagerController;
-    //DataEntryOperatorController dataEntryOperatorController;
+    DataEntryOperatorController dataEntryOperatorController;
     public Session() {
         System.out.println("Session initialized");
        // showWelcomeScreen();
-        showDataEntry("qwerty111", "1122");
         Mainscreen mainscreen = Mainscreen.getInstance();
 
+        showDataEntry("qwerty111", "1122");
     }
     private void showWelcomeScreen() {
 
@@ -26,7 +26,7 @@ public class Session {
             welcomecontroller = new Welcomecontroller(this);
         }
         Welcomecontroller welcomecontroller = new Welcomecontroller(this);
-        //welcomecontroller.start();
+
         welcomecontroller.start();
     }
 
@@ -55,7 +55,6 @@ public class Session {
         branchManagerController.start();
 
     }
-
     public void showDataEntry(String username, String password) {
         if (dataEntryOperatorController == null) {
             System.out.println("Data Entry Controller called.");
