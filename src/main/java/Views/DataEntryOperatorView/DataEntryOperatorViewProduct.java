@@ -93,11 +93,11 @@ public class DataEntryOperatorViewProduct {
             Product product = productData.get(i);
             productTableData[i][0] = product.productId;          // Product ID
             productTableData[i][1] = product.name;               // Product Name
-            productTableData[i][2] = product.categorie;          // Category
-            productTableData[i][3] = product.costByUnit;         // Original Price
-            productTableData[i][4] = product.sellingPrice;       // Sale Price per unit
-            productTableData[i][5] = product.cartonPrice;        // Sale Price per Carton
-            productTableData[i][6] = product.stockQty;           // Quantity In Stock
+            productTableData[i][2] = product.category;          // Category
+            productTableData[i][3] = product.originalPricePerUnit;         // Original Price
+            productTableData[i][4] = product.salePricePerUnit;       // Sale Price per unit
+            productTableData[i][5] = product.salePricePerCarton;        // Sale Price per Carton
+            productTableData[i][6] = product.stockQuantity;           // Quantity In Stock
             productTableData[i][7] = product.vendorId;           // Vendor
             productTableData[i][8] = "Update";                   // Update action
             productTableData[i][9] = "Delete";                   // Delete action

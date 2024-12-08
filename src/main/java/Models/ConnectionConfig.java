@@ -15,7 +15,7 @@ public class ConnectionConfig {
     private static final String DB_PASSWORD = "!@#Nm123456!@#";*/
     private static final String DB_URL = "jdbc:mysql://localhost:3306/metropos";
     private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "1234567";
+    private static final String DB_PASSWORD = "12345678";
 
 
     // Private constructor to prevent instantiation
