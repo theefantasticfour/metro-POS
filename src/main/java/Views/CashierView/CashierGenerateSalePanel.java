@@ -1,5 +1,7 @@
 package Views.CashierView;
 
+import Controllers.BranchManagerController;
+import Controllers.CashierController;
 import Utils.Values;
 
 import javax.swing.*;
@@ -21,16 +23,18 @@ public class CashierGenerateSalePanel extends JPanel {
     private DefaultTableModel productTableModel;
     private DefaultTableModel cartTableModel;
     private TableRowSorter<DefaultTableModel> rowSorter;
-    private Map<String, Integer> cartItems;
+    private static Map<String, Integer> cartItems;
     private final ActionListener actionListener;
+    private final CashierController cashierController;
 
-    public CashierGenerateSalePanel(ActionListener Listener) {
+    public CashierGenerateSalePanel(ActionListener Listener, CashierController instance) {
+        this.cashierController = instance;
         this.actionListener = Listener;
         this.cartItems = new HashMap<>();
-        initializeUI();
+
     }
 
-    private void initializeUI() {
+    public void display() {
         setLayout(new BorderLayout());
         setBackground(Color.decode(Values.LEFT_PANEL_BG_COLOR));
 
@@ -276,7 +280,7 @@ public class CashierGenerateSalePanel extends JPanel {
         clearCart();
     }
 
-    public Map<String, Integer> getCartDetails() {
+    public static Map<String, Integer> getCartDetails() {
         return cartItems;
     }
 }

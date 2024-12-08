@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
+import java.util.Map;
 
 public class CashierPanelView extends JPanel {
     private Boolean isPasswordChanged = false; // Other buttons only work once the password is changed
@@ -97,7 +98,7 @@ public class CashierPanelView extends JPanel {
     private void openGenerateSaleForm() {
         contentPanel.removeAll();
         generateSalePanel = new CashierGenerateSalePanel(cashierListener, cashierController);
-        generateSalePanel.display(contentPanel);
+        generateSalePanel.display();
         contentPanel.revalidate();
         contentPanel.repaint();
     }
@@ -112,6 +113,6 @@ public class CashierPanelView extends JPanel {
     }
 
     public Map<String, Integer> getSaleDetails() {
-        return generateSalePanel != null ? generateSalePanel.getCartDetails() : null;
+        return generateSalePanel != null ? CashierGenerateSalePanel.getCartDetails() : null;
     }
 }
