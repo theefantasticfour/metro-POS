@@ -125,7 +125,7 @@ public class CashierGenerateSalePanel extends JPanel {
             data[i][0] = product.getProductId();
             data[i][1] = product.getName();
             data[i][2] = product.getCategory();
-            data[i][3] = product.getSalePrice();
+            data[i][3] = product.getSalePricePerUnit();
             data[i][4] = product.getStockQuantity();
             data[i][5] = ""; // Quantity to buy, left empty for user input
         }
