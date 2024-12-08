@@ -20,7 +20,10 @@ public class Vendor {
     public Date EndDate;
     public Float totalPayment;
     public int Totalproduct;
+    public Vendor()
+    {
 
+    }
     public Vendor(int vendor_id, String name, String address, String phone, int branch_id, int creator_id, Date startDate, Date endDate) {
         this.vendor_id = vendor_id;
         this.name = name;
@@ -31,4 +34,47 @@ public class Vendor {
         StartDate = startDate;
         EndDate = endDate;
     }
+    //make all setters
+    public void setVendor_id(int vendor_id) {
+        this.vendor_id = vendor_id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setBranch_id(int branch_id) {
+        this.branch_id = branch_id;
+    }
+
+    public void setCreator_id(int creator_id) {
+        this.creator_id = creator_id;
+    }
+
+    public void setStartDate(Date startDate) {
+        StartDate = startDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        EndDate = endDate;
+    }
+
+    public void setTotalPayment(Float totalPayment) {
+        this.totalPayment = totalPayment;
+    }
+
+    public void setTotalProduct(int totalproduct) {
+        Totalproduct = totalproduct;
+    }
+
+
+
 }
