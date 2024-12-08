@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 public class CustomChangePassword {
     private Runnable onPasswordChangedCallback;
     public String newPassword;
+    public String name;
     public String confirmPassword;
     public ActionListener saveButtonListener;
 
@@ -87,7 +88,7 @@ public class CustomChangePassword {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String name = nameField.getText().trim();
+                 name = nameField.getText().trim();
                  newPassword = newPasswordField.getPasswordString().trim();
                  confirmPassword = confirmPasswordField.getPasswordString().trim();
 
@@ -140,5 +141,8 @@ public class CustomChangePassword {
     {return newPassword;}
     public String Confpassword()
     {return confirmPassword;}
+    public String Name()
+    {return name;}
+
 
 }

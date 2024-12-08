@@ -27,6 +27,7 @@ public class CashierGenerateSalePanel extends JPanel {
     private static Map<String, Integer> cartItems;
     private final ActionListener actionListener;
     private final CashierController cashierController;
+    private double total=0;
 
     public CashierGenerateSalePanel(ActionListener Listener, CashierController instance) {
         this.cashierController = instance;
@@ -334,7 +335,7 @@ public class CashierGenerateSalePanel extends JPanel {
     }
 
     private void updateTotal() {
-        double total = 0;
+        //double total = 0;
         for (int i = 0; i < cartTableModel.getRowCount(); i++) {
             total += Double.parseDouble(cartTableModel.getValueAt(i, 2).toString());
         }
@@ -348,8 +349,12 @@ public class CashierGenerateSalePanel extends JPanel {
         cashierController.updateInventry(cartItems);
         clearCart();
     }
+    public double getTotal()
+    {
+        return total;
+    }
 
-    public static Map<String, Integer> getCartDetails() {
+    public  static Map<String, Integer> getCartDetails() {
         return cartItems;
     }
 }
