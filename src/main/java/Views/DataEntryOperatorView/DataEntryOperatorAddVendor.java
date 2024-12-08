@@ -122,6 +122,8 @@ public class DataEntryOperatorAddVendor extends JPanel {
         gbc.insets = new Insets(30, 8, 8, 8);
         formPanel.add(addButton, gbc);
 
+        addButton.setActionCommand(Values.ADD_NEW_VENDOR);
+        addButton.addActionListener(dataEntryOperatorListener);
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
