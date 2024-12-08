@@ -22,6 +22,9 @@ public class CashierPanelView extends JPanel {
     }
     public void inIt()
     {
+        // to get all products available in a branch
+        // cashierController.getBranchProductsToDisplay();
+        // will return all products available in the branch in the form of arraylist
 
     }
     public Map<String,Integer> getbilldetails()

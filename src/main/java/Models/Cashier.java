@@ -58,7 +58,5 @@ public class Cashier {
 
     }
 
-    public void RecordTransaction(Map<String, Integer> cartDetails) {
 
-    }
 }

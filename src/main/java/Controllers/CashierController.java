@@ -1,5 +1,6 @@
 package Controllers;
 
+import Entites.Product;
 import Models.Cashier;
 import Session.Session;
 import Utils.Values;
@@ -7,6 +8,8 @@ import Views.CashierView.CashierPanelView;
 import Views.Mainscreen;
 
 import java.awt.event.ActionListener;
+import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class CashierController {
@@ -40,9 +43,14 @@ public class CashierController {
             {
                 Map<String,Integer> cartDetails = cashierPanelView.getbilldetails();
                 // process the details and store the transations.
-                cashierModel.RecordTransaction(cartDetails);
+                // Also Print the bill
+                // by giving command to the printer
+                cashierModel.RecordTransactions(cartDetails);
             }
         };
+    }
+    public ArrayList<Product> getBranchProductsToDisplay() {
+        return cashierModel.getAllBranchProducts();
     }
 
 }
