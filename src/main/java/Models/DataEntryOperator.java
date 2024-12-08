@@ -5,6 +5,8 @@ import Entites.Vendor;
 import Utils.Values;
 
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +22,8 @@ public class DataEntryOperator {
         this.username = username;
         this.password = password;
         setBranchId();
+        setCreatorId();
+        //setDataEnteryOperatorId();
         System.out.println("Data Entry Operator Model initialized");
     }
 
@@ -102,28 +106,11 @@ public class DataEntryOperator {
     }
 
     public Boolean changePassword(String newPassword) {
-        this.password = newPassword; // Dummy password change
-        return true;
-    }
-
-  
-
-    public boolean addProduct(int vendorId, int productId, int stockQty, String categorie, float costByUnit, float sellingPrice, float cartonPrice, int cartonQty, String name) {
-        if (productId == -1) {
-            productId = getUniqueProductId(); // Dummy new product ID
-        }
-        System.out.println("Product added: " + name);
-        return true;
-    }
-
-    private int getUniqueProductId() {
-        return 2001; // Dummy unique product ID
-
         Connection connection = ConnectionConfig.getConnection();
         String query = "UPDATE Employee SET password = ?, is_password_changed = TRUE WHERE email = ?";
 
         try (
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             // Set the parameters
             preparedStatement.setString(1, newPassword);
@@ -147,20 +134,22 @@ public class DataEntryOperator {
         }
     }
 
-
     public boolean isPasswordChanged()
     {
         Connection connection = ConnectionConfig.getConnection();
         try {
-            String query = "SELECT is_password_changed FROM Employee WHERE employee_id = ? AND role = ?";
+            String query = "SELECT is_password_changed FROM Employee WHERE email = ? AND role = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, this.dataEnteryOperatorId);
+            preparedStatement.setString(1, this.username);
             preparedStatement.setString(2, Values.DATA_ENTRY);
             ResultSet resultSet = preparedStatement.executeQuery();
 
+
             if (resultSet.next())
             {
+                System.out.println("Ispasswordchaged value =====  " + resultSet.getBoolean("is_password_changed"));
                 return resultSet.getBoolean("is_password_changed");
+
             }
             else
             {
@@ -173,50 +162,59 @@ public class DataEntryOperator {
     }
 
     public boolean addVendor(String name, String address, String phone, String startDate, String endDate) {
-        String query = "INSERT INTO Vendor (vendor_id, name, address, phone, branch_id, creator_id) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Vendor (vendor_id, name, address, phone, branch_id, creator_id, start_date, end_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         int vendorID = getUniqueVendorId();
-        int branchID = this.BranchId; // Assuming this method fetches the branch ID attribute
-        int creatorID = this.CreatorId; // Assuming this method fetches the Data Entry Operator's ID attribute
+        int branchID = this.BranchId; // Assuming this fetches the branch ID
+        int creatorID = this.CreatorId; // Assuming this fetches the creator ID (Data Entry Operator)
 
-        try (Connection connection = ConnectionConfig.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        // Define the date format
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        try
+        {
+            // Convert startDate and endDate to java.sql.Date
+            java.sql.Date sqlStartDate = new java.sql.Date(dateFormat.parse(startDate).getTime());
+            java.sql.Date sqlEndDate = new java.sql.Date(dateFormat.parse(endDate).getTime());
 
-            // Set parameters for the insert query
-            preparedStatement.setInt(1, vendorID);
-            preparedStatement.setString(2, name);
-            preparedStatement.setString(3, address);
-            preparedStatement.setString(4, phone);
-            preparedStatement.setInt(5, branchID);
-            preparedStatement.setInt(6, creatorID);
+            try {
+                Connection connection = ConnectionConfig.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                // Set parameters for the insert query
+                preparedStatement.setInt(1, vendorID);
+                preparedStatement.setString(2, name);
+                preparedStatement.setString(3, address);
+                preparedStatement.setString(4, phone);
+                preparedStatement.setInt(5, branchID);
+                preparedStatement.setInt(6, creatorID);
+                preparedStatement.setDate(7, sqlStartDate);
+                preparedStatement.setDate(8, sqlEndDate);
 
-            // Execute the insert statement
-            int rowsInserted = preparedStatement.executeUpdate();
-
-            if (rowsInserted > 0) {
-                System.out.println("Vendor added successfully: " + name);
-                return true;
-            } else {
-                System.out.println("Failed to add vendor: " + name);
-                return false;
+                // Execute the insert statement
+                int rowsInserted = preparedStatement.executeUpdate();
+                if (rowsInserted > 0) {
+                    System.out.println("Vendor added successfully: " + name);
+                    return true;
+                } else {
+                    System.out.println("Failed to add vendor: " + name);
+                    return false;
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-
-        } catch (SQLException e) {
-            System.err.println("Error adding vendor: " + e.getMessage());
-            e.printStackTrace();
+        } catch (ParseException e) {
+            System.err.println("Error parsing date: " + e.getMessage());
             return false;
         }
     }
-
-
     public ArrayList<Integer> getVendorIds()
     {
         // you have to return all the unique vendor ids in a branch (from attribute)
         ArrayList<Integer> vendorIds = new ArrayList<>();
         String query = "SELECT vendor_id FROM Vendor WHERE branch_id = ?";
 
-        try (Connection connection = ConnectionConfig.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query))
+        try
         {
+            Connection connection = ConnectionConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
             // Set the branch ID as a parameter
             preparedStatement.setInt(1, this.BranchId);
 
@@ -236,23 +234,22 @@ public class DataEntryOperator {
         return vendorIds;
     }
 
-    public ArrayList<Vendor> getVendors() {
+    public ArrayList<Vendor> getVendors()
+    {
         ArrayList<Vendor> vendors = new ArrayList<>();
         Connection connection = ConnectionConfig.getConnection();
 
         // SQL query to fetch vendor details along with total payment and total products
-        String query = "SELECT v.vendor_id, v.name, v.phone, v.address, v.StartDate, v.EndDate, " +
-                "IFNULL(SUM(p.payment_amount), 0) AS totalPayment, " +
-                "IFNULL(COUNT(pr.product_id), 0) AS TotalProduct " +
+        String query = "SELECT v.vendor_id, v.name, v.phone, v.address, v.start_date, v.end_date, " +
+                "COALESCE(v.total_payment, 0) AS totalPayment, " +
+                "COALESCE(v.total_products, 0) AS totalProduct " +
                 "FROM Vendor v " +
-                "LEFT JOIN Payment p ON v.vendor_id = p.vendor_id " +
-                "LEFT JOIN Product pr ON v.vendor_id = pr.vendor_id " +
-                "WHERE v.branch_id = ? AND v.creator_id = ? " +  // Added creator_id condition
-                "GROUP BY v.vendor_id";
+                "JOIN Employee e ON v.creator_id = e.employee_id " + // Ensuring creator_id links to Employee table
+                "WHERE v.branch_id = ? AND v.creator_id = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             // Set the branch_id and creator_id parameters
-            preparedStatement.setInt(1, this.BranchId);  // Assuming this.BranchId refers to the current branch of the data entry operator
+            preparedStatement.setInt(1, this.BranchId);  // Assuming this.BranchId refers to the branch of the data entry operator
             preparedStatement.setInt(2, this.CreatorId); // Assuming this.CreatorId refers to the creator (data entry operator)
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -266,17 +263,17 @@ public class DataEntryOperator {
                     vendor.setName(resultSet.getString("name"));
                     vendor.setPhone(resultSet.getString("phone"));
                     vendor.setAddress(resultSet.getString("address"));
-                    vendor.setStartDate(resultSet.getDate("StartDate"));
-                    vendor.setEndDate(resultSet.getDate("EndDate"));
+                    vendor.setStartDate(resultSet.getDate("start_date"));
+                    vendor.setEndDate(resultSet.getDate("end_date"));
                     vendor.setTotalPayment(resultSet.getFloat("totalPayment"));
-                    vendor.setTotalProduct(resultSet.getInt("TotalProduct"));
+                    vendor.setTotalProduct(resultSet.getInt("totalProduct"));
 
                     // Add the Vendor object to the vendors list
                     vendors.add(vendor);
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Error fetching vendor data: " + e.getMessage());
         }
 
         // Return the list of vendors
@@ -331,6 +328,9 @@ public class DataEntryOperator {
         }
     }
 
+   // ===================================================Products=============================================
+    //=========================================================================================================
+    //=========================================================================================================
     private int getUniqueProductId()
     {
         int id=10001;
@@ -350,6 +350,15 @@ public class DataEntryOperator {
 
     }
 
+    public boolean addProduct(int vendorId, int productId, int stockQty, String categorie, float costByUnit, float sellingPrice, float cartonPrice, int cartonQty, String name) {
+        if (productId == -1) {
+            productId = getUniqueProductId(); // Dummy new product ID
+        }
+        System.out.println("Product added: " + name);
+        return true;
+    }
+
+
     public Map<Integer, String> getProductNames() {
         Map<Integer, String> productNames = new HashMap<>();
         productNames.put(2001, "Product A");
@@ -357,67 +366,21 @@ public class DataEntryOperator {
         return productNames; // Dummy product names
     }
 
-
-    public ArrayList<Integer> getVendorIds() {
-        ArrayList<Integer> vendorIds = new ArrayList<>();
-        vendorIds.add(1001);
-        vendorIds.add(1002);
-        return vendorIds; // Dummy vendor IDs
-    }
-
-    public ArrayList<Vendor> getVendors() {
-        ArrayList<Vendor> vendors = new ArrayList<>();
-//        vendors.add(new Vendor(1001, "Vendor A", "Address A", "1234567890"));
-//        vendors.add(new Vendor(1002, "Vendor B", "Address B", "0987654321"));
-   return vendors; // Dummy vendor data
-    }
-
-    public Boolean deleteVendor(int vendorId) {
-        System.out.println("Vendor deleted: " + vendorId);
-        return true; // Dummy deletion status
-    }
-
-    public Boolean updateVendor(int vendorId, String name, String phone) {
-        System.out.println("Vendor updated: " + vendorId);
-        return true; // Dummy update status
-    }
-
-    public Boolean updateProduct(int productId, String name, int stockQty, String category, float costByUnit, float sellingPrice, float cartonPrice, int vendorid) {
-        System.out.println("Product updated: " + productId);
-        return true; // Dummy update status
-
-    public boolean addProduct(int vendorId, int productId, int stockQty, String categorie, float costByUnit, float sellingPrice, float cartonPrice, int cartonQty) {
-        if (productId == -1)
-        {
-            productId = getUniqueProductId(); // new product
-        }
-
-        // branch id from attribute
-        // add the product to the db
-        return false;
-    }
     public Boolean updateProduct(int productId, String name, int stockQty, String category, float costByUnit, float sellingPrice, float cartonPrice, int vendorid)
     {
-        // update the product in the db
-        return null;
+        System.out.println("Product updated: " + productId);
+        return true; // Dummy update status
     }
 
 
-
-    public ArrayList<Product> getProducts()
+    public Boolean deleteProduct(int productId)
     {
-        // you have to return all the products in a branch (from attribute)
-
-        return null;
-
-    }
-
-    public Boolean deleteProduct(int productId) {
         System.out.println("Product deleted: " + productId);
         return true; // Dummy deletion status
     }
 
-    public ArrayList<Product> getProducts() {
+    public ArrayList<Product> getProducts()
+    {
         ArrayList<Product> products = new ArrayList<>();
         products.add(new Product("Product A", 2001, 1001, 50, "Category A", 10.5f, 12.5f, 100.0f, 10));
         products.add(new Product("Product B", 2002, 1002, 30, "Category B", 15.0f, 18.0f, 150.0f, 5));

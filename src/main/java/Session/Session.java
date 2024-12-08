@@ -16,7 +16,7 @@ public class Session {
     public Session() {
         System.out.println("Session initialized");
        // showWelcomeScreen();
-        showBranchManager("zohi123", "111");
+        showDataEntry("qwerty111", "1122");
         Mainscreen mainscreen = Mainscreen.getInstance();
 
     }
