@@ -244,6 +244,7 @@ public class DataEntryOperatorController {
     }
     public Boolean DeleteProduct() {
         // Get product ID to delete
+
         int productId = dataEntryOperatorView.getProductIdToUpdate();  // Fetch the product ID
 
         // Call model method to delete product

@@ -3,6 +3,7 @@ package Views;
 import Controllers.BranchManagerController;
 import Controllers.CashierController;
 //import Controllers.DataEntryOperatorController;
+import Controllers.DataEntryOperatorController;
 import Controllers.SuperAdminController;
 import Models.BranchManager;
 import Models.SuperAdmin;
@@ -113,16 +114,16 @@ public class Mainscreen extends JFrame {
         }
         c1.show(this.getContentPane(), "BranchManager");
     }
-    // show data entry operator screen
-//    public void showDataEntryOperator(ActionListener LISTNER, DataEntryOperatorController instance) {
-//        // Switch to Data Entry Operator screen
-//        if (dataEntryOperatorView == null)
-//        {
-//            dataEntryOperatorView = new DataEntryOperatorView(LISTNER,instance);
-//            this.add(dataEntryOperatorView, "DataEntryOperator");
-//        }
-//        c1.show(this.getContentPane(), "DataEntryOperator");
-//    }
+     //show data entry operator screen
+    public void showDataEntryOperator(ActionListener LISTNER, DataEntryOperatorController instance) {
+        // Switch to Data Entry Operator screen
+        if (dataEntryOperatorView == null)
+        {
+            dataEntryOperatorView = new DataEntryOperatorView(LISTNER,instance);
+            this.add(dataEntryOperatorView, "DataEntryOperator");
+        }
+        c1.show(this.getContentPane(), "DataEntryOperator");
+    }
     public void showCashier(ActionListener LISTNER, CashierController instance) {
         // Switch to Cashier screen
         if (cashierPanelView == null)
