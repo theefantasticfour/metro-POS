@@ -16,11 +16,10 @@ public class Session {
     CashierController cashierController;
     public Session() {
         System.out.println("Session initialized");
-       // showWelcomeScreen();
+        showWelcomeScreen();
         Mainscreen mainscreen = Mainscreen.getInstance();
 
-       // showCashier("cubi123", "1122");
-        showSuperAdmin("danish61", "1122");
+        //showSuperAdmin("danish61", "1122");
     }
     private void showWelcomeScreen() {
 
