@@ -2,7 +2,7 @@ package Session;
 
 import Controllers.*;
 import Models.BranchManager;
-import Models.DataEntryOperator;
+//import Models.DataEntryOperator;
 import Views.Mainscreen;
 import Views.Welcomeview.Welcomeview;
 
@@ -12,7 +12,7 @@ public class Session {
     Welcomecontroller welcomecontroller;
     SuperAdminController superAdminController;
     BranchManagerController branchManagerController;
-    DataEntryOperatorController dataEntryOperatorController;
+    //DataEntryOperatorController dataEntryOperatorController;
     public Session() {
         System.out.println("Session initialized");
        // showWelcomeScreen();
