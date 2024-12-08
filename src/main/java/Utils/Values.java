@@ -86,6 +86,7 @@ public class Values {
     public static final String ADD_NEW_PRODUCT = "AddNewProduct";
     public static final String UPDATE_VENDOR = "UpdateVendor";
     public static final String DELETE_VENDOR = "DeleteVendor";
+    public static final String GENERATE_BILL ="GenerateBill"; ;
     ;
     ;
 }
