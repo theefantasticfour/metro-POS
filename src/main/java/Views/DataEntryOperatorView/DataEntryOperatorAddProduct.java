@@ -76,13 +76,13 @@ public class DataEntryOperatorAddProduct extends JPanel {
         formPanel.add(categoryField, gbc);
 
         // Product Quantity
-        addLabelAndComponent(formPanel, "Product Quantity:", labelFont, gbc, 0, 6);
+        addLabelAndComponent(formPanel, "Carton Quantity:", labelFont, gbc, 0, 6);
         JTextField quantityField = createCustomTextField();
         gbc.gridy = 7;
         formPanel.add(quantityField, gbc);
 
         // Original Price
-        addLabelAndComponent(formPanel, "Original Price:", labelFont, gbc, 1, 0);
+        addLabelAndComponent(formPanel, "Pieces Per Carton:", labelFont, gbc, 1, 0);
         JTextField originalPriceField = createCustomTextField();
         gbc.gridy = 1;
         formPanel.add(originalPriceField, gbc);
@@ -94,16 +94,16 @@ public class DataEntryOperatorAddProduct extends JPanel {
         formPanel.add(salePriceField, gbc);
 
         // Price By Unit
-        addLabelAndComponent(formPanel, "Price By Unit:", labelFont, gbc, 1, 4);
+        addLabelAndComponent(formPanel, "Price By Carton:", labelFont, gbc, 1, 4);
         JTextField priceByUnitField = createCustomTextField();
         gbc.gridy = 5;
         formPanel.add(priceByUnitField, gbc);
 
         // Price By Carton
-        addLabelAndComponent(formPanel, "Price By Carton:", labelFont, gbc, 1, 6);
+       /* addLabelAndComponent(formPanel, "Price By Carton:", labelFont, gbc, 1, 6);
         JTextField priceByCartonField = createCustomTextField();
         gbc.gridy = 7;
-        formPanel.add(priceByCartonField, gbc);
+        formPanel.add(priceByCartonField, gbc);*/
 
         // Save Button
         JButton saveButton = createSaveButton();
@@ -124,7 +124,7 @@ public class DataEntryOperatorAddProduct extends JPanel {
                 originalPrice = originalPriceField.getText().trim();
                 salePrice = salePriceField.getText().trim();
                 priceByUnit = priceByUnitField.getText().trim();
-                priceByCarton = priceByCartonField.getText().trim();
+               // priceByCarton = priceByCartonField.getText().trim();
 
                 // Validate fields
                 if (productName.isEmpty() || category.isEmpty() || quantity.isEmpty() || originalPrice.isEmpty()
@@ -148,7 +148,7 @@ public class DataEntryOperatorAddProduct extends JPanel {
                 originalPriceField.setText("");
                 salePriceField.setText("");
                 priceByUnitField.setText("");
-                priceByCartonField.setText("");
+               // priceByCartonField.setText("");
             }
         });
 

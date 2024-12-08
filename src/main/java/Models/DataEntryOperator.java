@@ -350,13 +350,58 @@ public class DataEntryOperator {
 
     }
 
-    public boolean addProduct(int vendorId, int productId, int stockQty, String categorie, float costByUnit, float sellingPrice, float cartonPrice, int cartonQty, String name) {
-        if (productId == -1) {
-            productId = getUniqueProductId(); // Dummy new product ID
+    public boolean addProduct(int vendorId, int productId, int stockQty, String category, float costByUnit, float sellingPrice, float cartonPrice, int cartonQty, String name) {
+        // If productId is -1, generate a new product ID
+            productId = getUniqueProductId(); // Dummy new product ID (you need to implement this method)
+
+
+        // SQL query to insert or update product in the database
+        String query = "INSERT INTO Product (product_id, branch_id, name, category, original_price_per_unit, price_per_unit, price_per_carton, vendor_id, stock_quantity, carton_qty) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
+                + "ON DUPLICATE KEY UPDATE "
+                + "name = VALUES(name), "
+                + "category = VALUES(category), "
+                + "original_price_per_unit = VALUES(original_price_per_unit), "
+                + "price_per_unit = VALUES(price_per_unit), "
+                + "price_per_carton = VALUES(price_per_carton), "
+                + "stock_quantity = stock_quantity + VALUES(stock_quantity), "
+                + "carton_qty = VALUES(carton_qty)";
+
+        // Get branchId from current session (you need to fetch this from your context or method)
+        int branchId = this.BranchId; // Assuming this.BranchId holds the current branch ID
+
+        try (Connection connection = ConnectionConfig.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            // Set parameters for the insert query
+            preparedStatement.setInt(1, productId);
+            preparedStatement.setInt(2, branchId); // Assuming branch_id is obtained
+            preparedStatement.setString(3, name);
+            preparedStatement.setString(4, category);
+            preparedStatement.setFloat(5, costByUnit);
+            preparedStatement.setFloat(6, sellingPrice);
+            preparedStatement.setFloat(7, cartonPrice);
+            preparedStatement.setInt(8, vendorId);
+            preparedStatement.setInt(9, stockQty);
+            preparedStatement.setInt(10, cartonQty);
+
+            // Execute the insert or update
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Product added/updated successfully: " + name);
+                return true;
+            } else {
+                System.out.println("Failed to add/update product: " + name);
+                return false;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error adding/updating product: " + e.getMessage());
+            e.printStackTrace();
+            return false;
         }
-        System.out.println("Product added: " + name);
-        return true;
     }
+
 
 
     public Map<Integer, String> getProductNames() {
@@ -382,8 +427,7 @@ public class DataEntryOperator {
     public ArrayList<Product> getProducts()
     {
         ArrayList<Product> products = new ArrayList<>();
-        products.add(new Product("Product A", 2001, 1001, 50, "Category A", 10.5f, 12.5f, 100.0f, 10));
-        products.add(new Product("Product B", 2002, 1002, 30, "Category B", 15.0f, 18.0f, 150.0f, 5));
+
         return products; // Dummy product data
 
     }
