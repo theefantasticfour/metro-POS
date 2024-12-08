@@ -17,6 +17,7 @@ import java.util.Map;
 public class CashierBillShowpanel extends JPanel {
     CashierPanelView cashierPanel;
     CashierGenerateSalePanel generatebill;
+    JScrollBar verticalScrollBar;
 
     public CashierBillShowpanel(JPanel parentPanel) {
 
@@ -138,19 +139,16 @@ public class CashierBillShowpanel extends JPanel {
         JButton printButton = createButton("Print", invoicePanelWidth - 100, invoicePanelHeight - 40, e -> printInvoice()); // Bottom-right
         invoicePanel.add(printButton);
 
-        // Wrap invoicePanel in JScrollPane for scrolling
-            JScrollPane scrollPane = new JScrollPane(invoicePanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-            scrollPane.setBounds(0, 0, invoicePanelWidth, panelHeight - 50); // Set bounds for JScrollPane
+        verticalScrollBar = new JScrollBar(JScrollBar.VERTICAL);
+        verticalScrollBar.setBounds(invoicePanelWidth - 20, 0, 20, panelHeight); // Add the scrollbar to the right
+        verticalScrollBar.addAdjustmentListener(e -> {
+            int scrollValue = verticalScrollBar.getValue();
+            invoicePanel.setLocation(0, -scrollValue); // Adjust the position of the invoicePanel based on scroll value
+        });
+        parentPanel.add(verticalScrollBar, BorderLayout.EAST);
 
-            // Add the scrollPane to this container
-            add(scrollPane, BorderLayout.CENTER);
-
-            // Add this InvoicePanel to the parent panel
-            parentPanel.add(this, BorderLayout.CENTER);
-
-            // Refresh the parent panel
-            parentPanel.revalidate();
-            parentPanel.repaint();
+        // Add the invoicePanel to the parent panel
+        parentPanel.add(invoicePanel, BorderLayout.CENTER);
         }
 
 
