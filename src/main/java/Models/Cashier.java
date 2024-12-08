@@ -188,13 +188,11 @@ public class Cashier {
 
             preparedStatement.executeBatch(); // Execute all transactions in one go
         }
-    }
 
-    public void recordATransaction(Product product) {
-        // register a transaction
-        // you have the product
-        // you have the branch id
-        // you have the cashier id if needed
+        //update stock
+        //
+
+
 
     }
 
@@ -252,5 +250,30 @@ public class Cashier {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public void updateInventry(Map<String, Integer> cartItems)
+    {
+        System.out.println("updating inventory............");
+        Connection connection = ConnectionConfig.getConnection();
+        String query = "UPDATE Product SET stock_quantity = stock_quantity - ? WHERE product_id = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            for (Map.Entry<String, Integer> entry : cartItems.entrySet()) {
+                String productId = entry.getKey();
+                int quantity = entry.getValue();
+
+                preparedStatement.setInt(1, quantity);
+                preparedStatement.setInt(2, Integer.parseInt(productId));
+
+                preparedStatement.addBatch();
+            }
+
+            preparedStatement.executeBatch();
+        } catch (SQLException e) {
+            System.err.println("Error updating inventory: " + e.getMessage());
+            e.printStackTrace();
+        }
+
     }
 }

@@ -85,4 +85,10 @@ public class CashierController {
 
         return cashierModel.isPasswordChanged();
     }
+
+
+    public void updateInventry(Map<String, Integer> cartItems)
+    {
+        cashierModel.updateInventry(cartItems);
+    }
 }
