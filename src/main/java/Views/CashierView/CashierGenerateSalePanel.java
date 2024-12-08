@@ -113,20 +113,32 @@ public class CashierGenerateSalePanel extends JPanel {
     }
 
     private JTable createProductTable() {
+        // Define columns for the product table
         String[] columns = {"Product ID", "Product Name", "Category", "Price per Unit", "Stock", "Quantity"};
-        Object[][] data = {
-                {"101", "Product A", "Category 1", "500", "10", "0"},
-                {"102", "Product B", "Category 2", "700", "15", "0"},
-                {"103", "Product C", "Category 1", "300", "20", "0"}
-        };
 
+        // Fetch products from the controller and populate the data array
+        var products = cashierController.getBranchProductsToDisplay();
+        Object[][] data = new Object[products.size()][columns.length];
+
+        for (int i = 0; i < products.size(); i++) {
+            var product = products.get(i);
+            data[i][0] = product.getProductId();
+            data[i][1] = product.getName();
+            data[i][2] = product.getCategory();
+            data[i][3] = product.getSalePrice();
+            data[i][4] = product.getStockQuantity();
+            data[i][5] = ""; // Quantity to buy, left empty for user input
+        }
+
+        // Create a table model with custom cell editing permissions
         productTableModel = new DefaultTableModel(data, columns) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 5; // Allow editing only in the "Quantity" column
+                return column == 5; // Only the "Quantity" column is editable
             }
         };
 
+        // Create the JTable
         productTable = new JTable(productTableModel);
         productTable.setRowHeight(30);
         productTable.getTableHeader().setReorderingAllowed(false);
@@ -135,12 +147,45 @@ public class CashierGenerateSalePanel extends JPanel {
         productTable.getTableHeader().setForeground(Color.decode(Values.BUTTON_TEXT_COLOR));
         productTable.setFont(new Font(Values.TEXT_FIELD_FONT, Font.PLAIN, Values.TEXT_FIELD_FONT_SIZE));
 
-        // Attach row sorter
+        // Attach a row sorter to the table for filtering
         rowSorter = new TableRowSorter<>(productTableModel);
         productTable.setRowSorter(rowSorter);
 
+        // Add a listener to validate user input in the "Quantity" column
+        productTable.getModel().addTableModelListener(e -> {
+            int row = e.getFirstRow();
+            int column = e.getColumn();
+
+            if (column == 5) { // "Quantity" column
+                String input = (String) productTableModel.getValueAt(row, column);
+                var product = products.get(row);
+
+                try {
+                    int quantity = Integer.parseInt(input);
+                    if (quantity <= 0 || quantity > product.getStockQuantity()) {
+                        JOptionPane.showMessageDialog(
+                                this,
+                                "Invalid quantity! Please enter a value between 1 and " + product.getStockQuantity(),
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE
+                        );
+                        productTableModel.setValueAt("", row, column); // Reset invalid input
+                    }
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Invalid input! Please enter a numeric value.",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                    productTableModel.setValueAt("", row, column); // Reset invalid input
+                }
+            }
+        });
+
         return productTable;
     }
+
 
     private JPanel createCartPanel() {
         JPanel cartPanel = new JPanel(new BorderLayout());
