@@ -1,6 +1,7 @@
 package Views.CashierView;
 
 import Utils.Values;
+import Views.InvoicePanel;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -278,7 +279,24 @@ public class GenerateSale extends JPanel {
 
     private void generateBill() {
         //JOptionPane.showMessageDialog(this, "Bill Generated! Total: " + totalLabel.getText(), Values.APP_NAME, JOptionPane.INFORMATION
-                JOptionPane.showMessageDialog(this, "Bill Generated! Total: " + totalLabel.getText(), Values.APP_NAME, JOptionPane.INFORMATION_MESSAGE);
+              //  JOptionPane.showMessageDialog(this, "Bill Generated! Total: " + totalLabel.getText(), Values.APP_NAME, JOptionPane.INFORMATION_MESSAGE);
+
+        Component parent = this.getParent();  // Get the parent component (likely a JPanel)
+        if (parent != null) {
+            JPanel parentPanel = (JPanel) parent;
+
+            // Remove all components from the parent panel
+            parentPanel.removeAll();
+
+            // Create and add the new InvoicePanel
+            InvoicePanel panel = new InvoicePanel(parentPanel);
+            parentPanel.add(panel); // Add the new panel to the parent
+
+            // Revalidate and repaint the parent panel
+            parentPanel.revalidate();  // Recalculate the layout of the parent panel
+            parentPanel.repaint();     // Redraw the parent panel
+        }
+
         cartTableModel.setRowCount(0); // Clear cart
         cartItems.clear(); // Clear cartItems map
         totalLabel.setText("Total: 0 Rs"); // Reset the total label

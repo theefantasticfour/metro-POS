@@ -69,7 +69,7 @@ public class CashierPanel extends JPanel {
         addchangePasswordForm.display(contentPanel);
     }
 
-    private void openGenerateSale() {
+    public void openGenerateSale() {
         contentPanel.removeAll();
         GenerateSale generateSale = new GenerateSale();
         generateSale.display(contentPanel);
