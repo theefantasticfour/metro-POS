@@ -145,22 +145,14 @@ public class SuperAdminController {
 
     public ArrayList<Product> downloadProductsReport(int branchId, Boolean isDownload) {
         // Fetch remaining stock
-        System.out.println("Reached here");
+
         ArrayList<Product> products = SuperAdmin.getRemainingStock(branchId);
-        System.out.println("Reached here after getting stocks");
-        System.out.println(products);
-        for (Product product : products) {
-            System.out.println(product.productId);
-            System.out.println(product.name);
-            System.out.println(product.stockQuantity);
-        }
-        System.out.println(branchId);
+
         if (isDownload) {
             // Generate and download the report
             String fileName = "Products_Report_Branch_" + branchId + ".xlsx";
             ReportUtils.createProductsReportExcel(products, fileName, branchId);
         }
-
         return products;
     }
 

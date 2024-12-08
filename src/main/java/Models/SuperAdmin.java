@@ -238,92 +238,92 @@ public class SuperAdmin {
     // reports + graphs
     // of Sales || Remaining Stock || Profit
     // All this to be calculated daily, weekly, monthly, yearly
-    public static ArrayList<Transactions> getTransactions(int branchId, String type) {
+    public static ArrayList<Transactions> getTransactions(int branch_id, String type) {
         ArrayList<Transactions> transactions = new ArrayList<>();
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
+        Connection connection = ConnectionConfig.getConnection();
+
+        // Get today's date
+        Date today = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(today);
+
+        // Adjust the calendar based on the type
+        switch (type.toLowerCase()) {
+            case "weekly":
+                calendar.add(Calendar.DAY_OF_YEAR, -7);
+                break;
+            case "monthly":
+                calendar.add(Calendar.DAY_OF_YEAR, -30);
+                break;
+            case "yearly":
+                calendar.add(Calendar.DAY_OF_YEAR, -365);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid report type: " + type);
+        }
+
+        // Get the date range
+        Date startDate = calendar.getTime();
+        java.sql.Date sqlStartDate = new java.sql.Date(startDate.getTime());
+        java.sql.Date sqlEndDate = new java.sql.Date(today.getTime());
+
+        // SQL query to fetch transactions
+        String query;
+        if (branch_id == -1) {
+            // Get all transactions for all branches
+            query = "SELECT * FROM Transaction WHERE transaction_date BETWEEN ? AND ?";
+        } else {
+            // Get transactions for a specific branch
+            query = "SELECT * FROM Transaction WHERE branch_id = ? AND transaction_date BETWEEN ? AND ?";
+        }
 
         try {
-            connection = ConnectionConfig.getConnection();
+            PreparedStatement stmt = connection.prepareStatement(query);
 
-            // Define the base SQL query
-            String sql = "SELECT s.sale_id, s.branch_id, s.cashier_id, sd.product_id, s.sale_date, (sd.quantity * sd.price_per_unit) AS transaction_amount " +
-                    "FROM Sale s " +
-                    "JOIN Sale_Details sd ON s.sale_id = sd.sale_id " +
-                    "WHERE s.branch_id = ? AND DATE(s.sale_date) BETWEEN ? AND ?";
-
-            // Calculate date range based on the type
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Calendar calendar = Calendar.getInstance();
-            Date endDate = calendar.getTime();
-            String endDateStr = sdf.format(endDate);
-            String startDateStr;
-
-            switch (type.toLowerCase()) {
-                case "daily":
-                    startDateStr = sdf.format(endDate); // Same day
-                    break;
-                case "monthly":
-                    calendar.set(Calendar.DAY_OF_MONTH, 1); // Start of the month
-                    startDateStr = sdf.format(calendar.getTime());
-                    break;
-                case "yearly":
-                    calendar.set(Calendar.DAY_OF_YEAR, 1); // Start of the year
-                    startDateStr = sdf.format(calendar.getTime());
-                    break;
-                default:
-                    throw new IllegalArgumentException("Invalid report type: " + type);
+            // Set parameters for the query
+            if (branch_id != -1) {
+                stmt.setInt(1, branch_id);
+                stmt.setDate(2, sqlStartDate);
+                stmt.setDate(3, sqlEndDate);
+            } else {
+                stmt.setDate(1, sqlStartDate);
+                stmt.setDate(2, sqlEndDate);
             }
-
-            // Prepare the statement
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, branchId);
-            preparedStatement.setString(2, startDateStr);
-            preparedStatement.setString(3, endDateStr);
 
             // Execute the query
-            resultSet = preparedStatement.executeQuery();
+            ResultSet rs = stmt.executeQuery();
 
             // Process the result set
-            while (resultSet.next()) {
-                int transactionId = resultSet.getInt("sale_id");
-                int cashierId = resultSet.getInt("cashier_id");
-                int productId = resultSet.getInt("product_id");
-                Date transactionDate = resultSet.getDate("sale_date");
-                float transactionAmount = resultSet.getFloat("transaction_amount");
+            while (rs.next()) {
+                int transactionId = rs.getInt("transaction_id");
+                int branchId = rs.getInt("branch_id");
+                int cashierId = rs.getInt("cashier_id");
+                int vendorId = rs.getInt("vendor_id");
+                int productId = rs.getInt("product_id");
+                Date transactionDate = rs.getDate("transaction_date");
+                int quantity = rs.getInt("quantity");
+                float transactionAmount = rs.getFloat("transaction_amount");
+                float transactionCost = rs.getFloat("transaction_cost");
 
-                // transactions.add(new Transactions(transactionId, branchId, cashierId, productId, transactionDate, transactionAmount));
+                // Create a Transaction object
+                Transactions transaction = new Transactions();
+                transaction.setTransactionId(transactionId);
+                transaction.setBranchId(branchId);
+                transaction.setCashierId(cashierId);
+                transaction.setVendorId(vendorId);
+                transaction.setProductId(productId);
+                transaction.setTransactionDate(transactionDate);
+                transaction.setQuantity(quantity);
+                transaction.setTransactionAmount(transactionAmount);
+                transaction.setTransactionCost(transactionCost);
+                transactions.add(transaction);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            // Close resources
-            try {
-                if (resultSet != null) resultSet.close();
-                if (preparedStatement != null) preparedStatement.close();
-                if (connection != null) connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
+
         return transactions;
     }
-
-   /* public static  ArrayList<Product> getRemainingStock(int branchId) {
-        ArrayList<Product> products = new ArrayList<Product>();
-        // if branch id is -1 then we will get the remaining stock of the product
-        // phir ham sirf product id ki base pai search karien ga
-        // or agar branch id ki koi value ho to phir ham us branch ki stock nikalie ga
-        // phir ham prodcutid+branchid ki base pai search karien ga
-        // logic to get remaining stock of a particlular id from DB
-        // product kai constructor mai sari details hain sirf branchid ko set karna pare ga
-        // agar to branch id -1 nahi hai to branch id set karni hai or remaining stock us
-        // branch ki nikalni hai
-        // agar branch id -1 hai to hamain sari branches ki stock nikalni hai in that case branch id set hi nahi karien ga
-        return products;
-    }*/
 
     public static ArrayList<Product> getRemainingStock(int branchId)
     {
