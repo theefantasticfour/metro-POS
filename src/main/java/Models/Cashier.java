@@ -11,10 +11,44 @@ public class Cashier {
     String username;
     String password;
     int BranchID;
+    int cashierId;
+    int vendorId;
     public Cashier(String username, String password) {
         this.username = username;
         this.password = password;
         setBranchID();
+        setCashierId();
+        setVendorId();
+    }
+    public void setCashierId() {
+        // set the cashier id after looking up the cashier username
+        Connection connection = ConnectionConfig.getConnection();
+        try {
+            String query = "SELECT employee_id FROM Employee WHERE email = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                this.cashierId = resultSet.getInt("employee_id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void setVendorId() {
+        // set the vendor id after looking up the vendor username
+        Connection connection = ConnectionConfig.getConnection();
+        try {
+            String query = "SELECT vendor_id FROM Vendor WHERE email = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                this.vendorId = resultSet.getInt("vendor_id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     public void setBranchID() {
         // set the branch id of the cashier after looking up the cashier username
@@ -87,34 +121,75 @@ public class Cashier {
 
         return products;
     }
+    public float getSellingPrice(Connection connection, String productId) throws SQLException {
+        String query = "SELECT sale_price_per_unit FROM Product WHERE product_id = ?";
 
-    public void RecordTransactions(Map<String, Integer> cartDetails) {
-        // we have the cart details
-        // we have the product id but in String as key
-        // we have the quantity as value
-        // if (Quantity > 1)
-        // record n Transactions
-        // first of all
-        // search by productid+branchid
-        for (Map.Entry<String, Integer> entry : cartDetails.entrySet()) {
-            String key = entry.getKey();
-            Integer value = entry.getValue();
-            // search by productid+branchid (Key + BranchID) and get the product
-            // register a transaction as now you will have everything
-            // to register a transaction
-            // from product attributes ect
-           // recordATransaction(Product);
-            // if (value > 1)
-                // for (int i = 0; i < value; i++)
-                //recordATransaction(Product);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, Integer.parseInt(productId));
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-            // record n Transactions
+            if (resultSet.next()) {
+                return resultSet.getFloat("sale_price_per_unit");
+            } else {
+                throw new SQLException("Product not found with ID: " + productId);
+            }
         }
-
-        // update the stock
-        // update the transaction table
-
     }
+    public float getCostPrice(Connection connection, String productId) throws SQLException {
+        String query = "SELECT original_price_per_unit FROM Product WHERE product_id = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, Integer.parseInt(productId));
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getFloat("original_price_per_unit");
+            } else {
+                throw new SQLException("Product not found with ID: " + productId);
+            }
+        }
+    }
+
+    public void RecordTransactions(Map<String, Integer> cardDetails) throws SQLException {
+        System.out.println("reached in record transactions......");
+        Connection connection = ConnectionConfig.getConnection();
+        String insertQuery = "INSERT INTO `Transaction` (branch_id,cashier_id, vendor_id, product_id, transaction_date, quantity, transaction_amount, transaction_cost)"
+                + " VALUES (?,?,?, ?, ?, ?, ?, ?);";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+
+            for (Map.Entry<String, Integer> entry : cardDetails.entrySet()) {
+                String productId = entry.getKey();
+                int quantity = entry.getValue();
+
+                // Fetch product details from the Product table to calculate costs and amounts
+                float sellingPrice = getSellingPrice(connection, productId);
+                float costPrice = getCostPrice(connection, productId);
+
+                float transactionAmount = sellingPrice * quantity;
+                float transactionCost = costPrice * quantity;
+                //get real time transaction date
+                java.util.Date transactionDate = new java.util.Date();
+                preparedStatement.setInt(1, this.BranchID);
+                preparedStatement.setInt(2, this.cashierId);
+                if (this.vendorId != 0) {
+                    preparedStatement.setInt(3, this.vendorId);
+                } else {
+                    preparedStatement.setNull(3, java.sql.Types.INTEGER);
+                }
+                preparedStatement.setInt(4, Integer.parseInt(productId));
+                preparedStatement.setDate(5, new Date(transactionDate.getTime()));
+                preparedStatement.setInt(6, quantity);
+                preparedStatement.setFloat(7, transactionAmount);
+                preparedStatement.setFloat(8, transactionCost);
+
+                preparedStatement.addBatch(); // Batch execution for better performance
+            }
+
+            preparedStatement.executeBatch(); // Execute all transactions in one go
+        }
+    }
+
     public void recordATransaction(Product product) {
         // register a transaction
         // you have the product

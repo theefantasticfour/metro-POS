@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -259,7 +260,14 @@ public class CashierGenerateSalePanel extends JPanel {
         generateBillButton.setForeground(Color.decode(Values.BUTTON_TEXT_COLOR));
         generateBillButton.setFont(new Font(Values.BUTTON_FONT, Font.BOLD, Values.BUTTON_FONT_SIZE));
         //generateBillButton.setBorder(BorderFactory.createLineBorder(Color.decode(Values.BUTTON_BORDER_COLOR)));
-        generateBillButton.addActionListener(e -> generateBill());
+        generateBillButton.addActionListener(e -> {
+
+            try {
+                generateBill();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
         buttonsPanel.add(generateBillButton);
 
         footerPanel.add(buttonsPanel, BorderLayout.SOUTH);
@@ -333,9 +341,13 @@ public class CashierGenerateSalePanel extends JPanel {
         totalLabel.setText("Total: " + total + " Rs");
     }
 
-    private void generateBill() {
+    private void generateBill() throws SQLException {
+
         JOptionPane.showMessageDialog(this, "Bill Generated! Total: " + totalLabel.getText(), Values.APP_NAME, JOptionPane.INFORMATION_MESSAGE);
+        cashierController.RecordTransactions(cartItems);
+
         clearCart();
+
     }
 
     public static Map<String, Integer> getCartDetails() {
