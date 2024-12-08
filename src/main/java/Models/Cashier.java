@@ -59,4 +59,15 @@ public class Cashier {
     }
 
 
+    public Boolean isPasswordChanged() {
+        // check if the password is changed for the first time
+        return false;
+    }
+
+    public boolean changePassword(String newPassword) {
+        // change the password
+        // update the password in the database
+        // set password status to true
+        return true;
+    }
 }

@@ -1,5 +1,6 @@
 package Models;
 
+import Entites.Product;
 import Entites.Vendor;
 
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class DataEntryOperator {
         return true;
     }
 
-    public boolean addProduct(int vendorId, int productId, int stockQty, String categorie, float costByUnit, float sellingPrice, float cartonPrice, int cartonQty) {
+    public boolean addProduct(int vendorId, int productId, int stockQty, String categorie, float costByUnit, float sellingPrice, float cartonPrice, int cartonQty,String name) {
         if (productId == -1) {
             productId = getUniqueProductId(); // new product
         }
@@ -84,4 +85,18 @@ public class DataEntryOperator {
     }
 
 
+    public Boolean updateProduct(int productId, String name, int stockQty, String category, float costByUnit, float sellingPrice, float cartonPrice, int vendorid) {
+        // update the product in the db
+        return null;
+    }
+
+    public Boolean deleteProduct(int productId) {
+    // delete the product from the db
+        return null;
+    }
+
+    public ArrayList<Product> getProducts() {
+        // you have to return all the products in a branch (from attribute)
+        return null;
+    }
 }
