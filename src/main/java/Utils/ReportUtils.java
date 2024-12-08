@@ -48,7 +48,7 @@ public class ReportUtils {
         }
     }
     public static void createProductsReportExcel(ArrayList<Product> products, String fileName) {
-        try (Workbook workbook = new XSSFWorkbook()) {
+      /*  try (Workbook workbook = new XSSFWorkbook()) {
             Sheet sheet = workbook.createSheet("Products Report");
 
             // Create header row
@@ -82,6 +82,6 @@ public class ReportUtils {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }

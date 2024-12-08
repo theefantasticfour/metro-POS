@@ -24,6 +24,7 @@ public class DataEntryOperatorAddProduct extends JPanel {
     private String salePrice;
     private String priceByUnit;
     private String priceByCarton;
+    private String piecesPerCarton;
 
     public DataEntryOperatorAddProduct(ActionListener listener, DataEntryOperatorController instance) {
         this.dataEntryOperatorController = instance;
@@ -76,16 +77,16 @@ public class DataEntryOperatorAddProduct extends JPanel {
         formPanel.add(categoryField, gbc);
 
         // Product Quantity
-        addLabelAndComponent(formPanel, "Product Quantity:", labelFont, gbc, 0, 6);
+        addLabelAndComponent(formPanel, "Carton Quantity:", labelFont, gbc, 0, 6);
         JTextField quantityField = createCustomTextField();
         gbc.gridy = 7;
         formPanel.add(quantityField, gbc);
 
         // Original Price
-        addLabelAndComponent(formPanel, "Original Price:", labelFont, gbc, 1, 0);
-        JTextField originalPriceField = createCustomTextField();
+        addLabelAndComponent(formPanel, "Pieces Per Carton:", labelFont, gbc, 1, 0);
+        JTextField piecesPerCartonField = createCustomTextField();
         gbc.gridy = 1;
-        formPanel.add(originalPriceField, gbc);
+        formPanel.add(piecesPerCartonField, gbc);
 
         // Sale Price
         addLabelAndComponent(formPanel, "Sale Price:", labelFont, gbc, 1, 2);
@@ -94,16 +95,16 @@ public class DataEntryOperatorAddProduct extends JPanel {
         formPanel.add(salePriceField, gbc);
 
         // Price By Unit
-        addLabelAndComponent(formPanel, "Price By Unit:", labelFont, gbc, 1, 4);
-        JTextField priceByUnitField = createCustomTextField();
+        addLabelAndComponent(formPanel, "Price By Carton:", labelFont, gbc, 1, 4);
+        JTextField priceByCartonFieldLatest = createCustomTextField();
         gbc.gridy = 5;
-        formPanel.add(priceByUnitField, gbc);
+        formPanel.add(priceByCartonFieldLatest, gbc);
 
         // Price By Carton
-        addLabelAndComponent(formPanel, "Price By Carton:", labelFont, gbc, 1, 6);
+       /* addLabelAndComponent(formPanel, "Price By Carton:", labelFont, gbc, 1, 6);
         JTextField priceByCartonField = createCustomTextField();
         gbc.gridy = 7;
-        formPanel.add(priceByCartonField, gbc);
+        formPanel.add(priceByCartonField, gbc);*/
 
         // Save Button
         JButton saveButton = createSaveButton();
@@ -113,23 +114,26 @@ public class DataEntryOperatorAddProduct extends JPanel {
         formPanel.add(saveButton, gbc);
 
         // Add Action Listener to Save Button
+        saveButton.setActionCommand(Values.ADD_NEW_PRODUCT);
+        saveButton.addActionListener(dataEntryOperatorListener);
         saveButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 // Fetch values
                 vendor = (String) vendorComboBox.getSelectedItem();
                 productName = productNameComboBox.getSelectedItem().toString();
                 category = categoryField.getText().trim();
                 quantity = quantityField.getText().trim();
-                originalPrice = originalPriceField.getText().trim();
+                piecesPerCarton = piecesPerCartonField.getText().trim();
                 salePrice = salePriceField.getText().trim();
-                priceByUnit = priceByUnitField.getText().trim();
-                priceByCarton = priceByCartonField.getText().trim();
+                priceByCarton = priceByCartonFieldLatest.getText().trim();
+                //priceByCarton = priceByCartonField.getText().trim();
 
                 // Validate fields
-                if (productName.isEmpty() || category.isEmpty() || quantity.isEmpty() || originalPrice.isEmpty()
-                        || salePrice.isEmpty() || priceByUnit.isEmpty() || priceByCarton.isEmpty()) {
-                    JOptionPane.showMessageDialog(parentPanel,
+                if (productName.isEmpty() || category.isEmpty() || quantity.isEmpty() || piecesPerCarton.isEmpty()
+                        || salePrice.isEmpty() || priceByCarton.isEmpty()) {
+                            JOptionPane.showMessageDialog(parentPanel,
                             "All fields are required.",
                             "Validation Error",
                             JOptionPane.ERROR_MESSAGE);
@@ -145,10 +149,10 @@ public class DataEntryOperatorAddProduct extends JPanel {
                 // Clear form fields
                 categoryField.setText("");
                 quantityField.setText("");
-                originalPriceField.setText("");
+                piecesPerCartonField.setText("");
                 salePriceField.setText("");
-                priceByUnitField.setText("");
-                priceByCartonField.setText("");
+                priceByCartonFieldLatest.setText("");
+               //priceByCartonField.setText("");
             }
         });
 
@@ -186,8 +190,12 @@ public class DataEntryOperatorAddProduct extends JPanel {
     }
 
     // Getters
-    public String getVendor() {
-        return vendor;
+    public Integer getVendor()
+    {
+        String vendorId = vendor.split(" ")[1];
+        //Value of vendor can be "Vendor 3001" or ""Vendor 30002" or"Vendor 2"
+        //trim it in such a way that only integer value is returned
+       return Integer.parseInt(vendorId);
     }
 
     public String getProductName() {
@@ -216,5 +224,10 @@ public class DataEntryOperatorAddProduct extends JPanel {
 
     public String getPriceByCarton() {
         return priceByCarton;
+    }
+
+    public String getPiecesPerCarton()
+    {
+        return piecesPerCarton;
     }
 }
