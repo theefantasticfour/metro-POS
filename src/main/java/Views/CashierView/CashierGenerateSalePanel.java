@@ -345,6 +345,14 @@ public class CashierGenerateSalePanel extends JPanel {
     private void generateBill() throws SQLException {
 
         JOptionPane.showMessageDialog(this, "Bill Generated! Total: " + totalLabel.getText(), Values.APP_NAME, JOptionPane.INFORMATION_MESSAGE);
+        Component parent = this.getParent();  // Get the parent component (likely a JPanel)
+        if (parent != null) {
+            JPanel parentPanel = (JPanel) parent;
+            parentPanel.removeAll();
+            CashierBillShowpanel panel = new CashierBillShowpanel(parentPanel);
+            parentPanel.add(panel);
+            parentPanel.revalidate();
+            parentPanel.repaint();   
         cashierController.RecordTransactions(cartItems);
         cashierController.updateInventry(cartItems);
         clearCart();
