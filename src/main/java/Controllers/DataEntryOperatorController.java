@@ -230,6 +230,7 @@ public class DataEntryOperatorController {
     }
     public Boolean UpdateProduct() {
         // Get product details from the view
+        System.out.println("yahan a raha ke nai...............attop");
         int productId = dataEntryOperatorView.getProductIdToUpdate();  // Fetch the product ID
         String name = dataEntryOperatorView.getProductNameToUpdate();  // Fetch the product name
         int stockQty = dataEntryOperatorView.getProductStockQtyToUpdate();  // Fetch the stock quantity
@@ -238,7 +239,7 @@ public class DataEntryOperatorController {
         float sellingPrice = dataEntryOperatorView.getProductSellingPriceToUpdate();  // Fetch the selling price
         float cartonPrice = dataEntryOperatorView.getProductCartonPriceToUpdate();  // Fetch the carton price
         int vendorid = dataEntryOperatorView.getProductVendorToUpdate();  // Fetch the vender id
-
+        System.out.println("yahan a bhi raha ke nai...............bottom");
         // Call model method to update product
         return dataEntryOperatorModel.updateProduct(productId, name, stockQty, category, costByUnit, sellingPrice, cartonPrice, vendorid);
     }

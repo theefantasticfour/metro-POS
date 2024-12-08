@@ -106,7 +106,7 @@ public class DataEntryOperatorViewVendor extends JPanel {
         tableModel = new DefaultTableModel(vendorTableData, columnNames) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 1 || column == 2; // Make only Vendor Name and Phone editable
+                return column == 1 || column == 2||column==8||column==9; // Make only Vendor Name and Phone editable
             }
         };
 
@@ -160,8 +160,17 @@ public class DataEntryOperatorViewVendor extends JPanel {
     }
     public String getVendorId() {
         int row = table.getSelectedRow();
-        return (String) table.getValueAt(row, 0);
+        if (row == -1)
+        {
+            throw new IllegalStateException("No row is selected.");
+        }
+        Object value = table.getValueAt(row, 0);
+        if (value == null) {
+            throw new NullPointerException("The vendor ID value is null.");
+        }
+        return value.toString(); // Convert the value to a String
     }
+
 
     public String getVendorName() {
         int row = table.getSelectedRow();
@@ -170,8 +179,16 @@ public class DataEntryOperatorViewVendor extends JPanel {
 
     public String getPhone() {
         int row = table.getSelectedRow();
-        return (String) table.getValueAt(row, 2);
+        if (row == -1) {
+            throw new IllegalStateException("No row is selected.");
+        }
+        Object value = table.getValueAt(row, 2);
+        if (value == null) {
+            throw new NullPointerException("The phone value is null.");
+        }
+        return value.toString(); // Convert the value to a String
     }
+
 
 
 }
