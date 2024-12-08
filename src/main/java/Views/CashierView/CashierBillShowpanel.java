@@ -1,4 +1,5 @@
 package Views.CashierView;
+import Controllers.CashierController;
 import Utils.Values;
 
 
@@ -6,12 +7,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import Utils.Values;
 
-import javax.swing.*;
-import javax.swing.border.LineBorder;
-import java.awt.*;
-import java.awt.event.ActionListener;
 import java.util.Map;
 
 public class CashierBillShowpanel extends JPanel {
@@ -19,7 +15,7 @@ public class CashierBillShowpanel extends JPanel {
     CashierGenerateSalePanel generatebill;
     JScrollBar verticalScrollBar;
 
-    public CashierBillShowpanel(JPanel parentPanel) {
+    public CashierBillShowpanel(JPanel parentPanel, CashierController cashierController, CashierPanelView instance) {
 
             parentPanel.removeAll();
             parentPanel.setLayout(new BorderLayout());
@@ -27,7 +23,7 @@ public class CashierBillShowpanel extends JPanel {
             setLayout(new BorderLayout());
             JPanel invoicePanel = new JPanel();
             invoicePanel.setLayout(null);
-
+            cashierPanel = instance;
             int panelWidth = parentPanel.getWidth();
             int panelHeight = parentPanel.getHeight();
             int invoicePanelWidth = panelWidth - 40; // invoicePanel width = parentPanel width - padding

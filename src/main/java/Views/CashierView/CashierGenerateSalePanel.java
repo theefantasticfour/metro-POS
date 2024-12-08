@@ -1,6 +1,5 @@
 package Views.CashierView;
 
-import Controllers.BranchManagerController;
 import Controllers.CashierController;
 import Utils.Values;
 
@@ -27,20 +26,23 @@ public class CashierGenerateSalePanel extends JPanel {
     private static Map<String, Integer> cartItems;
     private final ActionListener actionListener;
     private final CashierController cashierController;
-    private double total=0;
+    private CashierPanelView cPP;
+    private double total = 0;
 
-    public CashierGenerateSalePanel(ActionListener Listener, CashierController instance) {
+    public CashierGenerateSalePanel(ActionListener Listener, CashierController instance,CashierPanelView cashierPanelView) {
         this.cashierController = instance;
         this.actionListener = Listener;
+        this.cPP = cashierPanelView;
         this.cartItems = new HashMap<>();
         init();
 
     }
-    public void display(JPanel parentPanel)
-    {
+
+    public void display(JPanel parentPanel) {
         parentPanel.setLayout(new BorderLayout());
         parentPanel.add(this, BorderLayout.CENTER);
     }
+
     public void init() {
         setLayout(new BorderLayout());
         setBackground(Color.decode(Values.LEFT_PANEL_BG_COLOR));
@@ -59,7 +61,7 @@ public class CashierGenerateSalePanel extends JPanel {
         addToCartButton.setBackground(Color.decode(Values.BUTTON_COLOR));
         addToCartButton.setForeground(Color.decode(Values.BUTTON_TEXT_COLOR));
         addToCartButton.setFont(new Font(Values.BUTTON_FONT, Font.BOLD, Values.BUTTON_FONT_SIZE));
-       // addToCartButton.setBorder(BorderFactory.createLineBorder(Color.decode(Values.BUTTON_BORDER_COLOR)));
+        // addToCartButton.setBorder(BorderFactory.createLineBorder(Color.decode(Values.BUTTON_BORDER_COLOR)));
         addToCartButton.addActionListener(e -> addSelectedProductsToCart());
         productPanel.add(addToCartButton, BorderLayout.SOUTH);
 
@@ -342,27 +344,44 @@ public class CashierGenerateSalePanel extends JPanel {
         totalLabel.setText("Total: " + total + " Rs");
     }
 
-    private void generateBill() throws SQLException {
-
+    private double generateBill() throws SQLException {
         JOptionPane.showMessageDialog(this, "Bill Generated! Total: " + totalLabel.getText(), Values.APP_NAME, JOptionPane.INFORMATION_MESSAGE);
-        Component parent = this.getParent();  // Get the parent component (likely a JPanel)
-        if (parent != null) {
-            JPanel parentPanel = (JPanel) parent;
-            parentPanel.removeAll();
-            CashierBillShowpanel panel = new CashierBillShowpanel(parentPanel);
-            parentPanel.add(panel);
-            parentPanel.revalidate();
-            parentPanel.repaint();   
-        cashierController.RecordTransactions(cartItems);
         cashierController.updateInventry(cartItems);
-        clearCart();
+
+        // Ensure parent component exists
+        Component parent = this.getParent();
+        if (parent != null && parent instanceof JPanel) {
+            JPanel parentPanel = (JPanel) parent;
+
+            // Remove existing components
+            parentPanel.removeAll();
+
+            // Initialize and add the CashierBillShowpanel
+            CashierBillShowpanel panel = new CashierBillShowpanel(parentPanel, cashierController,cPP);
+            parentPanel.add(panel);
+
+            // Refresh UI
+            parentPanel.revalidate();
+            parentPanel.repaint();
+
+            // Record transactions and update inventory
+            cashierController.RecordTransactions(cartItems);
+            cashierController.updateInventry(cartItems);
+
+            // Clear cart after generating the bill
+            clearCart();
+        }
+        return total;
     }
+
     public double getTotal()
     {
         return total;
     }
 
-    public  static Map<String, Integer> getCartDetails() {
+    public static Map<String, Integer> getCartDetail() {
         return cartItems;
     }
-}
+
+    }
+
