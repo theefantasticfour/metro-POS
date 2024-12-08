@@ -345,9 +345,8 @@ public class CashierGenerateSalePanel extends JPanel {
 
         JOptionPane.showMessageDialog(this, "Bill Generated! Total: " + totalLabel.getText(), Values.APP_NAME, JOptionPane.INFORMATION_MESSAGE);
         cashierController.RecordTransactions(cartItems);
-
+        cashierController.updateInventry(cartItems);
         clearCart();
-
     }
 
     public static Map<String, Integer> getCartDetails() {
