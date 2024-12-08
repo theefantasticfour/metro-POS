@@ -1,7 +1,7 @@
 package Views.CashierView;
 
 import Utils.Values;
-import Views.InvoicePanel;
+import Views.CashierView.InvoicePanel;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;

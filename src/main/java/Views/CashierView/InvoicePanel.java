@@ -1,4 +1,4 @@
-package Views;
+package Views.CashierView;
 
 import Utils.Values;
 import Views.CashierView.CashierPanel;
