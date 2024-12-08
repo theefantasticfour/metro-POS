@@ -41,7 +41,7 @@ public class CashierController {
             if (e.getActionCommand().equals(Values.LOGOUT)) {
                 session.showLogin();
             } else if (e.getActionCommand().equals(Values.GENERATE_BILL)) {
-                Map<String, Integer> cartDetails = cashierPanelView.getbilldetails();
+                Map<String, Integer> cartDetails = cashierPanelView.getSaleDetails();
                 // process the details and store the transations.
                 // Also Print the bill
                 // by giving command to the printer

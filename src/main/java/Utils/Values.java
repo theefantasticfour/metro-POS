@@ -53,6 +53,8 @@ public class Values {
     public static final String LOGOUT_ICON = "src/imgs/logout.png";
     public static final String CHANGE_PASSWORD_ICON = "src/imgs/ChangePassword.png";
     public static final String PRINT_ICON = "src/imgs/Print.png";
+    public static final String CLEAR_CART_ICON = "src/imgs/clearCart.png";
+
 
     //logo sizes
     public static final int LOGO_WIDTH = 100;
